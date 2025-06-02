@@ -36,9 +36,9 @@ public class DatabaseConnection {
     }
 
     private void loadDatabaseProperties() {
-        url = "jdbc:mysql://localhost:3333/clothing_store?useSSL=false&serverTimezone=UTC";
+        url = "jdbc:mysql://localhost:3306/clothing_store?useSSL=false&serverTimezone=UTC";
         username = "root";
-        password = "20012004";
+        password = "";
     }
 
     public Connection getConnection() {
