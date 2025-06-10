@@ -9,6 +9,7 @@ package com.mycompany.storeapp;
  */
 import com.mycompany.storeapp.config.DatabaseConnection;
 import com.mycompany.storeapp.config.NavigationManager;
+import com.mycompany.storeapp.view.layer.AdminLayer;
 import com.mycompany.storeapp.view.layer.GuestLayer;
 
 public class StoreApp {
@@ -21,8 +22,9 @@ public class StoreApp {
             return;
         }
 
-        GuestLayer frame = new GuestLayer();
-        NavigationManager.init(frame);
+        AdminLayer frame = new AdminLayer();
+//        GuestLayer frame = new GuestLayer();
+//        NavigationManager.init(frame);
         frame.setVisible(true);
 
         dbConn.closeConnection();

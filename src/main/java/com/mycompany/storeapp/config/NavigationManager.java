@@ -8,12 +8,16 @@ package com.mycompany.storeapp.config;
  *
  * @author Manh Hung
  */
+import com.mycompany.storeapp.view.layer.AdminLayer;
 import com.mycompany.storeapp.view.layer.GuestLayer;
+import com.mycompany.storeapp.view.layer.ShopLayer;
 import com.mycompany.storeapp.view.page.guest.LoginPage;
 import javax.swing.JPanel;
 
 public class NavigationManager {
     private static GuestLayer mainFrame;
+    private static ShopLayer shopFrame;
+    private static AdminLayer adminFrame;
 
     public static void init(GuestLayer frame) {
         mainFrame = frame;
