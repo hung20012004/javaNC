@@ -24,7 +24,7 @@ public class DatabaseConnection {
     private String username;
     private String password;
 
-    private DatabaseConnection() {
+    public DatabaseConnection() {
         loadDatabaseProperties();
     }
 
