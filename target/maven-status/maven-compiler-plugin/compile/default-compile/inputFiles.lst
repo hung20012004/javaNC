@@ -1,6 +1,7 @@
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\config\DatabaseConnection.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\config\NavigationManager.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\controller\admin\CategoryController.java
+G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\controller\admin\OrderController.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\controller\admin\UserController.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\controller\guest\ForgotPassword.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\controller\guest\LoginController.java
@@ -63,8 +64,8 @@ G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\m
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\model\entity\UserProfile.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\model\entity\VariantImage.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\model\entity\Wishlist.java
+G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\service\CloudinaryService.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\StoreApp.java
-G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\component\admin\CloudinaryService.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\component\admin\ContentComponent\ContentFooter.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\component\admin\ContentComponent\ContentHeader.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\component\admin\FooterComponent.java
@@ -83,5 +84,7 @@ G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\v
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Category\CategoryFormDialog.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Category\CategoryGUI.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Dashboard.java
+G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Order\OrderEditDialog.java
+G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Order\OrderKanbanView.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\guest\LoginPage.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\guest\RegisterPage.java

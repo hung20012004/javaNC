@@ -27,7 +27,7 @@ public class Order {
     private String note;
 
     // Quan hệ
-    private User user;
+    private UserProfile user;
     private ShippingAddress shippingAddress;
     private Promotion promotion;
     private List<OrderDetail> details = new ArrayList<>();
@@ -36,7 +36,7 @@ public class Order {
 
     public Order() {}
 
-    // Getters & Setters
+    // ========== GETTERS & SETTERS GỐC (GIỮ NGUYÊN) ==========
 
     public int getOrderId() {
         return orderId;
@@ -142,11 +142,11 @@ public class Order {
         this.note = note;
     }
 
-    public User getUser() {
+    public UserProfile getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserProfile user) {
         this.user = user;
     }
 
@@ -190,7 +190,8 @@ public class Order {
         this.payment = payment;
     }
 
-    // Helper methods
+    // ========== HELPER METHODS GỐC (GIỮ NGUYÊN) ==========
+    
     public boolean isCod() {
         return "cod".equalsIgnoreCase(paymentMethod);
     }
@@ -198,5 +199,294 @@ public class Order {
     public boolean isVnpay() {
         return "vnpay".equalsIgnoreCase(paymentMethod);
     }
-}
 
+    // ========== HELPER METHODS MỚI CHO KANBANORDERVIEW ==========
+
+    /**
+     * Lấy tên khách hàng cho KanbanOrderView
+     * Ưu tiên từ ShippingAddress.recipientName, fallback to User info
+     */
+    public String getCustomerName() {
+        // Ưu tiên tên người nhận từ shipping address
+        if (shippingAddress != null && shippingAddress.getRecipientName() != null && 
+            !shippingAddress.getRecipientName().trim().isEmpty()) {
+            return shippingAddress.getRecipientName();
+        }
+        
+        // Nếu User có UserProfile với fullName
+        if (user != null  && 
+            user.getFullName() != null && 
+            !user.getFullName().trim().isEmpty()) {
+            return user.getFullName();
+        }
+        
+        // Fallback to email
+        if (user != null && user.getUser().getEmail() != null && 
+            !user.getUser().getEmail().trim().isEmpty()) {
+            return user.getUser().getEmail();
+        }
+        
+        return "N/A";
+    }
+
+    /**
+     * Setter cho customer name - cập nhật vào ShippingAddress
+     */
+    public void setCustomerName(String customerName) {
+        if (shippingAddress != null && customerName != null) {
+            shippingAddress.setRecipientName(customerName);
+        }
+    }
+
+    /**
+     * Lấy số điện thoại khách hàng cho KanbanOrderView
+     * Ưu tiên từ ShippingAddress.phone, fallback to UserProfile.phone
+     */
+    public String getCustomerPhone() {
+        // Ưu tiên phone từ shipping address
+        if (shippingAddress != null && shippingAddress.getPhone() != null && 
+            !shippingAddress.getPhone().trim().isEmpty()) {
+            return shippingAddress.getPhone();
+        }
+        
+        // Fallback to user profile phone
+        if (user != null && 
+            user.getPhone() != null && 
+            !user.getPhone().trim().isEmpty()) {
+            return user.getPhone();
+        }
+        
+        return "N/A";
+    }
+
+    /**
+     * Setter cho customer phone - cập nhật vào ShippingAddress
+     */
+    public void setCustomerPhone(String customerPhone) {
+        if (shippingAddress != null && customerPhone != null) {
+            shippingAddress.setPhone(customerPhone);
+        }
+    }
+
+    /**
+     * Lấy địa chỉ giao hàng đầy đủ cho KanbanOrderView
+     */
+    public String getDeliveryAddress() {
+        if (shippingAddress == null) {
+            return "N/A";
+        }
+        
+        StringBuilder address = new StringBuilder();
+        
+        if (shippingAddress.getStreetAddress() != null && 
+            !shippingAddress.getStreetAddress().trim().isEmpty()) {
+            address.append(shippingAddress.getStreetAddress());
+        }
+        
+        if (shippingAddress.getWard() != null && 
+            !shippingAddress.getWard().trim().isEmpty()) {
+            if (address.length() > 0) address.append(", ");
+            address.append(shippingAddress.getWard());
+        }
+        
+        if (shippingAddress.getDistrict() != null && 
+            !shippingAddress.getDistrict().trim().isEmpty()) {
+            if (address.length() > 0) address.append(", ");
+            address.append(shippingAddress.getDistrict());
+        }
+        
+        if (shippingAddress.getProvince() != null && 
+            !shippingAddress.getProvince().trim().isEmpty()) {
+            if (address.length() > 0) address.append(", ");
+            address.append(shippingAddress.getProvince());
+        }
+        
+        return address.length() > 0 ? address.toString() : "N/A";
+    }
+
+    /**
+     * Setter cho delivery address - cập nhật streetAddress
+     */
+    public void setDeliveryAddress(String deliveryAddress) {
+        if (shippingAddress != null && deliveryAddress != null) {
+            shippingAddress.setStreetAddress(deliveryAddress);
+        }
+    }
+
+    /**
+     * Alias cho getNote() để tương thích với KanbanOrderView
+     */
+    public String getNotes() {
+        return note;
+    }
+
+    /**
+     * Alias cho setNote() để tương thích với KanbanOrderView
+     */
+    public void setNotes(String notes) {
+        this.note = notes;
+    }
+
+    /**
+     * Alias cho getOrderStatus() để tương thích với KanbanOrderView
+     */
+    public String getStatus() {
+        return orderStatus;
+    }
+
+    /**
+     * Alias cho setOrderStatus() để tương thích với KanbanOrderView
+     */
+    public void setStatus(String status) {
+        this.orderStatus = status;
+    }
+
+    /**
+     * Lấy tên hiển thị của trạng thái tiếng Việt
+     */
+    public String getStatusDisplayName() {
+        if (orderStatus == null) return "Không xác định";
+        
+        switch (orderStatus.toUpperCase()) {
+            case "pending":
+                return "Chờ xử lý";
+            case "confirmed":
+                return "Đã xác nhận";
+            case "processing":
+                return "Đang xử lý";
+            case "shipping":
+                return "Đang giao";
+            case "delivered":
+                return "Đã giao";
+            case "cancelled":
+                return "Đã hủy";
+            case "returned":
+                return "Đã trả";
+            default:
+                return orderStatus;
+        }
+    }
+
+    /**
+     * Lấy màu sắc cho trạng thái (dùng cho UI)
+     */
+    public String getStatusColor() {
+        if (orderStatus == null) return "#666666";
+        
+        switch (orderStatus) {
+            case "pending":
+                return "#FF9800"; // Orange
+            case "confirmed":
+                return "#2196F3"; // Blue
+            case "processing":
+                return "#FF5722"; // Deep Orange
+            case "shipping":
+                return "#9C27B0"; // Purple
+            case "delivered":
+                return "#4CAF50"; // Green
+            case "cancelled":
+                return "#F44336"; // Red
+            case "returned":
+                return "#795548"; // Brown
+            default:
+                return "#666666"; // Gray
+        }
+    }
+
+    /**
+     * Tính tổng số lượng sản phẩm trong đơn hàng
+     */
+    public int getTotalQuantity() {
+        if (details == null || details.isEmpty()) {
+            return 0;
+        }
+        
+        return details.stream()
+                .mapToInt(OrderDetail::getQuantity)
+                .sum();
+    }
+
+    /**
+     * Lấy danh sách tên sản phẩm (để hiển thị preview)
+     */
+    public String getProductNames() {
+        if (details == null || details.isEmpty()) {
+            return "Không có sản phẩm";
+        }
+        
+        StringBuilder products = new StringBuilder();
+        for (int i = 0; i < Math.min(details.size(), 3); i++) {
+            OrderDetail detail = details.get(i);
+            if (detail.getVariant() != null && 
+                detail.getVariant().getProduct() != null &&
+                detail.getVariant().getProduct().getName() != null) {
+                
+                if (products.length() > 0) {
+                    products.append(", ");
+                }
+                products.append(detail.getVariant().getProduct().getName());
+            }
+        }
+        
+        if (details.size() > 3) {
+            products.append("...");
+        }
+        
+        return products.length() > 0 ? products.toString() : "Không có sản phẩm";
+    }
+
+    /**
+     * Kiểm tra đơn hàng đã thanh toán chưa
+     */
+    public boolean isPaid() {
+        return "paid".equalsIgnoreCase(paymentStatus) || 
+               "completed".equalsIgnoreCase(paymentStatus);
+    }
+
+    /**
+     * Lấy tên hiển thị trạng thái thanh toán
+     */
+    public String getPaymentStatusDisplayName() {
+        if (paymentStatus == null) return "Không xác định";
+        
+        switch (paymentStatus.toUpperCase()) {
+            case "pending":
+                return "Chờ thanh toán";
+            case "paid":
+            case "completed":
+                return "Đã thanh toán";
+            case "failed":
+                return "Thanh toán thất bại";
+            case "cancelled":
+                return "Đã hủy";
+            case "refunded":
+                return "Đã hoàn tiền";
+            default:
+                return paymentStatus;
+        }
+    }
+
+    /**
+     * Lấy tên hiển thị phương thức thanh toán
+     */
+    public String getPaymentMethodDisplayName() {
+        if (paymentMethod == null) return "Không xác định";
+        
+        switch (paymentMethod.toLowerCase()) {
+            case "cod":
+                return "Thanh toán khi nhận hàng (COD)";
+            case "vnpay":
+                return "VNPay";
+            case "momo":
+                return "MoMo";
+            case "zalopay":
+                return "ZaloPay";
+            case "bank_transfer":
+                return "Chuyển khoản ngân hàng";
+            case "credit_card":
+                return "Thẻ tín dụng";
+            default:
+                return paymentMethod;
+        }
+    }
+}

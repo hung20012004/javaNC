@@ -12,6 +12,7 @@ import com.mycompany.storeapp.view.component.admin.FooterComponent;
 import com.mycompany.storeapp.view.component.admin.HeaderComponent;
 import com.mycompany.storeapp.view.component.admin.Sidebar;
 import com.mycompany.storeapp.view.page.admin.Category.CategoryGUI;
+import com.mycompany.storeapp.view.page.admin.Order.OrderKanbanView;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -258,7 +259,7 @@ public class AdminLayer extends JFrame {
             case "tags":
                 return createContentPanel("Quản lý Tag", "Quản lý thẻ cho sản phẩm", "🏷️");
             case "orders":
-                return createContentPanel("Quản lý đơn hàng", "Xem và xử lý đơn hàng", "🛍️");
+                return new OrderKanbanView();
             case "order-warehouse":
                 return createContentPanel("Đóng hàng", "Quản lý việc đóng gói đơn hàng", "📦");
             case "order-shipping":
