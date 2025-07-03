@@ -1,0 +1,51 @@
+[33mcommit 01b0b5bf6162f989fb61528d3c0af961cd30642c[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Trần Khoa <khoa68471@gmail.com>
+Date:   Tue Jun 24 17:56:14 2025 +0700
+
+    Kanban Order
+
+[33mcommit a2fe660733f69cfad67e635bd2fc5e5be966ea83[m
+Author: Trần Khoa <khoa68471@gmail.com>
+Date:   Tue Jun 24 17:48:34 2025 +0700
+
+    Kanban Order
+
+[33mcommit 71dbfc36c61d475957f7dd3170da41061353b6d0[m
+Author: Trần Khoa <khoa68471@gmail.com>
+Date:   Tue Jun 10 09:23:25 2025 +0700
+
+    Crud Category
+
+[33mcommit 1c696e479ba2ca2d86aa79cdd0f18016f22e4694[m
+Author: Trần Khoa <khoa68471@gmail.com>
+Date:   Tue May 27 11:46:32 2025 +0700
+
+    Revert "Revert "model entity 27/5/2025""
+    
+    This reverts commit b25c0102e085b6516aef8ac0d1703f4572cfd2ac.
+
+[33mcommit b25c0102e085b6516aef8ac0d1703f4572cfd2ac[m
+Author: Trần Khoa <khoa68471@gmail.com>
+Date:   Tue May 27 11:32:53 2025 +0700
+
+    Revert "model entity 27/5/2025"
+    
+    This reverts commit 484e3e14b00d2c5cceaf347f072de9ec6031bf89.
+
+[33mcommit 484e3e14b00d2c5cceaf347f072de9ec6031bf89[m
+Author: Trần Khoa <khoa68471@gmail.com>
+Date:   Tue May 27 11:18:03 2025 +0700
+
+    model entity 27/5/2025
+
+[33mcommit 2b2656a46b354670ab2390ff1b2d21b124ecf391[m
+Author: hung20012004 <hamanhhung20012004@gmail.com>
+Date:   Fri May 23 09:16:57 2025 +0700
+
+    Add .gitignore file
+
+[33mcommit ab3dbc9c1a0bceb8617eee257903b2c01047ad41[m
+Author: hung20012004 <hamanhhung20012004@gmail.com>
+Date:   Fri May 23 09:03:42 2025 +0700
+
+    Initial commit
