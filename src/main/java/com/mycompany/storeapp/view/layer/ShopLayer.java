@@ -49,6 +49,7 @@ public class ShopLayer extends JFrame {
         try {
             setIconImage(Toolkit.getDefaultToolkit().getImage("resources/icons/shop.png"));
         } catch (Exception e) {
+            System.err.println("Failed to load icon: " + e.getMessage());
         }
     }
 
@@ -59,8 +60,8 @@ public class ShopLayer extends JFrame {
         navbarComponent = new ShopNavbarComponent();
         navbarComponent.setMenuActionListener(e -> handleMenuAction(e.getActionCommand()));
         cartComponent = new CartComponent();
-        cartComponent.setPreferredSize(new Dimension(350, 0));
-        cartComponent.setMinimumSize(new Dimension(300, 0));
+        cartComponent.setPreferredSize(new Dimension(250, 0)); // Reduced width
+        cartComponent.setMinimumSize(new Dimension(200, 0)); // Reduced minimum width
         footerComponent = new ShopFooterComponent();
         mainContentPanel = new JPanel(new BorderLayout());
         mainContentPanel.setBackground(CONTENT_BACKGROUND);
@@ -142,9 +143,9 @@ public class ShopLayer extends JFrame {
 
     private void handleWindowResize() {
         Dimension size = getSize();
-        if (size.width < 1200 && isCartVisible) {
+        if (size.width < 1000 && isCartVisible) { // Adjusted threshold for narrower cart
             hideCart();
-        } else if (size.width >= 1200 && !isCartVisible) {
+        } else if (size.width >= 1000 && !isCartVisible) {
             showCart();
         }
         EmptyBorder padding = size.width < 800 ? new EmptyBorder(8, 8, 8, 8) : new EmptyBorder(15, 15, 15, 15);
@@ -221,7 +222,7 @@ public class ShopLayer extends JFrame {
         panel.setBackground(CONTENT_BACKGROUND);
         JLabel label = new JLabel("<html><center>" +
                 icon + "<br><br>" +
-                "<h2函 style='color: #6B7280;'>" + description + "</p>" +
+                "<h2 style='color: #6B7280;'>" + description + "</h2>" +
                 "<br><p style='color: #9CA3AF; font-size: 12px;'>Nội dung sẽ được phát triển</p>" +
                 "</center></html>", JLabel.CENTER);
         label.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -259,7 +260,7 @@ public class ShopLayer extends JFrame {
 
     public void showCart() {
         mainSplitPane.setRightComponent(cartComponent);
-        mainSplitPane.setDividerLocation(mainSplitPane.getSize().width - 350);
+        mainSplitPane.setDividerLocation(mainSplitPane.getSize().width - 250); // Adjusted for narrower cart
         isCartVisible = true;
     }
 

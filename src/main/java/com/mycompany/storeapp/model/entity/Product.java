@@ -43,7 +43,7 @@ public class Product {
 
     public long getProductId() { return productId; }
     public void setProductId(long productId) { this.productId = productId; }
-    public long getCategoryId() { return categoryId; }
+    public Integer getCategoryId() { return categoryId; } // Sửa từ long thành Integer
     public void setCategoryId(Integer categoryId) { this.categoryId = categoryId; }
     public long getMaterialId() { return materialId; }
     public void setMaterialId(long materialId) { this.materialId = materialId; }

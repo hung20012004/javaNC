@@ -1,53 +1,59 @@
 package com.mycompany.storeapp.view.component.shop;
 
+import com.mycompany.storeapp.controller.admin.ProductImageController;
+import com.mycompany.storeapp.model.entity.Product;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
+import javax.swing.border.EmptyBorder;
 
 public class ProductCard extends JPanel {
-    private static final Color CARD_BACKGROUND = new Color(249, 250, 251);
-    private static final Color BORDER_COLOR = new Color(229, 231, 235);
-    private static final Color PRIMARY_COLOR = new Color(59, 130, 246);
-    private static final Color SUCCESS_COLOR = new Color(16, 185, 129);
-    private static final Color WARNING_COLOR = new Color(245, 158, 11);
-    private static final Color TEXT_COLOR = new Color(55, 65, 81);
-    private static final String DEFAULT_IMAGE = "https://via.placeholder.com/100x80?text=No+Image";
-
-    private JLabel imageLabel;
+    private Product product;
+    private DecimalFormat currencyFormat;
+    private Consumer<Product> addToCartCallback;
+    private ProductImageController productImageController;
+    private ConcurrentHashMap<String, ImageIcon> imageCache;
     private List<String> imageUrls;
+    private JLabel imageLabel;
     private int currentImageIndex;
-    private JButton prevButton;
-    private JButton nextButton;
+    private static final String DEFAULT_IMAGE_URL = "https://via.placeholder.com/100x80?text=No+Image";
 
-    public ProductCard(POSComponent.Product product, DecimalFormat currencyFormat, Consumer<POSComponent.Product> addToCartCallback) {
-        this.imageUrls = product.getImages();
+    public ProductCard(Product product, DecimalFormat currencyFormat, Consumer<Product> addToCartCallback, 
+                      ProductImageController productImageController, ConcurrentHashMap<String, ImageIcon> imageCache) {
+        this.product = product;
+        this.currencyFormat = currencyFormat;
+        this.addToCartCallback = addToCartCallback;
+        this.productImageController = productImageController;
+        this.imageCache = imageCache;
+        this.imageUrls = productImageController.getImageUrlsByProductId(product.getProductId());
         this.currentImageIndex = 0;
-
-        setBackground(Color.WHITE);
-        setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(BORDER_COLOR),
-                new EmptyBorder(12, 12, 12, 12)
-        ));
-        setPreferredSize(new Dimension(180, 240));
-        setMinimumSize(new Dimension(180, 240));
-        setCursor(new Cursor(Cursor.HAND_CURSOR));
         setLayout(new BorderLayout());
+        setBackground(new Color(249, 250, 251));
+        setBorder(BorderFactory.createLineBorder(new Color(229, 231, 235)));
+        setPreferredSize(new Dimension(200, 200));
+        System.out.println("ProductCard for product " + product.getProductId() + ": Image URLs = " + imageUrls); // Debug
+        initializeComponents();
+    }
 
+    private void initializeComponents() {
+        // Image display with navigation
         JPanel imagePanel = new JPanel(new BorderLayout());
         imagePanel.setOpaque(false);
 
-        prevButton = new JButton("◄");
+        String imageUrl = imageUrls.isEmpty() ? DEFAULT_IMAGE_URL : imageUrls.get(currentImageIndex);
+        imageLabel = new JLabel(imageCache.getOrDefault(imageUrl, new ImageIcon()));
+        imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        System.out.println("ProductCard " + product.getProductId() + ": Displaying image " + imageUrl); // Debug
+
+        JButton prevButton = new JButton("◄");
         prevButton.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        prevButton.setBackground(Color.WHITE);
-        prevButton.setBorder(BorderFactory.createLineBorder(BORDER_COLOR));
+        prevButton.setBackground(new Color(59, 130, 246));
+        prevButton.setForeground(Color.WHITE);
         prevButton.setFocusPainted(false);
-        prevButton.setEnabled(imageUrls.size() > 1);
+        prevButton.setEnabled(!imageUrls.isEmpty() && imageUrls.size() > 1);
         prevButton.addActionListener(e -> {
             if (currentImageIndex > 0) {
                 currentImageIndex--;
@@ -55,12 +61,12 @@ public class ProductCard extends JPanel {
             }
         });
 
-        nextButton = new JButton("►");
+        JButton nextButton = new JButton("►");
         nextButton.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        nextButton.setBackground(Color.WHITE);
-        nextButton.setBorder(BorderFactory.createLineBorder(BORDER_COLOR));
+        nextButton.setBackground(new Color(59, 130, 246));
+        nextButton.setForeground(Color.WHITE);
         nextButton.setFocusPainted(false);
-        nextButton.setEnabled(imageUrls.size() > 1);
+        nextButton.setEnabled(!imageUrls.isEmpty() && imageUrls.size() > 1);
         nextButton.addActionListener(e -> {
             if (currentImageIndex < imageUrls.size() - 1) {
                 currentImageIndex++;
@@ -68,135 +74,47 @@ public class ProductCard extends JPanel {
             }
         });
 
-        imageLabel = new JLabel();
-        imageLabel.setHorizontalAlignment(JLabel.CENTER);
-        imageLabel.setPreferredSize(new Dimension(100, 80));
-        imageLabel.setMinimumSize(new Dimension(100, 80));
-        imageLabel.setBackground(CARD_BACKGROUND);
-        imageLabel.setOpaque(true);
-        imageLabel.setBorder(BorderFactory.createLineBorder(BORDER_COLOR));
-        updateImage();
+        JPanel navPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
+        navPanel.setOpaque(false);
+        navPanel.add(prevButton);
+        navPanel.add(nextButton);
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
-        buttonPanel.setOpaque(false);
-        buttonPanel.add(prevButton);
-        buttonPanel.add(nextButton);
-
-        imagePanel.add(buttonPanel, BorderLayout.NORTH);
         imagePanel.add(imageLabel, BorderLayout.CENTER);
+        imagePanel.add(navPanel, BorderLayout.SOUTH);
 
-        JPanel infoPanel = new JPanel(new BorderLayout());
-        infoPanel.setBackground(Color.WHITE);
-        infoPanel.setBorder(new EmptyBorder(8, 0, 0, 0));
-
-        JLabel nameLabel = new JLabel("<html>" + product.getName() + "</html>");
+        // Product info
+        JLabel nameLabel = new JLabel(product.getName());
         nameLabel.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        nameLabel.setForeground(TEXT_COLOR);
-        nameLabel.setHorizontalAlignment(JLabel.CENTER);
+        nameLabel.setForeground(new Color(55, 65, 81));
+        nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        JLabel priceLabel = new JLabel(currencyFormat.format(product.getSalePrice() > 0 ? product.getSalePrice() : product.getPrice()));
-        priceLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        priceLabel.setForeground(PRIMARY_COLOR);
-        priceLabel.setHorizontalAlignment(JLabel.CENTER);
+        double displayPrice = product.getSalePrice() > 0 ? product.getSalePrice() : product.getPrice();
+        JLabel priceLabel = new JLabel(currencyFormat.format(displayPrice));
+        priceLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        priceLabel.setForeground(new Color(16, 185, 129));
+        priceLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        JLabel stockLabel = new JLabel("Kho: " + product.getStockQuantity());
-        stockLabel.setFont(new Font("Segoe UI", Font.PLAIN, 10));
-        stockLabel.setForeground(product.getStockQuantity() > 10 ? SUCCESS_COLOR : WARNING_COLOR);
-        stockLabel.setHorizontalAlignment(JLabel.CENTER);
+        JButton addButton = new JButton("Thêm");
+        addButton.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        addButton.setBackground(new Color(59, 130, 246));
+        addButton.setForeground(Color.WHITE);
+        addButton.setFocusPainted(false);
+        addButton.addActionListener(e -> addToCartCallback.accept(product));
 
-        infoPanel.add(nameLabel, BorderLayout.NORTH);
-        infoPanel.add(priceLabel, BorderLayout.CENTER);
-        infoPanel.add(stockLabel, BorderLayout.SOUTH);
+        JPanel infoPanel = new JPanel(new GridLayout(2, 1, 5, 5));
+        infoPanel.setOpaque(false);
+        infoPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+        infoPanel.add(nameLabel);
+        infoPanel.add(priceLabel);
 
+        add(infoPanel, BorderLayout.NORTH);
         add(imagePanel, BorderLayout.CENTER);
-        add(infoPanel, BorderLayout.SOUTH);
-
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 1 && !e.getComponent().equals(prevButton) && !e.getComponent().equals(nextButton)) {
-                    addToCartCallback.accept(product);
-                }
-            }
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                setBackground(CARD_BACKGROUND);
-                repaint();
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-                setBackground(Color.WHITE);
-                repaint();
-            }
-        });
-
-        revalidate();
-        repaint();
+        add(addButton, BorderLayout.SOUTH);
     }
 
     private void updateImage() {
-        imageLabel.setIcon(null);
-        imageLabel.setText("Loading...");
-        imageLabel.revalidate();
-        imageLabel.repaint();
-        loadImageAsync();
-    }
-
-    private void loadImageAsync() {
-        SwingWorker<ImageIcon, Void> worker = new SwingWorker<ImageIcon, Void>() {
-            @Override
-            protected ImageIcon doInBackground() {
-                String url = imageUrls.isEmpty() || currentImageIndex >= imageUrls.size() ? DEFAULT_IMAGE : imageUrls.get(currentImageIndex);
-                ImageIcon cachedIcon = POSComponent.imageCache.get(url);
-                if (cachedIcon != null) {
-                    return cachedIcon;
-                }
-                try {
-                    ImageIcon icon = new ImageIcon(new URL(url));
-                    Image scaledImage = icon.getImage().getScaledInstance(100, 80, Image.SCALE_SMOOTH);
-                    ImageIcon scaledIcon = new ImageIcon(scaledImage);
-                    POSComponent.imageCache.put(url, scaledIcon);
-                    return scaledIcon;
-                } catch (Exception e) {
-                    System.out.println("Failed to load image from " + url + ": " + e.getMessage());
-                    try {
-                        ImageIcon defaultIcon = new ImageIcon(new URL(DEFAULT_IMAGE));
-                        Image scaledImage = defaultIcon.getImage().getScaledInstance(100, 80, Image.SCALE_SMOOTH);
-                        POSComponent.imageCache.put(url, new ImageIcon(scaledImage));
-                        return new ImageIcon(scaledImage);
-                    } catch (Exception ex) {
-                        System.out.println("Failed to load default image: " + ex.getMessage());
-                        return null;
-                    }
-                }
-            }
-
-            @Override
-            protected void done() {
-                try {
-                    ImageIcon icon = get();
-                    SwingUtilities.invokeLater(() -> {
-                        if (icon != null) {
-                            imageLabel.setIcon(icon);
-                            imageLabel.setText(null);
-                        } else {
-                            imageLabel.setIcon(null);
-                            imageLabel.setText("No Image");
-                        }
-                        imageLabel.revalidate();
-                        imageLabel.repaint();
-                        updateButtonStates();
-                    });
-                } catch (Exception e) {
-                    System.out.println("Error in SwingWorker: " + e.getMessage());
-                }
-            }
-        };
-        worker.execute();
-    }
-
-    private void updateButtonStates() {
-        prevButton.setEnabled(currentImageIndex > 0);
-        nextButton.setEnabled(currentImageIndex < imageUrls.size() - 1);
+        String imageUrl = imageUrls.isEmpty() ? DEFAULT_IMAGE_URL : imageUrls.get(currentImageIndex);
+        imageLabel.setIcon(imageCache.getOrDefault(imageUrl, new ImageIcon()));
+        System.out.println("ProductCard " + product.getProductId() + ": Updated to image " + imageUrl); // Debug
     }
 }

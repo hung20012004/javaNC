@@ -9,6 +9,7 @@ C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\co
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\entity\Wishlist.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\entity\PurchaseOrder.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\dao\TagDAO.java
+C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\component\shop\CategoryListComponent.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\entity\InventoryCheckDetail.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\entity\VariantImage.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\dao\ShoppingAddressDAO.java
@@ -47,6 +48,7 @@ C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\pa
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\page\admin\Category\CategoryGUI.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\controller\admin\UserController.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\dao\ProductVariantDAO.java
+C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\component\shop\ProductGridComponent.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\dao\WishlistDAO.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\entity\SupportRequest.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\entity\Cart.java
