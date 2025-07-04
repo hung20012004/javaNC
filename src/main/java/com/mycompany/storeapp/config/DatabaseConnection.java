@@ -35,12 +35,11 @@ public class DatabaseConnection {
         return instance;
     }
 
-    private void loadDatabaseProperties() {
-        url = "jdbc:mysql://localhost:3306/clothing_store?useSSL=false&serverTimezone=UTC";
+     private void loadDatabaseProperties() {
+        url = "jdbc:mysql://localhost:3333/clothing_store?useSSL=false&serverTimezone=UTC";
         username = "root";
-        password = "";
+        password = "20012004";
     }
-
     public Connection getConnection() {
         try {
             if (connection == null || connection.isClosed()) {
