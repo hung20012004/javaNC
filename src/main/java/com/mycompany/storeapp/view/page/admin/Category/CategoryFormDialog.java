@@ -5,7 +5,7 @@
 package com.mycompany.storeapp.view.page.admin.Category;
 
 import com.mycompany.storeapp.model.entity.Category;
-import com.mycompany.storeapp.view.component.admin.CloudinaryService;
+import com.mycompany.storeapp.service.CloudinaryService;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;

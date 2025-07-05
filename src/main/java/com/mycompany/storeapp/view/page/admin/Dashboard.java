@@ -9,6 +9,7 @@ package com.mycompany.storeapp.view.page.admin;
  * @author Hi
  */
 import com.mycompany.storeapp.view.component.CustomTable;
+import com.mycompany.storeapp.view.page.admin.Order.OrderKanbanView;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -125,6 +126,6 @@ public class Dashboard extends JFrame {
     }
 
     public static void main(String[] args) {
-        new Dashboard().setVisible(true);
+        new OrderKanbanView().setVisible(true);
     }
 }

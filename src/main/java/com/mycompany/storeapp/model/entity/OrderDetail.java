@@ -9,7 +9,6 @@ package com.mycompany.storeapp.model.entity;
  * @author Hi
  */
 public class OrderDetail {
-    private int orderDetailId;
     private int orderId;
     private int variantId;
     private int quantity;
@@ -23,14 +22,6 @@ public class OrderDetail {
     public OrderDetail() {}
 
     // Getters & Setters
-
-    public int getOrderDetailId() {
-        return orderDetailId;
-    }
-
-    public void setOrderDetailId(int orderDetailId) {
-        this.orderDetailId = orderDetailId;
-    }
 
     public int getOrderId() {
         return orderId;
