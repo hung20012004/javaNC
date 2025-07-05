@@ -1,16 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.storeapp.model.entity;
+
 import java.sql.Timestamp;
-/**
- *
- * @author Hi
- */
+
 public class Product {
     private long productId;
-    private long categoryId;
+    private Integer categoryId;
     private long materialId;
     private String brand;
     private String name;
@@ -18,33 +12,39 @@ public class Product {
     private String careInstruction;
     private String slug;
     private String description;
-    private float price;
-    private float salePrice;
+    private double price;
+    private double salePrice;
     private int stockQuantity;
     private String sku;
     private int minPurchaseQuantity;
     private int maxPurchaseQuantity;
     private boolean isActive;
-    private Timestamp createdAt;
-    private Timestamp updatedAt;
 
     public Product() {}
 
-    public Product(long productId, String name, String description, long categoryId, long materialId, boolean isActive, Timestamp createdAt, Timestamp updatedAt) {
+    public Product(long productId, Integer categoryId, long materialId, String brand, String name, String gender, String careInstruction, String slug, String description, double price, double salePrice, int stockQuantity, String sku, int minPurchaseQuantity, int maxPurchaseQuantity, boolean isActive) {
         this.productId = productId;
-        this.name = name;
-        this.description = description;
         this.categoryId = categoryId;
         this.materialId = materialId;
+        this.brand = brand;
+        this.name = name;
+        this.gender = gender;
+        this.careInstruction = careInstruction;
+        this.slug = slug;
+        this.description = description;
+        this.price = price;
+        this.salePrice = salePrice;
+        this.stockQuantity = stockQuantity;
+        this.sku = sku;
+        this.minPurchaseQuantity = minPurchaseQuantity;
+        this.maxPurchaseQuantity = maxPurchaseQuantity;
         this.isActive = isActive;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 
     public long getProductId() { return productId; }
     public void setProductId(long productId) { this.productId = productId; }
-    public long getCategoryId() { return categoryId; }
-    public void setCategoryId(long categoryId) { this.categoryId = categoryId; }
+    public Integer getCategoryId() { return categoryId; } // Sửa từ long thành Integer
+    public void setCategoryId(Integer categoryId) { this.categoryId = categoryId; }
     public long getMaterialId() { return materialId; }
     public void setMaterialId(long materialId) { this.materialId = materialId; }
     public String getBrand() { return brand; }
@@ -59,10 +59,10 @@ public class Product {
     public void setSlug(String slug) { this.slug = slug; }
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
-    public float getPrice() { return price; }
-    public void setPrice(float price) { this.price = price; }
-    public float getSalePrice() { return salePrice; }
-    public void setSalePrice(float salePrice) { this.salePrice = salePrice; }
+    public double getPrice() { return price; }
+    public void setPrice(double price) { this.price = price; }
+    public double getSalePrice() { return salePrice; }
+    public void setSalePrice(double salePrice) { this.salePrice = salePrice; }
     public int getStockQuantity() { return stockQuantity; }
     public void setStockQuantity(int stockQuantity) { this.stockQuantity = stockQuantity; }
     public String getSku() { return sku; }
@@ -73,8 +73,4 @@ public class Product {
     public void setMaxPurchaseQuantity(int maxPurchaseQuantity) { this.maxPurchaseQuantity = maxPurchaseQuantity; }
     public boolean isActive() { return isActive; }
     public void setActive(boolean active) { isActive = active; }
-    public Timestamp getCreatedAt() { return createdAt; }
-    public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
-    public Timestamp getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(Timestamp updatedAt) { this.updatedAt = updatedAt; }
 }

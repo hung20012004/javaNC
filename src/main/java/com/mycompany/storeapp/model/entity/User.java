@@ -10,8 +10,11 @@ package com.mycompany.storeapp.model.entity;
  */
 public class User {
     private int id;
+    
+    private String name;
     private String password;
     private String email;
+    private int role_id;
 
     public User() {
     }
@@ -43,5 +46,19 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+    public int getRole() {
+        return role_id;
+    }
+
+    public void setRole(int role_id) {
+        this.role_id = role_id;
+    }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
