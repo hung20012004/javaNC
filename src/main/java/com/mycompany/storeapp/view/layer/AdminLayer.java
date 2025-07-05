@@ -53,7 +53,7 @@ public class AdminLayer extends JFrame {
         
         // Set icon nếu có
         try {
-            setIconImage(Toolkit.getDefaultToolkit().getImage("resources/icons/store.png"));
+            setIconImage(Toolkit.getDefaultToolkit().getImage("https://res.cloudinary.com/deczn9jtq/image/upload/v1751535499/logo_nhtaxb.png"));
         } catch (Exception e) {
             // Icon không tồn tại, bỏ qua
         }
@@ -139,6 +139,15 @@ public class AdminLayer extends JFrame {
                 toggleFullscreen();
             }
         });
+        // Alt + S để toggle sidebar
+        KeyStroke sidebarToggleKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.ALT_DOWN_MASK);
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(sidebarToggleKeyStroke, "toggleSidebar");
+        getRootPane().getActionMap().put("toggleSidebar", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sidebarComponent.setCollapsed(!sidebarComponent.isCollapsed());
+            }
+        });
     }
     
     private void handleWindowClosing() {
@@ -162,14 +171,11 @@ public class AdminLayer extends JFrame {
         Dimension size = getSize();
         
         // Responsive sidebar (nếu SidebarComponent hỗ trợ)
-        // Tạm thời comment vì SidebarComponent hiện tại chưa có method setCollapsed
-        /*
         if (size.width < 1200) {
             sidebarComponent.setCollapsed(true);
         } else {
             sidebarComponent.setCollapsed(false);
         }
-        */
         
         // Responsive content padding
         EmptyBorder padding;
@@ -305,9 +311,6 @@ public class AdminLayer extends JFrame {
         updateMainContent(errorPanel);
     }
     
-    /**
-     * Cập nhật nội dung chính của ứng dụng
-     */
     public void updateMainContent(JPanel newContent) {
         currentContentPanel.removeAll();
         currentContentPanel.add(newContent, BorderLayout.CENTER);
@@ -426,8 +429,7 @@ public class AdminLayer extends JFrame {
         
         System.gc();
     }
-    
-    // Public methods for external access
+
     public void setUserInfo(String username) {
         headerComponent.setUserInfo(username);
     }

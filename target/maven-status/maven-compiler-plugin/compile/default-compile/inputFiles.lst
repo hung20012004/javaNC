@@ -26,7 +26,7 @@ G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\m
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\model\dao\PurchaseOrderDAO.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\model\dao\PurchaseOrderDetailDAO.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\model\dao\RoleDAO.java
-G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\model\dao\ShoppingAddressDAO.java
+G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\model\dao\ShippingAddressDAO.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\model\dao\SizeDAO.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\model\dao\SupplierDAO.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\model\dao\SupportRequestDAO.java
@@ -70,6 +70,7 @@ G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\v
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\component\admin\ContentComponent\ContentHeader.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\component\admin\FooterComponent.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\component\admin\HeaderComponent.java
+G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\component\admin\KanbanComponent\KanbanHeader.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\component\admin\Sidebar.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\component\admin\SidebarComponent\CustomScrollBarUI.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\component\admin\SidebarComponent\MenuDataProvider.java
@@ -84,6 +85,7 @@ G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\v
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Category\CategoryFormDialog.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Category\CategoryGUI.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Dashboard.java
+G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Order\KanbanContent.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Order\OrderEditDialog.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Order\OrderKanbanView.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\guest\LoginPage.java

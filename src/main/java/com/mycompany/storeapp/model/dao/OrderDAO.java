@@ -5,10 +5,11 @@
 package com.mycompany.storeapp.model.dao;
 
 import com.mycompany.storeapp.model.entity.Order;
+import com.mycompany.storeapp.model.entity.ShippingAddress;
 import com.mycompany.storeapp.model.entity.OrderDetail;
 import com.mycompany.storeapp.config.DatabaseConnection;
 import java.sql.*;
-import java.time.LocalDate;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +22,13 @@ public class OrderDAO {
     private final DatabaseConnection connection;
     Connection conn;
     ProductVariantDAO variantDAO;
+    ShippingAddressDAO shippingAddressDAO;
 
     public OrderDAO(DatabaseConnection connection) {
         this.connection = connection;
         this.conn = connection.getConnection();
         this.variantDAO = new ProductVariantDAO(this.connection);
+        this.shippingAddressDAO = new ShippingAddressDAO(this.connection);
     }
     public List<Order> getAllOrders() {
         List<Order> orders = new ArrayList<>();
@@ -37,7 +40,7 @@ public class OrderDAO {
             
             while (rs.next()) {
                 Order order = mapResultSetToOrder(rs);
-                // Load order details
+                loadShippingAddress(order);
                 order.setDetails(getOrderDetailsByOrderId(order.getOrderId()));
                 orders.add(order);
             }
@@ -64,6 +67,7 @@ public class OrderDAO {
             
             while (rs.next()) {
                 Order order = mapResultSetToOrder(rs);
+                loadShippingAddress(order);
                 order.setDetails(getOrderDetailsByOrderId(order.getOrderId()));
                 orders.add(order);
             }
@@ -85,8 +89,8 @@ public class OrderDAO {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setString(1, newStatus);
-            stmt.setInt(2, orderId);
-            stmt.setDate(3, Date.valueOf(LocalDate.now()));
+            stmt.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+            stmt.setInt(3, orderId);
             
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
@@ -111,6 +115,7 @@ public class OrderDAO {
             
             if (rs.next()) {
                 Order order = mapResultSetToOrder(rs);
+                loadShippingAddress(order);
                 order.setDetails(getOrderDetailsByOrderId(orderId));
                 return order;
             }
@@ -152,6 +157,13 @@ public class OrderDAO {
         }
         
         return details;
+    }
+    
+    private void loadShippingAddress(Order order) {
+        if (order.getShippingAddressId() > 0) {
+            ShippingAddress shippingAddress = shippingAddressDAO.getShippingAddressById(order.getShippingAddressId());
+            order.setShippingAddress(shippingAddress);
+        }
     }
     
     /**

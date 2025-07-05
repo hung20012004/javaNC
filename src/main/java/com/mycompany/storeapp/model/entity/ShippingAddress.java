@@ -23,7 +23,7 @@ public class ShippingAddress {
     private boolean isDefault;
     private BigDecimal latitude;
     private BigDecimal longitude;
-
+    
     private User user;
     private List<Order> orders;
 
