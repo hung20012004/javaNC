@@ -336,7 +336,7 @@ public class OrderEditDialog extends JDialog {
         
         // Image panel
         JPanel imagePanel = new JPanel(new BorderLayout());
-        imagePanel.setPreferredSize(new Dimension(80, 80));
+        imagePanel.setPreferredSize(new Dimension(200, 200));
         JLabel imageLabel = new JLabel();
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
         imageLabel.setVerticalAlignment(JLabel.CENTER);
@@ -410,7 +410,7 @@ public class OrderEditDialog extends JDialog {
                 BufferedImage originalImage = ImageIO.read(new URL(imageUrl));
                 if (originalImage != null) {
                     // Resize image to fit the label
-                    Image scaledImage = originalImage.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+                    Image scaledImage = originalImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
                     ImageIcon icon = new ImageIcon(scaledImage);
                     
                     // Cache the image

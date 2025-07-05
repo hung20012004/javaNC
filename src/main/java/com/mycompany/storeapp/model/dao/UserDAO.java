@@ -34,6 +34,7 @@ public class UserDAO {
                 user.setId(rs.getInt("id"));
                 user.setPassword(rs.getString("password"));
                 user.setEmail(rs.getString("email"));
+                user.setRole(rs.getInt("role_id"));
                 return user;
             }
         } catch (SQLException e) {
@@ -43,11 +44,15 @@ public class UserDAO {
     }
 
     public boolean save(User user) {
-        String query = "INSERT INTO users (password, email) VALUES (?, ?)";
+        String query = "INSERT INTO users (name,password, email, ROLE_ID) VALUES (?,?, ?, ?)";
         try (Connection conn = dbConn.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, user.getPassword());
-            stmt.setString(2, user.getEmail());
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getPassword());
+            stmt.setString(3, user.getEmail());
+            if(user.getRole()==0)
+                   user.setRole(5);
+            stmt.setInt(4, user.getRole());
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
@@ -55,4 +60,24 @@ public class UserDAO {
             return false;
         }
     }
+    public User findByEmail(String email) {
+    String query = "SELECT * FROM users WHERE email = ?";
+    try (Connection conn = dbConn.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(query)) {
+        stmt.setString(1, email);
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                user.setRole(rs.getInt("role_id"));
+                return user;
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return null;
+}
 }

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.storeapp.model.dao;
 
 /**
@@ -137,7 +133,7 @@ public class ProductDAO {
     private Product mapResultSetToProduct(ResultSet rs) throws SQLException {
         Product p = new Product();
         p.setProductId(rs.getLong("product_id"));
-        p.setCategoryId(rs.getLong("category_id"));
+        p.setCategoryId(rs.getInt("category_id"));
         p.setMaterialId(rs.getLong("material_id"));
         p.setBrand(rs.getString("brand"));
         p.setName(rs.getString("name"));

@@ -1,50 +1,59 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.storeapp.view.layer;
 
-/**
- *
- * @author Manh Hung
- */
-import javax.swing.JFrame;
-import java.awt.Color;
-import java.awt.Toolkit;
-import javax.swing.JPanel;
+import com.mycompany.storeapp.view.page.guest.LoginPage;
+import com.mycompany.storeapp.view.page.guest.RegisterPage;
+import javax.swing.*;
+import java.awt.*;
 
 public class GuestLayer extends JFrame {
-    private JPanel currentContent;
+    private JPanel contentPanel;
+    private LayerManager layerManager;
 
-    public GuestLayer() {
-        setTitle("Store App - Guest Layout");
+    public GuestLayer(LayerManager layerManager) {
+        this.layerManager = layerManager;
+        initializeFrame();
+        initializeComponents();
+    }
+
+    private void initializeFrame() {
+        setTitle("Hệ thống quản lý cửa hàng");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setExtendedState(JFrame.MAXIMIZED_BOTH); // Toàn màn hình
-        setSize(Toolkit.getDefaultToolkit().getScreenSize());
-        setLayout(null); // Layout tùy chỉnh
-        setBackground(Color.LIGHT_GRAY); // Nền cho GuestLayer
+        setSize(500, 450);
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setLayout(new BorderLayout());
     }
 
-    public void setContent(JPanel content) {
-        if (currentContent != null) {
-            remove(currentContent);
-        }
-        currentContent = content;
-        // Đặt kích thước cố định và căn giữa
-        currentContent.setBounds((getWidth() - 400) / 2, (getHeight() - 300) / 2, 400, 300);
-        currentContent.setBackground(Color.WHITE); // Nền trắng để giống dialog
-        currentContent.setBorder(javax.swing.BorderFactory.createLineBorder(Color.BLACK)); // Viền để giống dialog
-        add(currentContent);
-        revalidate();
-        repaint();
+    private void initializeComponents() {
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBackground(new Color(248, 250, 252));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        contentPanel = new JPanel(new BorderLayout());
+        contentPanel.setBackground(new Color(248, 250, 252));
+        mainPanel.add(contentPanel, BorderLayout.CENTER);
+        add(mainPanel, BorderLayout.CENTER);
+        showLoginPage();
     }
 
-    @Override
-    public void setBounds(int x, int y, int width, int height) {
-        super.setBounds(x, y, width, height);
-        // Căn giữa lại nội dung khi JFrame thay đổi kích thước
-        if (currentContent != null) {
-            currentContent.setBounds((width - 400) / 2, (height - 300) / 2, 400, 300);
-        }
+    public void showLoginPage() {
+        SwingUtilities.invokeLater(() -> {
+            contentPanel.removeAll();
+            LoginPage loginPage = new LoginPage(this, layerManager);
+            contentPanel.add(loginPage, BorderLayout.CENTER);
+            contentPanel.revalidate();
+            contentPanel.repaint();
+            loginPage.requestFocusInWindow();
+        });
+    }
+
+    public void showRegisterPage() {
+        SwingUtilities.invokeLater(() -> {
+            contentPanel.removeAll();
+            RegisterPage registerPage = new RegisterPage(this, layerManager);
+            contentPanel.add(registerPage, BorderLayout.CENTER);
+            contentPanel.revalidate();
+            contentPanel.repaint();
+            registerPage.requestFocusInWindow();
+        });
     }
 }

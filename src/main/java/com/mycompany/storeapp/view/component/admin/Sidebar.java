@@ -5,7 +5,7 @@
 package com.mycompany.storeapp.view.component.admin;
 
 import com.mycompany.storeapp.view.component.admin.SidebarComponent.*;
-
+import com.mycompany.storeapp.view.component.admin.SidebarComponent.MenuItem;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -16,6 +16,8 @@ import java.util.Map;
 public class Sidebar extends JPanel {
     private JPanel menuPanel;
     private JScrollPane scrollPane;
+    private JButton toggleButton;
+    private boolean isCollapsed = false;
     private Color sidebarBg = new Color(248, 250, 252);
     private Color scrollThumbColor = new Color(203, 213, 225);
     private Color scrollTrackColor = new Color(241, 245, 249);
@@ -53,6 +55,15 @@ public class Sidebar extends JPanel {
         // Tạo panel chứa menu với padding
         JPanel wrapperPanel = new JPanel(new BorderLayout());
         wrapperPanel.setBackground(sidebarBg);
+        
+        // Thêm nút toggle
+        toggleButton = new JButton("☰");
+        toggleButton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        toggleButton.setBackground(sidebarBg);
+        toggleButton.setBorder(new EmptyBorder(10, 10, 10, 10));
+        toggleButton.setFocusPainted(false);
+        toggleButton.addActionListener(e -> toggleSidebar());
+        wrapperPanel.add(toggleButton, BorderLayout.NORTH);
         
         menuPanel = new JPanel();
         menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
@@ -98,7 +109,7 @@ public class Sidebar extends JPanel {
             }
             
             for (MenuDataProvider.MenuItemData itemData : groupData.items) {
-                com.mycompany.storeapp.view.component.admin.SidebarComponent.MenuItem menuItem = new com.mycompany.storeapp.view.component.admin.SidebarComponent.MenuItem(itemData.icon, itemData.text, itemData.action, sidebarBg);
+                MenuItem menuItem = new MenuItem(itemData.icon, itemData.text, itemData.action, sidebarBg);
                 menuItem.setClickListener(this::handleMenuItemClick);
                 
                 menuGroup.addMenuItem(menuItem);
@@ -216,7 +227,7 @@ public class Sidebar extends JPanel {
         return menuPanel.getPreferredSize().height;
     }
     
-    public com.mycompany.storeapp.view.component.admin.SidebarComponent.MenuItem getMenuItem(String action) {
+    public MenuItem getMenuItem(String action) {
         return actionMenuItemMap.get(action);
     }
     
@@ -224,6 +235,35 @@ public class Sidebar extends JPanel {
         return groupMap.get(groupTitle);
     }
     
+    public void setCollapsed(boolean collapsed) {
+        this.isCollapsed = collapsed;
+        updateSidebarState();
+    }
+    
+    public boolean isCollapsed() {
+        return isCollapsed;
+    }
+    
+    private void toggleSidebar() {
+        isCollapsed = !isCollapsed;
+        updateSidebarState();
+    }
+    
+    private void updateSidebarState() {
+        if (isCollapsed) {
+            setPreferredSize(new Dimension(60, 0));
+            toggleButton.setText("→");
+            menuPanel.setVisible(false);
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        } else {
+            setPreferredSize(new Dimension(280, 0));
+            toggleButton.setText("☰");
+            menuPanel.setVisible(true);
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        }
+        revalidate();
+        repaint();
+    }
     // Theme customization methods
     
     public void updateTheme(Color backgroundColor, Color thumbColor, Color trackColor) {

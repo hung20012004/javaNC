@@ -1,3 +1,4 @@
+com\mycompany\storeapp\view\page\admin\Order\KanbanContent$2.class
 com\mycompany\storeapp\view\page\guest\RegisterPage.class
 com\mycompany\storeapp\model\entity\Supplier.class
 com\mycompany\storeapp\model\entity\CartItem.class
@@ -10,6 +11,7 @@ com\mycompany\storeapp\view\component\admin\SidebarComponent\CustomScrollBarUI.c
 com\mycompany\storeapp\view\component\admin\FooterComponent.class
 com\mycompany\storeapp\view\layer\AdminLayer$1.class
 com\mycompany\storeapp\controller\admin\UserController.class
+com\mycompany\storeapp\view\component\admin\KanbanComponent\KanbanHeader$1.class
 com\mycompany\storeapp\view\page\admin\Order\OrderKanbanView$3.class
 com\mycompany\storeapp\model\dao\OrderDAO.class
 com\mycompany\storeapp\model\dao\OrderHistoryDAO.class
@@ -26,6 +28,7 @@ com\mycompany\storeapp\model\dao\UserDAO.class
 com\mycompany\storeapp\service\CloudinaryService$ProgressCallback.class
 com\mycompany\storeapp\view\component\admin\SidebarComponent\MenuItem$MenuItemClickListener.class
 com\mycompany\storeapp\model\entity\PurchaseOrder.class
+com\mycompany\storeapp\view\layer\AdminLayer$7.class
 com\mycompany\storeapp\controller\shop\UserController.class
 com\mycompany\storeapp\view\layer\GuestLayer.class
 com\mycompany\storeapp\view\component\admin\SidebarComponent\MenuItem$1.class
@@ -39,6 +42,7 @@ com\mycompany\storeapp\view\page\admin\Order\OrderKanbanView$2.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryDetailsDialog.class
 com\mycompany\storeapp\view\component\CustomTable$2.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryFormDialog.class
+com\mycompany\storeapp\view\page\admin\Order\KanbanContent$4.class
 com\mycompany\storeapp\view\component\admin\SidebarComponent\MenuItem.class
 com\mycompany\storeapp\service\CloudinaryService.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryFormDialog$7.class
@@ -47,6 +51,7 @@ com\mycompany\storeapp\view\component\admin\HeaderComponent$1.class
 com\mycompany\storeapp\view\layer\AdminLayer$3.class
 com\mycompany\storeapp\model\dao\BannerDAO.class
 com\mycompany\storeapp\view\page\admin\Order\OrderKanbanView.class
+com\mycompany\storeapp\view\page\admin\Order\KanbanContent$3.class
 com\mycompany\storeapp\StoreApp.class
 com\mycompany\storeapp\model\dao\SupportRequestDAO.class
 com\mycompany\storeapp\model\dao\SizeDAO.class
@@ -65,14 +70,15 @@ com\mycompany\storeapp\model\dao\MaterialDAO.class
 com\mycompany\storeapp\view\layer\AdminLayer$2.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryDetailsDialog$1.class
 com\mycompany\storeapp\controller\guest\LoginController.class
-com\mycompany\storeapp\config\NavigationManager.class
 com\mycompany\storeapp\view\page\guest\LoginPage.class
 com\mycompany\storeapp\view\page\admin\Order\OrderEditDialog$1.class
 com\mycompany\storeapp\model\entity\Role.class
+com\mycompany\storeapp\view\page\admin\Order\KanbanContent$OrderTransferData.class
 com\mycompany\storeapp\model\dao\PurchaseOrderDetailDAO.class
 com\mycompany\storeapp\model\dao\OrderDetailDAO.class
 com\mycompany\storeapp\model\entity\InventoryCheckDetail.class
 com\mycompany\storeapp\model\dao\ProductReviewDAO.class
+com\mycompany\storeapp\view\component\admin\KanbanComponent\KanbanHeader.class
 com\mycompany\storeapp\model\entity\PurchaseOrderDetail.class
 com\mycompany\storeapp\view\component\admin\HeaderComponent.class
 com\mycompany\storeapp\view\layer\AdminLayer.class
@@ -80,6 +86,7 @@ com\mycompany\storeapp\view\page\admin\Category\CategoryFormDialog$2.class
 com\mycompany\storeapp\controller\admin\OrderController.class
 com\mycompany\storeapp\controller\guest\RegisterController.class
 com\mycompany\storeapp\model\entity\Product.class
+com\mycompany\storeapp\view\page\admin\Order\KanbanContent.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryFormDialog$5.class
 com\mycompany\storeapp\view\component\admin\ContentComponent\ContentHeader$2.class
 com\mycompany\storeapp\config\DatabaseConnection.class
@@ -93,13 +100,13 @@ com\mycompany\storeapp\model\entity\Banner.class
 com\mycompany\storeapp\view\component\admin\ContentComponent\ContentFooter.class
 com\mycompany\storeapp\view\component\admin\Sidebar.class
 com\mycompany\storeapp\model\entity\Color.class
-com\mycompany\storeapp\view\page\admin\Order\OrderKanbanView$4.class
-com\mycompany\storeapp\view\page\admin\Order\OrderKanbanView$OrderTransferData.class
 com\mycompany\storeapp\model\dao\PurchaseOrderDAO.class
+com\mycompany\storeapp\view\page\admin\Order\KanbanContent$1.class
 com\mycompany\storeapp\model\dao\RoleDAO.class
 com\mycompany\storeapp\model\entity\ProductImage.class
 com\mycompany\storeapp\model\dao\PromotionDAO.class
 com\mycompany\storeapp\controller\admin\CategoryController.class
+com\mycompany\storeapp\model\dao\ShippingAddressDAO.class
 com\mycompany\storeapp\view\page\admin\Order\OrderEditDialog.class
 com\mycompany\storeapp\view\component\CustomTable$4.class
 com\mycompany\storeapp\model\dao\InventoryCheckDetailDAO.class
@@ -112,7 +119,6 @@ com\mycompany\storeapp\model\dao\SupplierDAO.class
 com\mycompany\storeapp\view\page\admin\Dashboard.class
 com\mycompany\storeapp\model\entity\Payment.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryFormDialog$7$1.class
-com\mycompany\storeapp\model\dao\ShoppingAddressDAO.class
 com\mycompany\storeapp\model\entity\VariantImage.class
 com\mycompany\storeapp\view\layer\AdminLayer$6.class
 com\mycompany\storeapp\controller\admin\OrderController$OrderTransitionResult.class
