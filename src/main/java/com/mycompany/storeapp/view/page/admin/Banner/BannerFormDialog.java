@@ -5,7 +5,7 @@
 package com.mycompany.storeapp.view.page.admin.Banner;
 
 import com.mycompany.storeapp.model.entity.Banner;
-import com.mycompany.storeapp.view.component.admin.CloudinaryService;
+import com.mycompany.storeapp.service.CloudinaryService;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
