@@ -4,6 +4,7 @@ import com.mycompany.storeapp.view.component.admin.FooterComponent;
 import com.mycompany.storeapp.view.component.admin.HeaderComponent;
 import com.mycompany.storeapp.view.component.admin.Sidebar;
 import com.mycompany.storeapp.view.page.admin.Category.CategoryGUI;
+import com.mycompany.storeapp.view.page.admin.Order.OrderKanbanView;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -39,7 +40,7 @@ public class AdminLayer extends JFrame {
         setLocationRelativeTo(null);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         try {
-            setIconImage(Toolkit.getDefaultToolkit().getImage("resources/icons/store.png"));
+            setIconImage(Toolkit.getDefaultToolkit().getImage("https://res.cloudinary.com/deczn9jtq/image/upload/v1751535499/logo_nhtaxb.png"));
         } catch (Exception e) {
         }
     }
@@ -100,6 +101,15 @@ public class AdminLayer extends JFrame {
                 toggleFullscreen();
             }
         });
+        // Alt + S để toggle sidebar
+        KeyStroke sidebarToggleKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.ALT_DOWN_MASK);
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(sidebarToggleKeyStroke, "toggleSidebar");
+        getRootPane().getActionMap().put("toggleSidebar", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sidebarComponent.setCollapsed(!sidebarComponent.isCollapsed());
+            }
+        });
     }
 
     private void handleWindowClosing() {
@@ -119,6 +129,15 @@ public class AdminLayer extends JFrame {
 
     private void handleWindowResize() {
         Dimension size = getSize();
+        
+        // Responsive sidebar (nếu SidebarComponent hỗ trợ)
+        if (size.width < 1200) {
+            sidebarComponent.setCollapsed(true);
+        } else {
+            sidebarComponent.setCollapsed(false);
+        }
+        
+        // Responsive content padding
         EmptyBorder padding;
         if (size.width < 800) {
             padding = new EmptyBorder(10, 10, 10, 10);
@@ -196,7 +215,7 @@ public class AdminLayer extends JFrame {
             case "tags":
                 return createContentPanel("Quản lý Tag", "Quản lý thẻ cho sản phẩm", "🏷️");
             case "orders":
-                return createContentPanel("Quản lý đơn hàng", "Xem và xử lý đơn hàng", "🛍️");
+                return new OrderKanbanView();
             case "order-warehouse":
                 return createContentPanel("Đóng hàng", "Quản lý việc đóng gói đơn hàng", "📦");
             case "order-shipping":
@@ -239,7 +258,7 @@ public class AdminLayer extends JFrame {
         errorPanel.add(errorLabel, BorderLayout.CENTER);
         updateMainContent(errorPanel);
     }
-
+    
     public void updateMainContent(JPanel newContent) {
         currentContentPanel.removeAll();
         currentContentPanel.add(newContent, BorderLayout.CENTER);
@@ -336,6 +355,7 @@ public class AdminLayer extends JFrame {
         contentCache.clear();
         System.gc();
     }
+
 
     public void setUserInfo(String username) {
         headerComponent.setUserInfo(username);
