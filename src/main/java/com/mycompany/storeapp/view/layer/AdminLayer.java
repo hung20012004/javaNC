@@ -3,7 +3,12 @@ package com.mycompany.storeapp.view.layer;
 import com.mycompany.storeapp.view.component.admin.FooterComponent;
 import com.mycompany.storeapp.view.component.admin.HeaderComponent;
 import com.mycompany.storeapp.view.component.admin.Sidebar;
+import com.mycompany.storeapp.view.page.admin.Banner.BannerGUI;
 import com.mycompany.storeapp.view.page.admin.Category.CategoryGUI;
+import com.mycompany.storeapp.view.page.admin.Color.ColorGUI;
+import com.mycompany.storeapp.view.page.admin.Material.MaterialGUI;
+import com.mycompany.storeapp.view.page.admin.Size.SizeGUI;
+import com.mycompany.storeapp.view.page.admin.Supplier.SupplierGUI;
 import com.mycompany.storeapp.view.page.admin.Order.OrderKanbanView;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -35,7 +40,7 @@ public class AdminLayer extends JFrame {
 
     private void initializeFrame() {
         setTitle("Hệ thống quản lý cửa hàng");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setSize(1400, 800);
         setLocationRelativeTo(null);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -203,15 +208,15 @@ public class AdminLayer extends JFrame {
             case "categories":
                 return new CategoryGUI();
             case "suppliers":
-                return createContentPanel("Quản lý nhà cung cấp", "Thông tin các nhà cung cấp", "🚚");
+                return new SupplierGUI();
             case "inventory-checks":
                 return createContentPanel("Kiểm kho", "Kiểm tra và quản lý tồn kho", "📋");
             case "sizes":
-                return createContentPanel("Quản lý kích thước", "Quản lý các kích thước sản phẩm", "📐");
+                return new SizeGUI();
             case "colors":
-                return createContentPanel("Quản lý màu sắc", "Quản lý bảng màu sản phẩm", "🎨");
+                return new ColorGUI();
             case "materials":
-                return createContentPanel("Quản lý chất liệu", "Quản lý chất liệu sản phẩm", "🧵");
+                 return new MaterialGUI();
             case "tags":
                 return createContentPanel("Quản lý Tag", "Quản lý thẻ cho sản phẩm", "🏷️");
             case "orders":
@@ -235,7 +240,7 @@ public class AdminLayer extends JFrame {
             case "reviews":
                 return createContentPanel("Quản lý đánh giá", "Quản lý đánh giá và nhận xét", "⭐");
             case "banners":
-                return createContentPanel("Banner khuyến mãi", "Quản lý banner và chương trình khuyến mãi", "🎯");
+                return new BannerGUI();
             case "settings":
                 return createContentPanel("Cài đặt hệ thống", "Cấu hình các thiết lập hệ thống", "⚙️");
             case "staffs":
