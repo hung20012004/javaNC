@@ -70,7 +70,6 @@ com\mycompany\storeapp\model\dao\MaterialDAO.class
 com\mycompany\storeapp\view\layer\AdminLayer$2.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryDetailsDialog$1.class
 com\mycompany\storeapp\controller\guest\LoginController.class
-com\mycompany\storeapp\config\NavigationManager.class
 com\mycompany\storeapp\view\page\guest\LoginPage.class
 com\mycompany\storeapp\view\page\admin\Order\OrderEditDialog$1.class
 com\mycompany\storeapp\model\entity\Role.class

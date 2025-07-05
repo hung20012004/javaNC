@@ -22,7 +22,7 @@ public class ProductController {
             if (!validateProduct(product)) {
                 return false;
             }
-            boolean result = productDAO.create(product);
+            boolean result = productDAO.addProduct(product);
             if (result) {
                 showSuccessMessage("Tạo sản phẩm thành công!");
             } else {
@@ -41,7 +41,7 @@ public class ProductController {
                 showErrorMessage("Mã sản phẩm không hợp lệ!");
                 return null;
             }
-            Product product = productDAO.getById(id);
+            Product product = productDAO.getProductById(id);
             if (product == null) {
                 showInfoMessage("Không tìm thấy sản phẩm với mã: " + id);
             }
@@ -54,7 +54,7 @@ public class ProductController {
 
     public List<Product> getAllProducts() {
         try {
-            List<Product> products = productDAO.getAll();
+            List<Product> products = productDAO.getAllProducts();
             if (products.isEmpty()) {
                 showInfoMessage("Chưa có sản phẩm nào trong hệ thống!");
             }
@@ -70,7 +70,7 @@ public class ProductController {
             if (!validateProduct(product)) {
                 return false;
             }
-            boolean result = productDAO.update(product);
+            boolean result = productDAO.updateProduct(product);
             if (result) {
                 showSuccessMessage("Cập nhật sản phẩm thành công!");
             } else {
@@ -97,7 +97,7 @@ public class ProductController {
             if (confirm != JOptionPane.YES_OPTION) {
                 return false;
             }
-            boolean result = productDAO.delete(id);
+            boolean result = productDAO.deleteProduct(id);
             if (result) {
                 showSuccessMessage("Xóa sản phẩm thành công!");
             } else {

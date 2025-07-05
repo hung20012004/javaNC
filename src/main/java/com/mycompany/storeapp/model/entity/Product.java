@@ -19,10 +19,12 @@ public class Product {
     private int minPurchaseQuantity;
     private int maxPurchaseQuantity;
     private boolean isActive;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
 
     public Product() {}
 
-    public Product(long productId, Integer categoryId, long materialId, String brand, String name, String gender, String careInstruction, String slug, String description, double price, double salePrice, int stockQuantity, String sku, int minPurchaseQuantity, int maxPurchaseQuantity, boolean isActive) {
+    public Product(long productId, Integer categoryId, long materialId, String brand, String name, String gender, String careInstruction, String slug, String description, double price, double salePrice, int stockQuantity, String sku, int minPurchaseQuantity, int maxPurchaseQuantity, boolean isActive, Timestamp createdAt, Timestamp updatedAt) {
         this.productId = productId;
         this.categoryId = categoryId;
         this.materialId = materialId;
@@ -39,6 +41,8 @@ public class Product {
         this.minPurchaseQuantity = minPurchaseQuantity;
         this.maxPurchaseQuantity = maxPurchaseQuantity;
         this.isActive = isActive;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public long getProductId() { return productId; }
@@ -73,4 +77,8 @@ public class Product {
     public void setMaxPurchaseQuantity(int maxPurchaseQuantity) { this.maxPurchaseQuantity = maxPurchaseQuantity; }
     public boolean isActive() { return isActive; }
     public void setActive(boolean active) { isActive = active; }
+    public Timestamp getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
+    public Timestamp getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(Timestamp updatedAt) { this.updatedAt = updatedAt; }
 }
