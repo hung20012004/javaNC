@@ -1,7 +1,11 @@
 package com.mycompany.storeapp.view.component.shop;
 
+import com.mycompany.storeapp.controller.admin.ColorController;
+import com.mycompany.storeapp.controller.admin.SizeController;
 import com.mycompany.storeapp.controller.admin.ProductImageController;
+import com.mycompany.storeapp.controller.admin.ProductVariantController;
 import com.mycompany.storeapp.model.entity.Product;
+import com.mycompany.storeapp.model.entity.ProductVariant;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -20,41 +24,51 @@ public class ProductGridComponent extends JPanel {
     private JPanel productPanel;
     private JScrollPane productScrollPane;
     private DecimalFormat currencyFormat;
-    private Consumer<Product> addToCartCallback;
+    private Consumer<ProductVariant> addToCartCallback;
     private java.util.function.Supplier<String> selectedCategorySupplier;
     private int pageSize;
     private int currentPage = 1;
     private ProductImageController productImageController;
+    private ProductVariantController variantController;
+    private ColorController colorController;
+    private SizeController sizeController;
+    private JFrame parentFrame;
 
-    public ProductGridComponent(List<Product> products, List<Product> displayedProducts, 
-                               ConcurrentHashMap<String, ImageIcon> imageCache, DecimalFormat currencyFormat, 
-                               Consumer<Product> addToCartCallback, 
-                               java.util.function.Supplier<String> selectedCategorySupplier, int pageSize,
-                               ProductImageController productImageController) {
+    public ProductGridComponent(JFrame parentFrame, List<Product> products, List<Product> displayedProducts, 
+                              ConcurrentHashMap<String, ImageIcon> imageCache, DecimalFormat currencyFormat, 
+                              Consumer<ProductVariant> addToCartCallback, 
+                              java.util.function.Supplier<String> pageSize, 
+                              ProductImageController productImageController,
+                              ProductVariantController variantController,
+                              ColorController colorController, SizeController sizeController) {
+        this.parentFrame = parentFrame;
         this.products = products;
         this.displayedProducts = displayedProducts;
         this.imageCache = imageCache;
         this.currencyFormat = currencyFormat;
         this.addToCartCallback = addToCartCallback;
         this.selectedCategorySupplier = selectedCategorySupplier;
-        this.pageSize = pageSize;
+        this.pageSize = Integer.parseInt(pageSize.get());
         this.productImageController = productImageController;
+        this.variantController = variantController;
+        this.colorController = colorController;
+        this.sizeController = sizeController;
         setLayout(new BorderLayout());
-        setBackground(Color.WHITE);
+        setBackground(java.awt.Color.WHITE);
         setBorder(new EmptyBorder(20, 10, 20, 20));
         initializeComponents();
-        preloadImagesForPage(currentPage); // Preload images before rendering
+        preloadImagesForPage(currentPage);
     }
 
     private void initializeComponents() {
         JLabel productLabel = new JLabel("Sản phẩm");
         productLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        productLabel.setForeground(new Color(55, 65, 81));
+        productLabel.setForeground(new java.awt.Color(55, 65, 81));
         productLabel.setBorder(new EmptyBorder(0, 0, 15, 0));
 
         productPanel = new JPanel();
         productPanel.setLayout(new GridLayout(0, 4, 15, 15));
-        productPanel.setBackground(Color.WHITE);
+        productPanel.setBackground(java.awt.Color.WHITE);
 
         productScrollPane = new JScrollPane(productPanel);
         productScrollPane.setBorder(null);
@@ -81,10 +95,11 @@ public class ProductGridComponent extends JPanel {
         List<Product> pageProducts = displayedProducts.subList(startIndex, endIndex);
         for (Product product : pageProducts) {
             try {
-                ProductCard productCard = new ProductCard(product, currencyFormat, addToCartCallback, productImageController, imageCache);
+                ProductCard productCard = new ProductCard(parentFrame, product, currencyFormat, addToCartCallback, 
+                    productImageController, imageCache, variantController, colorController, sizeController);
                 productPanel.add(productCard);
             } catch (Exception e) {
-                System.err.println("Error creating ProductCard for product " + product.getProductId() + ": " + e.getMessage());
+                System.err.println("Error creating ProductCard for product " + product.getProductId());
             }
         }
 
@@ -109,23 +124,19 @@ public class ProductGridComponent extends JPanel {
             protected Void doInBackground() {
                 for (Product product : pageProducts) {
                     List<String> imageUrls = productImageController.getImageUrlsByProductId(product.getProductId());
-                    System.out.println("Preloading images for product " + product.getProductId() + ": " + imageUrls); // Debug
                     for (String url : imageUrls.isEmpty() ? List.of("https://via.placeholder.com/100x80?text=No+Image") : imageUrls) {
                         if (!imageCache.containsKey(url)) {
                             try {
                                 ImageIcon icon = new ImageIcon(new URL(url));
                                 Image scaledImage = icon.getImage().getScaledInstance(100, 80, Image.SCALE_SMOOTH);
                                 imageCache.put(url, new ImageIcon(scaledImage));
-                                System.out.println("Cached image: " + url); // Debug
                             } catch (Exception e) {
-                                System.err.println("Failed to load image " + url + ": " + e.getMessage());
                                 try {
                                     ImageIcon defaultIcon = new ImageIcon(new URL("https://via.placeholder.com/100x80?text=No+Image"));
                                     Image scaledImage = defaultIcon.getImage().getScaledInstance(100, 80, Image.SCALE_SMOOTH);
                                     imageCache.put(url, new ImageIcon(scaledImage));
-                                    System.out.println("Cached default image for: " + url); // Debug
                                 } catch (Exception ex) {
-                                    System.err.println("Failed to load default image: " + ex.getMessage());
+                                    System.err.println("Failed to load default image");
                                 }
                             }
                         }
@@ -136,7 +147,7 @@ public class ProductGridComponent extends JPanel {
 
             @Override
             protected void done() {
-                loadVisibleProducts(); // Render ProductCards after preloading
+                loadVisibleProducts();
             }
         };
         worker.execute();

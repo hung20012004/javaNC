@@ -20,13 +20,13 @@ public class ShopLayer extends JFrame {
     private JPanel mainContentPanel;
     private JPanel currentContentPanel;
     private JSplitPane mainSplitPane;
-    private static final Color PRIMARY_COLOR = new Color(59, 130, 246);
-    private static final Color SECONDARY_COLOR = new Color(16, 185, 129);
-    private static final Color BACKGROUND_COLOR = new Color(249, 250, 251);
-    private static final Color CONTENT_BACKGROUND = Color.WHITE;
-    private static final Color BORDER_COLOR = new Color(229, 231, 235);
-    private static final Color DANGER_COLOR = new Color(239, 68, 68);
-    private static final Color WARNING_COLOR = new Color(245, 158, 11);
+    private static final java.awt.Color PRIMARY_COLOR = new java.awt.Color(59, 130, 246);
+    private static final java.awt.Color SECONDARY_COLOR = new java.awt.Color(16, 185, 129);
+    private static final java.awt.Color BACKGROUND_COLOR = new java.awt.Color(249, 250, 251);
+    private static final java.awt.Color CONTENT_BACKGROUND = java.awt.Color.WHITE;
+    private static final java.awt.Color BORDER_COLOR = new java.awt.Color(229, 231, 235);
+    private static final java.awt.Color DANGER_COLOR = new java.awt.Color(239, 68, 68);
+    private static final java.awt.Color WARNING_COLOR = new java.awt.Color(245, 158, 11);
     private Map<String, JPanel> contentCache = new HashMap<>();
     private boolean isCartVisible = true;
     private LayerManager layerManager;
@@ -60,8 +60,8 @@ public class ShopLayer extends JFrame {
         navbarComponent = new ShopNavbarComponent();
         navbarComponent.setMenuActionListener(e -> handleMenuAction(e.getActionCommand()));
         cartComponent = new CartComponent();
-        cartComponent.setPreferredSize(new Dimension(250, 0)); // Reduced width
-        cartComponent.setMinimumSize(new Dimension(200, 0)); // Reduced minimum width
+        cartComponent.setPreferredSize(new Dimension(250, 0));
+        cartComponent.setMinimumSize(new Dimension(200, 0));
         footerComponent = new ShopFooterComponent();
         mainContentPanel = new JPanel(new BorderLayout());
         mainContentPanel.setBackground(CONTENT_BACKGROUND);
@@ -109,7 +109,7 @@ public class ShopLayer extends JFrame {
         addKeyboardShortcut(KeyEvent.VK_F3, 0, "new_order", e -> handleNewOrder());
         addKeyboardShortcut(KeyEvent.VK_F4, 0, "payment", e -> handlePayment());
         addKeyboardShortcut(KeyEvent.VK_Q, InputEvent.ALT_DOWN_MASK, "logout", e -> handleLogout());
-        addKeyboardShortcut(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK, "search", e -> focusSearchBar());
+       
     }
 
     private void addKeyboardShortcut(int keyCode, int modifiers, String actionKey, ActionListener action) {
@@ -143,7 +143,7 @@ public class ShopLayer extends JFrame {
 
     private void handleWindowResize() {
         Dimension size = getSize();
-        if (size.width < 1000 && isCartVisible) { // Adjusted threshold for narrower cart
+        if (size.width < 1000 && isCartVisible) {
             hideCart();
         } else if (size.width >= 1000 && !isCartVisible) {
             showCart();
@@ -201,7 +201,7 @@ public class ShopLayer extends JFrame {
     private JPanel createContentForAction(String action) {
         switch (action) {
             case "pos":
-                return new POSComponent(cartComponent);
+                return new POSComponent(this, cartComponent);
             case "products":
                 return createSimpleContentPanel("Danh sách sản phẩm", "Quản lý và tìm kiếm sản phẩm", "🛍️");
             case "orders":
@@ -213,7 +213,7 @@ public class ShopLayer extends JFrame {
             case "settings":
                 return createSimpleContentPanel("Cài đặt", "Cấu hình hệ thống", "⚙️");
             default:
-                return new POSComponent(cartComponent);
+                return new POSComponent(this, cartComponent);
         }
     }
 
@@ -260,7 +260,7 @@ public class ShopLayer extends JFrame {
 
     public void showCart() {
         mainSplitPane.setRightComponent(cartComponent);
-        mainSplitPane.setDividerLocation(mainSplitPane.getSize().width - 250); // Adjusted for narrower cart
+        mainSplitPane.setDividerLocation(mainSplitPane.getSize().width - 250);
         isCartVisible = true;
     }
 
@@ -279,20 +279,20 @@ public class ShopLayer extends JFrame {
 
     private void handleNewOrder() {
         cartComponent.clearCart();
-        JOptionPane.showMessageDialog(this, "Đã tạo đơn hàng mới!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Đã tạo đơn hàng mới!", "Success", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void handleSaveOrder() {
         if (!cartComponent.hasItems()) {
-            JOptionPane.showMessageDialog(this, "Giỏ hàng trống!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Giỏ hàng trống!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        JOptionPane.showMessageDialog(this, "Đã lưu đơn hàng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Đã lưu đơn hàng!", "Success", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void handlePayment() {
         if (!cartComponent.hasItems()) {
-            JOptionPane.showMessageDialog(this, "Giỏ hàng trống!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Giỏ hàng trống!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
         int option = JOptionPane.showConfirmDialog(
@@ -303,11 +303,11 @@ public class ShopLayer extends JFrame {
         );
         if (option == JOptionPane.YES_OPTION) {
             cartComponent.clearCart();
-            JOptionPane.showMessageDialog(this, "Thanh toán thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Thanh toán thành công!", "Success", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
-    private void focusSearchBar() {
+    private void focusSearch() {
         System.out.println("Focus search bar");
     }
 

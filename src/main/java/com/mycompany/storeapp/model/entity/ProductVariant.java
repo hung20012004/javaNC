@@ -1,35 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.storeapp.model.entity;
 
-/**
- *
- * @author Hi
- */
+import com.mycompany.storeapp.controller.admin.ColorController;
+import com.mycompany.storeapp.controller.admin.SizeController;
+import com.mycompany.storeapp.model.dao.ProductDAO;
+import com.mycompany.storeapp.config.DatabaseConnection;
 import java.math.BigDecimal;
-import java.util.List;
 
 public class ProductVariant {
     private int variantId;
-    private int productId;
-    private int colorId;
+    private long productId;
+    private long colorId;
     private int sizeId;
     private String imageUrl;
     private int stockQuantity;
     private BigDecimal price;
-
-    // Quan hệ đối tượng
-    private Product product;
-    private Color color;
-    private Size size;
-    private List<VariantImage> variantImages;
-    private List<CartItem> cartItems;
-
-    public ProductVariant() {}
-
-    // Getters & Setters
 
     public int getVariantId() {
         return variantId;
@@ -39,19 +23,19 @@ public class ProductVariant {
         this.variantId = variantId;
     }
 
-    public int getProductId() {
+    public long getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(long productId) {
         this.productId = productId;
     }
 
-    public int getColorId() {
+    public long getColorId() {
         return colorId;
     }
 
-    public void setColorId(int colorId) {
+    public void setColorId(long colorId) {
         this.colorId = colorId;
     }
 
@@ -88,42 +72,17 @@ public class ProductVariant {
     }
 
     public Product getProduct() {
-        return product;
+        ProductDAO productDAO = new ProductDAO(new DatabaseConnection());
+        return productDAO.getProductById(productId);
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
+    public ProductColor getColor() {
+        ColorController colorController = new ColorController();
+        return colorController.getColorById(colorId);
     }
 
     public Size getSize() {
-        return size;
-    }
-
-    public void setSize(Size size) {
-        this.size = size;
-    }
-
-    public List<VariantImage> getVariantImages() {
-        return variantImages;
-    }
-
-    public void setVariantImages(List<VariantImage> variantImages) {
-        this.variantImages = variantImages;
-    }
-
-    public List<CartItem> getCartItems() {
-        return cartItems;
-    }
-
-    public void setCartItems(List<CartItem> cartItems) {
-        this.cartItems = cartItems;
+        SizeController sizeController = new SizeController();
+        return sizeController.getSizeById(sizeId);
     }
 }
