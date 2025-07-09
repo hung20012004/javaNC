@@ -78,4 +78,5 @@ public class ProductVariantDAO {
             System.err.println("Error updating stock quantity: " + e.getMessage());
         }
     }
+   
 }

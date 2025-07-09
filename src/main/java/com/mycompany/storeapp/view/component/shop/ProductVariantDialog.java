@@ -132,8 +132,6 @@ public class ProductVariantDialog extends JDialog {
         addButton.setEnabled(false);
         addButton.addActionListener(e -> {
             if (selectedVariant != null && selectedVariant.getStockQuantity() > 0) {
-                selectedVariant.setStockQuantity(selectedVariant.getStockQuantity() - 1);
-                variantController.updateStockQuantity(selectedVariant.getVariantId(), selectedVariant.getStockQuantity());
                 addToCartCallback.accept(selectedVariant);
                 dispose();
             } else {

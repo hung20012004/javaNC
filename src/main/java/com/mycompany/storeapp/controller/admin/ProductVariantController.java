@@ -36,6 +36,25 @@ public class ProductVariantController {
         }
     }
 
+    public ProductVariant getVariantById(int variantId) {
+        try {
+            if (variantId <= 0) {
+                JOptionPane.showMessageDialog(null, 
+                    "ID biến thể không hợp lệ!", 
+                    "Lỗi", 
+                    JOptionPane.ERROR_MESSAGE);
+                return null;
+            }
+            return variantDAO.getVariantById(variantId); 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, 
+                "Lỗi khi lấy biến thể theo ID: " + e.getMessage(), 
+                "Lỗi", 
+                JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
+
     public void updateStockQuantity(int variantId, int stockQuantity) {
         try {
             if (variantId <= 0) {

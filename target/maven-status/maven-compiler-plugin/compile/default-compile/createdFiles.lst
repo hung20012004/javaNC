@@ -1,3 +1,4 @@
+com\mycompany\storeapp\view\component\shop\CartComponent$2.class
 com\mycompany\storeapp\model\entity\Supplier.class
 com\mycompany\storeapp\model\entity\CartItem.class
 com\mycompany\storeapp\model\entity\InventoryCheck.class
@@ -38,6 +39,7 @@ com\mycompany\storeapp\model\dao\ProductImageDAO.class
 com\mycompany\storeapp\view\component\CustomTable.class
 com\mycompany\storeapp\view\component\shop\ProductVariantDialog.class
 com\mycompany\storeapp\view\component\admin\ContentComponent\ContentHeader$1.class
+com\mycompany\storeapp\view\component\shop\CartComponent$QuantityPanelRenderer.class
 com\mycompany\storeapp\model\dao\MaterialDAO.class
 com\mycompany\storeapp\view\layer\AdminLayer$2.class
 com\mycompany\storeapp\view\page\guest\LoginPage.class
@@ -91,6 +93,7 @@ com\mycompany\storeapp\view\page\admin\Material\MaterialFormDialog.class
 com\mycompany\storeapp\model\entity\ProductVariant.class
 com\mycompany\storeapp\view\page\admin\Banner\BannerFormDialog$6.class
 com\mycompany\storeapp\model\dao\VariantImageDAO.class
+com\mycompany\storeapp\controller\admin\CartController.class
 com\mycompany\storeapp\model\dao\InventoryCheckDAO.class
 com\mycompany\storeapp\model\dao\UserDAO.class
 com\mycompany\storeapp\service\CloudinaryService$ProgressCallback.class

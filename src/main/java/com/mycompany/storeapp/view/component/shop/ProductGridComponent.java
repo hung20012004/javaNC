@@ -37,7 +37,7 @@ public class ProductGridComponent extends JPanel {
     public ProductGridComponent(JFrame parentFrame, List<Product> products, List<Product> displayedProducts, 
                               ConcurrentHashMap<String, ImageIcon> imageCache, DecimalFormat currencyFormat, 
                               Consumer<ProductVariant> addToCartCallback, 
-                              java.util.function.Supplier<String> pageSize, 
+                              java.util.function.Supplier<String> pageSizeSupplier, 
                               ProductImageController productImageController,
                               ProductVariantController variantController,
                               ColorController colorController, SizeController sizeController) {
@@ -47,8 +47,8 @@ public class ProductGridComponent extends JPanel {
         this.imageCache = imageCache;
         this.currencyFormat = currencyFormat;
         this.addToCartCallback = addToCartCallback;
-        this.selectedCategorySupplier = selectedCategorySupplier;
-        this.pageSize = Integer.parseInt(pageSize.get());
+        this.selectedCategorySupplier = pageSizeSupplier; // Sửa lại để sử dụng pageSizeSupplier
+        this.pageSize = Integer.parseInt(pageSizeSupplier.get());
         this.productImageController = productImageController;
         this.variantController = variantController;
         this.colorController = colorController;

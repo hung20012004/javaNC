@@ -125,9 +125,6 @@ public class POSComponent extends JPanel {
                 JOptionPane.WARNING_MESSAGE);
             return;
         }
-        String itemName = variant.getProduct().getName() + " (" + 
-                         variant.getColor().getName() + ", " + 
-                         variant.getSize().getName() + ")";
-        cartComponent.addItem(itemName, currencyFormat.format(variant.getPrice()), 1);
+        cartComponent.addItem(variant.getVariantId(), 1); // Sử dụng variantId và số lượng 1
     }
 }

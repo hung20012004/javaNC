@@ -1,5 +1,9 @@
 package com.mycompany.storeapp.view.component.shop;
 
+import com.mycompany.storeapp.controller.admin.CartController;
+import com.mycompany.storeapp.controller.admin.ProductVariantController;
+import com.mycompany.storeapp.model.entity.CartItem;
+import com.mycompany.storeapp.model.entity.ProductVariant;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -10,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.math.BigDecimal;
 
 public class CartComponent extends JPanel {
     private static final java.awt.Color BACKGROUND_COLOR = java.awt.Color.WHITE;
@@ -36,14 +41,21 @@ public class CartComponent extends JPanel {
     private List<CartItem> cartItems;
     private double discountPercent = 0.0;
     private DecimalFormat currencyFormat;
+    private CartController cartController;
+    private ProductVariantController variantController;
+    private int cartId = 1; // Giả sử cart_id = 1, cần thay bằng logic lấy cart_id hiện tại
 
     public CartComponent() {
         cartItems = new ArrayList<>();
         currencyFormat = new DecimalFormat("#,###,### ₫");
-        
+        cartController = new CartController();
+        variantController = new ProductVariantController();
+        loadCartFromDB();
         initializeCart();
         setupComponents();
+        refreshTable();
         setupLayout();
+        updateCartSummary();
     }
 
     private void initializeCart() {
@@ -125,11 +137,24 @@ public class CartComponent extends JPanel {
             public boolean isCellEditable(int row, int column) {
                 return column == 1 || column == 4;
             }
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                if (columnIndex == 1) return JPanel.class; // Cột SL là JPanel chứa nút
+                return Object.class;
+            }
         };
 
-        cartTable = new JTable(tableModel);
+        cartTable = new JTable(tableModel) {
+            @Override
+            public TableCellRenderer getCellRenderer(int row, int column) {
+                if (column == 1) {
+                    return new QuantityPanelRenderer();
+                }
+                return super.getCellRenderer(row, column);
+            }
+        };
         cartTable.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        cartTable.setRowHeight(35);
+        cartTable.setRowHeight(40);
         cartTable.setShowGrid(false);
         cartTable.setIntercellSpacing(new Dimension(0, 1));
         cartTable.setSelectionBackground(new java.awt.Color(239, 246, 255));
@@ -138,7 +163,7 @@ public class CartComponent extends JPanel {
         cartTable.getColumn("").setCellEditor(new DeleteButtonEditor());
 
         cartTable.getColumnModel().getColumn(0).setPreferredWidth(120);
-        cartTable.getColumnModel().getColumn(1).setPreferredWidth(40);
+        cartTable.getColumnModel().getColumn(1).setPreferredWidth(80); // Điều chỉnh độ rộng cho panel SL
         cartTable.getColumnModel().getColumn(2).setPreferredWidth(80);
         cartTable.getColumnModel().getColumn(3).setPreferredWidth(90);
         cartTable.getColumnModel().getColumn(4).setPreferredWidth(30);
@@ -299,27 +324,21 @@ public class CartComponent extends JPanel {
         updateCartSummary();
     }
 
-    public void addItem(String productName, String price, int quantity) {
-        for (CartItem item : cartItems) {
-            if (item.getName().equals(productName)) {
-                item.setQuantity(item.getQuantity() + quantity);
-                refreshTable();
-                updateCartSummary();
-                return;
-            }
+    public void addItem(int variantId, int quantity) {
+        ProductVariant variant = variantController.getVariantById(variantId);
+        if (variant != null) {
+            CartItem newItem = new CartItem(cartId, variantId, quantity);
+            cartController.addItem(newItem);
+            loadCartFromDB();
+            refreshTable();
+            updateCartSummary();
         }
-
-        double priceValue = parsePrice(price);
-        CartItem newItem = new CartItem(productName, priceValue, quantity);
-        cartItems.add(newItem);
-
-        refreshTable();
-        updateCartSummary();
     }
 
     public void removeItem(int index) {
         if (index >= 0 && index < cartItems.size()) {
-            cartItems.remove(index);
+            cartController.removeItem(cartItems.get(index).getCartItemId());
+            loadCartFromDB();
             refreshTable();
             updateCartSummary();
         }
@@ -330,7 +349,8 @@ public class CartComponent extends JPanel {
             if (quantity <= 0) {
                 removeItem(index);
             } else {
-                cartItems.get(index).setQuantity(quantity);
+                cartController.updateQuantity(cartItems.get(index).getCartItemId(), quantity);
+                loadCartFromDB();
                 refreshTable();
                 updateCartSummary();
             }
@@ -352,11 +372,15 @@ public class CartComponent extends JPanel {
         );
 
         if (option == JOptionPane.YES_OPTION) {
+            cartController.clearCart(cartId);
             cartItems.clear();
-            discountPercent = 0.0;
             refreshTable();
             updateCartSummary();
         }
+    }
+
+    public boolean hasItems() {
+        return !cartItems.isEmpty();
     }
 
     private void refreshTable() {
@@ -364,27 +388,79 @@ public class CartComponent extends JPanel {
 
         for (int i = 0; i < cartItems.size(); i++) {
             CartItem item = cartItems.get(i);
-            Object[] row = {
-                item.getName(),
-                item.getQuantity(),
-                currencyFormat.format(item.getPrice()),
-                currencyFormat.format(item.getTotal()),
-                "Xóa"
-            };
-            tableModel.addRow(row);
+            ProductVariant variant = variantController.getVariantById(item.getVariantId());
+            if (variant != null) {
+                BigDecimal price = variant.getPrice();
+                String productName = (variant.getName() != null && !variant.getName().equals("Không xác định"))
+                    ? variant.getName()
+                    : "Sản phẩm không xác định (ID: " + item.getVariantId() + ")";
+                JPanel quantityPanel = createQuantityPanel(i, item.getQuantity());
+                Object[] row = {
+                    productName,
+                    quantityPanel, // Thay cột SL bằng panel chứa nút
+                    currencyFormat.format(price),
+                    currencyFormat.format(price.multiply(BigDecimal.valueOf(item.getQuantity()))),
+                    "Xóa"
+                };
+                tableModel.addRow(row);
+            } else {
+                System.err.println("Không tìm thấy variant với ID: " + item.getVariantId());
+            }
         }
     }
 
+    private JPanel createQuantityPanel(int index, int currentQuantity) {
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
+        panel.setOpaque(false);
+
+        JButton decreaseButton = new JButton("-");
+        decreaseButton.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        decreaseButton.setBackground(DANGER_COLOR);
+        decreaseButton.setForeground(java.awt.Color.WHITE);
+        decreaseButton.setBorder(new EmptyBorder(2, 6, 2, 6));
+        decreaseButton.setFocusPainted(false);
+        decreaseButton.addActionListener(e -> {
+            if (currentQuantity > 1) {
+                updateQuantity(index, currentQuantity - 1);
+            }
+        });
+
+        JLabel quantityLabel = new JLabel(String.valueOf(currentQuantity));
+        quantityLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        quantityLabel.setForeground(TEXT_COLOR);
+
+        JButton increaseButton = new JButton("+");
+        increaseButton.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        increaseButton.setBackground(SUCCESS_COLOR);
+        increaseButton.setForeground(java.awt.Color.WHITE);
+        increaseButton.setBorder(new EmptyBorder(2, 6, 2, 6));
+        increaseButton.setFocusPainted(false);
+        increaseButton.addActionListener(e -> {
+            updateQuantity(index, currentQuantity + 1);
+        });
+
+        panel.add(decreaseButton);
+        panel.add(quantityLabel);
+        panel.add(increaseButton);
+
+        return panel;
+    }
+
     private void updateCartSummary() {
-        double subtotal = cartItems.stream().mapToDouble(CartItem::getTotal).sum();
+        double subtotal = cartItems.stream()
+            .mapToDouble(item -> {
+                ProductVariant variant = variantController.getVariantById(item.getVariantId());
+                if (variant != null) {
+                    return variant.getPrice().multiply(BigDecimal.valueOf(item.getQuantity())).doubleValue();
+                }
+                return 0.0;
+            }).sum();
         double discount = subtotal * (discountPercent / 100.0);
         double total = subtotal - discount;
 
         itemCountLabel.setText(cartItems.size() + " sản phẩm");
         discountLabel.setText("-" + currencyFormat.format(discount));
         totalLabel.setText(currencyFormat.format(total));
-
-        Component[] components = ((JPanel) getComponent(0)).getComponents();
     }
 
     private void showDiscountDialog() {
@@ -428,7 +504,14 @@ public class CartComponent extends JPanel {
         );
 
         if (selectedMethod != null) {
-            double total = cartItems.stream().mapToDouble(CartItem::getTotal).sum();
+            double total = cartItems.stream()
+                .mapToDouble(item -> {
+                    ProductVariant variant = variantController.getVariantById(item.getVariantId());
+                    if (variant != null) {
+                        return variant.getPrice().multiply(BigDecimal.valueOf(item.getQuantity())).doubleValue();
+                    }
+                    return 0.0;
+                }).sum();
             total = total * (1 - discountPercent / 100.0);
 
             int option = JOptionPane.showConfirmDialog(
@@ -447,43 +530,16 @@ public class CartComponent extends JPanel {
         }
     }
 
-    private double parsePrice(String priceString) {
-        try {
-            return Double.parseDouble(priceString.replaceAll("[^\\d.]", ""));
-        } catch (NumberFormatException e) {
-            return 0.0;
+    private void loadCartFromDB() {
+        cartItems.clear();
+        cartItems.addAll(cartController.getAllItems(cartId));
+    }
+
+    private class QuantityPanelRenderer extends JPanel implements TableCellRenderer {
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            return (JPanel) value;
         }
-    }
-
-    public boolean hasItems() {
-        return !cartItems.isEmpty();
-    }
-
-    public int getItemCount() {
-        return cartItems.size();
-    }
-
-    public double getTotal() {
-        double subtotal = cartItems.stream().mapToDouble(CartItem::getTotal).sum();
-        return subtotal * (1 - discountPercent / 100.0);
-    }
-
-    private class CartItem {
-        private String name;
-        private double price;
-        private int quantity;
-
-        public CartItem(String name, double price, int quantity) {
-            this.name = name;
-            this.price = price;
-            this.quantity = quantity;
-        }
-
-        public String getName() { return name; }
-        public double getPrice() { return price; }
-        public int getQuantity() { return quantity; }
-        public void setQuantity(int quantity) { this.quantity = quantity; }
-        public double getTotal() { return price * quantity; }
     }
 
     private class DeleteButtonRenderer extends JButton implements TableCellRenderer {

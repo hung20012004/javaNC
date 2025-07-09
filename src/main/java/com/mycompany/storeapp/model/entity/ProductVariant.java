@@ -85,4 +85,9 @@ public class ProductVariant {
         SizeController sizeController = new SizeController();
         return sizeController.getSizeById(sizeId);
     }
+
+    public String getName() {
+        Product product = getProduct();
+        return (product != null) ? product.getName() : "Không xác định";
+    }
 }

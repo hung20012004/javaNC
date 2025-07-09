@@ -109,7 +109,6 @@ public class ShopLayer extends JFrame {
         addKeyboardShortcut(KeyEvent.VK_F3, 0, "new_order", e -> handleNewOrder());
         addKeyboardShortcut(KeyEvent.VK_F4, 0, "payment", e -> handlePayment());
         addKeyboardShortcut(KeyEvent.VK_Q, InputEvent.ALT_DOWN_MASK, "logout", e -> handleLogout());
-       
     }
 
     private void addKeyboardShortcut(int keyCode, int modifiers, String actionKey, ActionListener action) {
@@ -269,8 +268,8 @@ public class ShopLayer extends JFrame {
         isCartVisible = false;
     }
 
-    public void addToCart(String productName, String price, int quantity) {
-        cartComponent.addItem(productName, price, quantity);
+    public void addToCart(int variantId, int quantity) {
+        cartComponent.addItem(variantId, quantity);
     }
 
     private void showPOS() {
