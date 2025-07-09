@@ -5,6 +5,7 @@
 package com.mycompany.storeapp.view.page.admin.Order;
 
 import com.mycompany.storeapp.controller.admin.OrderController;
+import com.mycompany.storeapp.controller.admin.ProductController;
 import com.mycompany.storeapp.model.entity.Order;
 import com.mycompany.storeapp.model.entity.OrderDetail;
 import javax.swing.*;
@@ -33,7 +34,7 @@ import javax.imageio.ImageIO;
  * @author Hi
  */
 public class OrderEditDialog extends JDialog {
-    
+    private ProductController productController;
     private final Order order;
     private final OrderController orderController;
     private final Runnable onSaveCallback;
@@ -66,6 +67,7 @@ public class OrderEditDialog extends JDialog {
     
     public OrderEditDialog(Window parent, Order order, OrderController orderController, Runnable onSaveCallback) {
         super(parent, "Chi tiết đơn hàng #" + order.getOrderId(), ModalityType.APPLICATION_MODAL);
+        this.productController = new ProductController();
         this.order = order;
         this.orderController = orderController;
         this.onSaveCallback = onSaveCallback;
@@ -355,7 +357,7 @@ public class OrderEditDialog extends JDialog {
         // Product name
         gbc.gridx = 0; gbc.gridy = 0;
         gbc.gridwidth = 2;
-        JLabel nameLabel = new JLabel(item.getVariant().getProduct().getName());
+        JLabel nameLabel = new JLabel( productController.getProductById(item.getVariant().getProductId()).getName());
         nameLabel.setFont(nameLabel.getFont().deriveFont(Font.BOLD, 14f));
         infoPanel.add(nameLabel, gbc);
         

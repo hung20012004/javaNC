@@ -20,13 +20,11 @@ import java.util.List;
  */
 public class OrderDAO {
     private final DatabaseConnection connection;
-    Connection conn;
     ProductVariantDAO variantDAO;
     ShippingAddressDAO shippingAddressDAO;
 
     public OrderDAO(DatabaseConnection connection) {
         this.connection = connection;
-        this.conn = connection.getConnection();
         this.variantDAO = new ProductVariantDAO(this.connection);
         this.shippingAddressDAO = new ShippingAddressDAO(this.connection);
     }
@@ -34,7 +32,7 @@ public class OrderDAO {
         List<Order> orders = new ArrayList<>();
         String sql = "SELECT * FROM orders ORDER BY order_date DESC";
         
-        try (
+        try (Connection conn = connection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             
@@ -59,7 +57,7 @@ public class OrderDAO {
         List<Order> orders = new ArrayList<>();
         String sql = "SELECT * FROM orders WHERE order_status = ? ORDER BY order_date DESC";
         
-        try (
+        try (Connection conn = connection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setString(1, status);
@@ -67,9 +65,11 @@ public class OrderDAO {
             
             while (rs.next()) {
                 Order order = mapResultSetToOrder(rs);
-                loadShippingAddress(order);
-                order.setDetails(getOrderDetailsByOrderId(order.getOrderId()));
                 orders.add(order);
+            }
+            for (Order order : orders) {
+                loadShippingAddress(order); // Bây giờ an toàn hơn
+                order.setDetails(getOrderDetailsByOrderId(order.getOrderId()));
             }
             
         } catch (SQLException e) {
@@ -85,7 +85,7 @@ public class OrderDAO {
     public boolean updateOrderStatus(int orderId, String newStatus) {
         String sql = "UPDATE orders SET order_status = ?, updated_at = ? WHERE order_id = ?";
         
-        try (
+        try (Connection conn = connection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setString(1, newStatus);
@@ -107,7 +107,7 @@ public class OrderDAO {
     public Order getOrderById(int orderId) {
         String sql = "SELECT * FROM orders WHERE order_id = ?";
         
-        try (
+        try (Connection conn = connection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setInt(1, orderId);
@@ -134,7 +134,7 @@ public class OrderDAO {
         List<OrderDetail> details = new ArrayList<>();
         String sql = "SELECT * FROM order_details WHERE order_id = ?";
         
-        try (
+        try (Connection conn = connection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setInt(1, orderId);
@@ -207,7 +207,7 @@ public class OrderDAO {
     public int getOrderCountByStatus(String status) {
         String sql = "SELECT COUNT(*) FROM orders WHERE order_status = ?";
         
-        try (
+        try (Connection conn = connection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setString(1, status);

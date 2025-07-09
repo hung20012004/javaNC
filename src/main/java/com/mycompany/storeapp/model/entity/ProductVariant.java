@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ProductVariant {
     private int variantId;
-    private int productId;
+    private long productId;
     private int colorId;
     private int sizeId;
     private String imageUrl;
@@ -21,15 +21,10 @@ public class ProductVariant {
     private BigDecimal price;
 
     // Quan hệ đối tượng
-    private Product product;
     private Color color;
     private Size size;
-    private List<VariantImage> variantImages;
-    private List<CartItem> cartItems;
 
     public ProductVariant() {}
-
-    // Getters & Setters
 
     public int getVariantId() {
         return variantId;
@@ -39,11 +34,11 @@ public class ProductVariant {
         this.variantId = variantId;
     }
 
-    public int getProductId() {
+    public long getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(long productId) {
         this.productId = productId;
     }
 
@@ -87,14 +82,6 @@ public class ProductVariant {
         this.price = price;
     }
 
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
     public Color getColor() {
         return color;
     }
@@ -109,21 +96,5 @@ public class ProductVariant {
 
     public void setSize(Size size) {
         this.size = size;
-    }
-
-    public List<VariantImage> getVariantImages() {
-        return variantImages;
-    }
-
-    public void setVariantImages(List<VariantImage> variantImages) {
-        this.variantImages = variantImages;
-    }
-
-    public List<CartItem> getCartItems() {
-        return cartItems;
-    }
-
-    public void setCartItems(List<CartItem> cartItems) {
-        this.cartItems = cartItems;
     }
 }

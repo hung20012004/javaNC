@@ -116,4 +116,25 @@ public class ColorDAO {
             return false;
         }
     }
+    
+    public Color getByIdwithConn(int id, Connection conn) {
+        String sql = "SELECT * FROM colors WHERE color_id = ?";
+        try (
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Color color = new Color();
+                color.setColorId(rs.getInt("color_id"));
+                color.setName(rs.getString("name"));
+                color.setDescription(rs.getString("description"));
+                color.setCreated_at(rs.getTimestamp("created_at"));
+                color.setUpdated_at(rs.getTimestamp("updated_at"));
+                return color;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

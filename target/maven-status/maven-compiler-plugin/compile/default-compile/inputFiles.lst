@@ -1,112 +1,14 @@
-
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\SupportRequestDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\component\admin\ContentComponent\ContentFooter.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\layer\ShopLayer.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Dashboard.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\Size.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\component\CustomTable.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\component\admin\SidebarComponent\MenuItem.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\CategoryDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\PromotionDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\SupplierDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\controller\admin\MaterialController.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\controller\admin\UserController.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\InventoryCheckDetailDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Color\ColorFormDialog.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\ProductDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\Cart.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\ProductVariant.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\controller\guest\RegisterController.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\page\guest\LoginPage.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\WishlistDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\CartDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\StoreApp.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\ProductVariantDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\layer\AdminLayer.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\Supplier.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\Promotion.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\OrderDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\Category.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\BannerDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Banner\BannerGUI.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\Product.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\VariantImage.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\page\guest\RegisterPage.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\component\admin\CloudinaryService.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\component\admin\Sidebar.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Supplier\SupplierGUI.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\RoleDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\Tag.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\component\admin\ContentComponent\ContentHeader.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\OrderHistoryDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\InventoryCheckDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\config\DatabaseConnection.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\component\admin\FooterComponent.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Size\SizeFormDialog.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\controller\guest\ForgotPassword.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\controller\shop\UserController.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\Color.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\PurchaseOrderDetail.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\Payment.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\InventoryCheck.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\ShippingAddress.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Material\MaterialFormDialog.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\Material.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\Role.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\Wishlist.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Category\CategoryFormDialog.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\controller\admin\ColorController.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\User.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\VariantImageDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\controller\admin\BannerController.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\InventoryCheckDetail.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\OrderDetailDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\CartItem.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\Order.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\controller\admin\SupplierController.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\UserDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\Banner.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\component\admin\SidebarComponent\CustomScrollBarUI.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\PurchaseOrderDetailDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Category\CategoryDetailsDialog.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\SizeDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\PurchaseOrderDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\controller\admin\SizeController.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\OrderDetail.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Supplier\SupplierFormDialog.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\component\CustomButton.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Category\CategoryGUI.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\controller\admin\CategoryController.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\MaterialDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\OrderHistory.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Banner\BannerFormDialog.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\ProductReviewDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\controller\guest\LoginController.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Banner\BannerDetailsDialog.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\ProductImage.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\SupportRequest.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\ProductImageDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\component\admin\SidebarComponent\MenuGroup.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\config\NavigationManager.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Material\MaterialGUI.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Size\SizeGUI.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\TagDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\UserProfileDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\ColorDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\layer\GuestLayer.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\component\admin\HeaderComponent.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\component\admin\SidebarComponent\MenuDataProvider.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\ShoppingAddressDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\UserProfile.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\ProductReview.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\dao\CartItemDAO.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\model\entity\PurchaseOrder.java
-D:\Duy\Java_NC\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Color\ColorGUI.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\config\DatabaseConnection.java
+G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\controller\admin\BannerController.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\controller\admin\CategoryController.java
+G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\controller\admin\ColorController.java
+G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\controller\admin\MaterialController.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\controller\admin\OrderController.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\controller\admin\ProductController.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\controller\admin\ProductImageController.java
+G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\controller\admin\ProductVariantController.java
+G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\controller\admin\SizeController.java
+G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\controller\admin\SupplierController.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\controller\admin\UserController.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\controller\guest\AuthController.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\controller\guest\ForgotPassword.java
@@ -198,12 +100,25 @@ G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\v
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\layer\GuestLayer.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\layer\LayerManager.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\layer\ShopLayer.java
+G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Banner\BannerDetailsDialog.java
+G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Banner\BannerFormDialog.java
+G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Banner\BannerGUI.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Category\CategoryDetailsDialog.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Category\CategoryFormDialog.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Category\CategoryGUI.java
+G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Color\ColorFormDialog.java
+G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Color\ColorGUI.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Dashboard.java
+G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Material\MaterialFormDialog.java
+G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Material\MaterialGUI.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Order\KanbanContent.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Order\OrderEditDialog.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Order\OrderKanbanView.java
+G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Product\ProductFormDialog.java
+G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Product\ProductGUI.java
+G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Size\SizeFormDialog.java
+G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Size\SizeGUI.java
+G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Supplier\SupplierFormDialog.java
+G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\admin\Supplier\SupplierGUI.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\guest\LoginPage.java
 G:\Java\Java nag cao\Final_Project\javaNC\src\main\java\com\mycompany\storeapp\view\page\guest\RegisterPage.java

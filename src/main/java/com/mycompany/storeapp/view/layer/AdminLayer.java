@@ -10,6 +10,7 @@ import com.mycompany.storeapp.view.page.admin.Material.MaterialGUI;
 import com.mycompany.storeapp.view.page.admin.Size.SizeGUI;
 import com.mycompany.storeapp.view.page.admin.Supplier.SupplierGUI;
 import com.mycompany.storeapp.view.page.admin.Order.OrderKanbanView;
+import com.mycompany.storeapp.view.page.admin.Product.ProductGUI;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -45,7 +46,7 @@ public class AdminLayer extends JFrame {
         setLocationRelativeTo(null);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         try {
-            setIconImage(Toolkit.getDefaultToolkit().getImage("https://res.cloudinary.com/deczn9jtq/image/upload/v1751535499/logo_nhtaxb.png"));
+            setIconImage(Toolkit.getDefaultToolkit().getImage("resources/icons/shop.png"));
         } catch (Exception e) {
         }
     }
@@ -204,7 +205,7 @@ public class AdminLayer extends JFrame {
             case "notifications":
                 return createContentPanel("Thông báo", "Quản lý thông báo hệ thống", "🔔");
             case "products":
-                return createContentPanel("Quản lý sản phẩm", "Thêm, sửa, xóa và quản lý sản phẩm", "📦");
+                return new ProductGUI();
             case "categories":
                 return new CategoryGUI();
             case "suppliers":
