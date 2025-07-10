@@ -1,4 +1,6 @@
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\dao\CartItemDAO.java
+C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\component\shop\HeaderPanel.java
+C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\component\shop\AddressPanel.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\page\admin\Material\MaterialGUI.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\controller\admin\SupplierController.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\component\admin\FooterComponent.java
@@ -14,11 +16,13 @@ C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\service
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\page\admin\Order\KanbanContent.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\entity\Wishlist.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\page\admin\Color\ColorFormDialog.java
+C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\component\shop\CreateOrderDialog.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\entity\PurchaseOrder.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\page\admin\Material\MaterialFormDialog.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\dao\TagDAO.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\component\shop\CategoryListComponent.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\entity\InventoryCheckDetail.java
+C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\page\admin\Customer\CustomerFormDialog.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\entity\VariantImage.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\entity\ProductVariant.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\entity\Product.java
@@ -31,12 +35,14 @@ C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\co
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\entity\ProductColor.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\entity\OrderDetail.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\session\SessionListener.java
+C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\component\shop\OrderSummaryPanel.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\component\shop\ShopNavbarComponent.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\controller\admin\ProductImageController.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\dao\ShippingAddressDAO.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\page\admin\Supplier\SupplierFormDialog.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\controller\guest\RegisterController.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\page\admin\Size\SizeFormDialog.java
+C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\component\shop\OrderInfoPanel.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\dao\ProductReviewDAO.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\page\admin\Supplier\SupplierGUI.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\controller\admin\CategoryController.java
@@ -56,6 +62,7 @@ C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\d
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\page\admin\Order\OrderKanbanView.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\component\admin\SidebarComponent\CustomScrollBarUI.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\controller\guest\LoginController.java
+C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\component\shop\OrderItemsTablePanel.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\layer\LayerManager.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\dao\PromotionDAO.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\layer\ShopLayer.java
@@ -99,11 +106,13 @@ C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\e
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\component\shop\ProductCard.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\component\admin\SidebarComponent\MenuDataProvider.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\page\admin\Category\CategoryDetailsDialog.java
+C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\component\shop\FooterPanel.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\entity\OrderHistory.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\entity\Order.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\page\admin\Banner\BannerFormDialog.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\page\admin\Size\SizeGUI.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\page\admin\Banner\BannerGUI.java
+C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\page\admin\Customer\CustomerGUI.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\entity\User.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\dao\CategoryDAO.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\dao\OrderHistoryDAO.java
@@ -115,6 +124,7 @@ C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\control
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\dao\SizeDAO.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\entity\Supplier.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\dao\RoleDAO.java
+C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\component\shop\CustomerInfoPanel.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\entity\Promotion.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\view\component\admin\ContentComponent\ContentHeader.java
 C:\Users\Manh Hung\Desktop\StoreApp\src\main\java\com\mycompany\storeapp\model\entity\PurchaseOrderDetail.java

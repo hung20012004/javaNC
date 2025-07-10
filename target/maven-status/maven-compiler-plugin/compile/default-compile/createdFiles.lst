@@ -1,11 +1,14 @@
 com\mycompany\storeapp\view\component\shop\CartComponent$2.class
+com\mycompany\storeapp\view\component\shop\FooterPanel.class
 com\mycompany\storeapp\model\entity\Supplier.class
 com\mycompany\storeapp\model\entity\CartItem.class
 com\mycompany\storeapp\model\entity\InventoryCheck.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryGUI.class
 com\mycompany\storeapp\model\entity\ShippingAddress.class
 com\mycompany\storeapp\view\component\admin\SidebarComponent\CustomScrollBarUI.class
+com\mycompany\storeapp\view\component\shop\HeaderPanel.class
 com\mycompany\storeapp\view\layer\AdminLayer$1.class
+com\mycompany\storeapp\view\component\shop\OrderSummaryPanel.class
 com\mycompany\storeapp\view\component\admin\KanbanComponent\KanbanHeader$1.class
 com\mycompany\storeapp\controller\admin\SupplierController.class
 com\mycompany\storeapp\view\page\admin\Order\OrderKanbanView$3.class
@@ -13,6 +16,7 @@ com\mycompany\storeapp\model\dao\OrderDAO.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryFormDialog$4.class
 com\mycompany\storeapp\view\component\CustomTable$ActionCellEditor.class
 com\mycompany\storeapp\view\page\admin\Banner\BannerFormDialog$3.class
+com\mycompany\storeapp\view\component\shop\OrderInfoPanel.class
 com\mycompany\storeapp\model\entity\Cart.class
 com\mycompany\storeapp\view\page\admin\Order\OrderEditDialog$2.class
 com\mycompany\storeapp\model\entity\PurchaseOrder.class
@@ -23,6 +27,7 @@ com\mycompany\storeapp\model\entity\Tag.class
 com\mycompany\storeapp\model\entity\Size.class
 com\mycompany\storeapp\controller\admin\SizeController.class
 com\mycompany\storeapp\view\component\admin\Sidebar$MenuActionListener.class
+com\mycompany\storeapp\view\component\shop\CustomerInfoPanel.class
 com\mycompany\storeapp\view\page\admin\Order\OrderKanbanView$2.class
 com\mycompany\storeapp\view\page\admin\Size\SizeGUI.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryFormDialog.class
@@ -72,6 +77,7 @@ com\mycompany\storeapp\model\entity\Payment.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryFormDialog$7$1.class
 com\mycompany\storeapp\model\entity\VariantImage.class
 com\mycompany\storeapp\controller\admin\OrderController$OrderTransitionResult.class
+com\mycompany\storeapp\view\component\shop\OrderItemsTablePanel.class
 com\mycompany\storeapp\view\component\CustomButton.class
 com\mycompany\storeapp\view\component\admin\SidebarComponent\MenuDataProvider$MenuItemData.class
 com\mycompany\storeapp\model\dao\CartItemDAO.class
@@ -132,6 +138,7 @@ com\mycompany\storeapp\view\page\admin\Color\ColorGUI$1.class
 com\mycompany\storeapp\view\page\admin\Supplier\SupplierGUI$1.class
 com\mycompany\storeapp\model\entity\Role.class
 com\mycompany\storeapp\view\page\admin\Order\KanbanContent$OrderTransferData.class
+com\mycompany\storeapp\view\page\admin\Customer\CustomerFormDialog.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryFormDialog$2.class
 com\mycompany\storeapp\model\entity\Product.class
 com\mycompany\storeapp\view\page\admin\Order\KanbanContent.class
@@ -146,6 +153,7 @@ com\mycompany\storeapp\view\page\admin\Order\OrderKanbanView$1.class
 com\mycompany\storeapp\view\component\admin\ContentComponent\ContentFooter.class
 com\mycompany\storeapp\view\component\admin\Sidebar.class
 com\mycompany\storeapp\model\entity\ProductImage.class
+com\mycompany\storeapp\view\component\shop\AddressPanel.class
 com\mycompany\storeapp\controller\admin\CategoryController.class
 com\mycompany\storeapp\model\dao\ShippingAddressDAO.class
 com\mycompany\storeapp\view\page\admin\Order\OrderEditDialog.class
@@ -166,8 +174,10 @@ com\mycompany\storeapp\view\page\admin\Banner\BannerFormDialog$1.class
 com\mycompany\storeapp\view\component\admin\SidebarComponent\MenuGroup.class
 com\mycompany\storeapp\model\entity\OrderDetail.class
 com\mycompany\storeapp\model\dao\ProductDAO.class
+com\mycompany\storeapp\view\component\shop\CreateOrderDialog.class
 com\mycompany\storeapp\view\component\admin\ContentComponent\ContentFooter$1.class
 com\mycompany\storeapp\view\page\admin\Banner\BannerGUI$1.class
+com\mycompany\storeapp\view\page\admin\Customer\CustomerGUI.class
 com\mycompany\storeapp\controller\guest\ForgotPassword.class
 com\mycompany\storeapp\view\layer\ShopLayer.class
 com\mycompany\storeapp\model\dao\UserProfileDAO.class

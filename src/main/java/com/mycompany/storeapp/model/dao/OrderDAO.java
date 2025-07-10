@@ -223,4 +223,58 @@ public class OrderDAO {
         
         return 0;
     }
+/**
+     * Save a new order
+     */
+    public int saveOrder(Order order) {
+        String sql = "INSERT INTO orders (user_id, shipping_address_id, promotion_id, order_date, subtotal, shipping_fee, discount_amount, total_amount, payment_method, payment_status, order_status, note, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setInt(1, order.getUserId());
+            stmt.setInt(2, order.getShippingAddressId());
+            stmt.setObject(3, order.getPromotionId()); // Nullable
+            stmt.setTimestamp(4, java.sql.Timestamp.valueOf(order.getOrderDate()));
+            stmt.setDouble(5, order.getSubtotal());
+            stmt.setDouble(6, order.getShippingFee());
+            stmt.setDouble(7, order.getDiscountAmount());
+            stmt.setDouble(8, order.getTotalAmount());
+            stmt.setString(9, order.getPaymentMethod());
+            stmt.setString(10, order.getPaymentStatus());
+            stmt.setString(11, order.getOrderStatus());
+            stmt.setString(12, order.getNote());
+            stmt.setTimestamp(13, new java.sql.Timestamp(System.currentTimeMillis()));
+            stmt.setTimestamp(14, new java.sql.Timestamp(System.currentTimeMillis()));
+
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        return generatedKeys.getInt(1);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error saving order: " + e.getMessage());
+        }
+        return 0;
+    }
+
+    /**
+     * Save an order detail
+     */
+    public boolean saveOrderDetail(OrderDetail detail) {
+        String sql = "INSERT INTO order_details (order_id, variant_id, quantity, unit_price, subtotal) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, detail.getOrderId());
+            stmt.setInt(2, detail.getVariantId());
+            stmt.setInt(3, detail.getQuantity());
+            stmt.setDouble(4, detail.getUnitPrice());
+            stmt.setDouble(5, detail.getSubtotal());
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            System.err.println("Error saving order detail: " + e.getMessage());
+            return false;
+        }
+    }
 }

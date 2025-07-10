@@ -3,7 +3,7 @@ package com.mycompany.storeapp.view.layer;
 import com.mycompany.storeapp.view.component.shop.ShopHeaderComponent;
 import com.mycompany.storeapp.view.component.shop.ShopNavbarComponent;
 import com.mycompany.storeapp.view.component.shop.ShopFooterComponent;
-import com.mycompany.storeapp.view.component.shop.CartComponent;
+import com.mycompany.storeapp.view.component.shop.cart.CartComponent;
 import com.mycompany.storeapp.view.component.shop.POSComponent;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
