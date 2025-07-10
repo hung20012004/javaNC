@@ -10,7 +10,7 @@ import java.util.Date;
  *
  * @author Hi
  */
-public class ProductColor {
+public class Color {
 
     private long colorId;
     private String name;
@@ -18,9 +18,9 @@ public class ProductColor {
     private Date created_at;
     private Date updated_at;
 
-    public ProductColor() {}
+    public Color (int par1, int par2, int par3) {}
 
-    public ProductColor(long colorId, String name, String description) {
+    public Color(long colorId, String name, String description) {
         this.colorId = colorId;
         this.name = name;
         this.description = description;

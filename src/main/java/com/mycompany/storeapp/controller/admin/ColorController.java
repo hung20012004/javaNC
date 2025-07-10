@@ -2,7 +2,7 @@ package com.mycompany.storeapp.controller.admin;
 
 import com.mycompany.storeapp.config.DatabaseConnection;
 import com.mycompany.storeapp.model.dao.ColorDAO;
-import com.mycompany.storeapp.model.entity.ProductColor;
+import com.mycompany.storeapp.model.entity.Color;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -19,7 +19,7 @@ public class ColorController {
         this.colorDAO = new ColorDAO(dbConnection);
     }
     
-    public boolean createColor(ProductColor color) {
+    public boolean createColor(Color color) {
         try {
             if (color.getName() == null || color.getName().trim().isEmpty()) {
                 showErrorMessage("Tên màu không được để trống!");
@@ -45,7 +45,7 @@ public class ColorController {
         }
     }
 
-    public List<ProductColor> getAllColors() {
+    public List<Color> getAllColors() {
         try {
             return colorDAO.getAll();
         } catch (Exception e) {
@@ -54,7 +54,7 @@ public class ColorController {
         }
     }
 
-    public ProductColor getColorById(long colorId) {
+    public Color getColorById(long colorId) {
         try {
             if (colorId <= 0) {
                 showErrorMessage("ID màu không hợp lệ!");
@@ -67,7 +67,7 @@ public class ColorController {
         }
     }
 
-    public boolean updateColor(ProductColor color) {
+    public boolean updateColor(Color color) {
         try {
             if (color.getColorId() <= 0) {
                 showErrorMessage("ID màu không hợp lệ!");

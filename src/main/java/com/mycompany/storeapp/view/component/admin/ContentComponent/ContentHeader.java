@@ -18,6 +18,7 @@ public class ContentHeader extends JPanel {
     private JButton addButton;
     private JTextField searchField;
     private JButton searchButton;
+    private JButton exportExcelButton;
     
     public ContentHeader(String title) {
         initComponents(title);
@@ -59,6 +60,15 @@ public class ContentHeader extends JPanel {
         searchButton.setBorderPainted(false);
         searchButton.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         searchButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        exportExcelButton = new JButton("Xuất Excel");
+        exportExcelButton.setPreferredSize(new Dimension(120, 35));
+        exportExcelButton.setBackground(new Color(230, 126, 34));
+        exportExcelButton.setForeground(Color.WHITE);
+        exportExcelButton.setFocusPainted(false);
+        exportExcelButton.setBorderPainted(false);
+        exportExcelButton.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        exportExcelButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
     
     private void setupLayout() {
@@ -76,7 +86,9 @@ public class ContentHeader extends JPanel {
         rightPanel.setBackground(Color.WHITE);
         rightPanel.add(searchField);
         rightPanel.add(searchButton);
+        rightPanel.add(exportExcelButton);
         rightPanel.add(addButton);
+        
         
         add(leftPanel, BorderLayout.WEST);
         add(rightPanel, BorderLayout.EAST);
@@ -101,6 +113,15 @@ public class ContentHeader extends JPanel {
                 searchButton.setBackground(new Color(46, 204, 113));
             }
         });
+        
+        exportExcelButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                exportExcelButton.setBackground(new Color(211, 84, 0));
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                exportExcelButton.setBackground(new Color(230, 126, 34));
+            }
+        });
     }
     
     // Getter methods để truy cập components từ bên ngoài
@@ -120,6 +141,10 @@ public class ContentHeader extends JPanel {
         return searchField.getText().trim();
     }
     
+    public JButton getExportExcelButton() {
+        return exportExcelButton;
+    }
+    
     public void clearSearch() {
         searchField.setText("");
     }
@@ -131,6 +156,10 @@ public class ContentHeader extends JPanel {
     
     public void addSearchButtonListener(ActionListener listener) {
         searchButton.addActionListener(listener);
+    }
+    
+    public void addExportExcelButtonListener(ActionListener listener) {
+        exportExcelButton.addActionListener(listener);
     }
     
     public void addSearchFieldListener(java.awt.event.KeyListener listener) {

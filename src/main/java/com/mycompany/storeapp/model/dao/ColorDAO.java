@@ -5,7 +5,7 @@
 package com.mycompany.storeapp.model.dao;
 
 import com.mycompany.storeapp.config.DatabaseConnection;
-import com.mycompany.storeapp.model.entity.ProductColor;
+import com.mycompany.storeapp.model.entity.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,7 +25,7 @@ public class ColorDAO {
         this.connection = connection;
     }
     
-    public boolean create(ProductColor color) {
+    public boolean create(Color color) {
         String sql = "INSERT INTO colors (name, description, created_at, updated_at) VALUES (?, ?, ?, ?)";
         try (Connection conn = connection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -48,14 +48,14 @@ public class ColorDAO {
         }
     }
 
-    public ProductColor getById(Long id) {
+    public Color getById(Long id) {
         String sql = "SELECT * FROM colors WHERE color_id = ?";
         try (Connection conn = connection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setLong(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                ProductColor color = new ProductColor();
+                Color color = new Color(46, 204, 113);
                 color.setColorId(rs.getInt("color_id"));
                 color.setName(rs.getString("name"));
                 color.setDescription(rs.getString("description"));
@@ -69,14 +69,14 @@ public class ColorDAO {
         return null;
     }
 
-    public List<ProductColor> getAll() {
-        List<ProductColor> colors = new ArrayList<>();
+    public List<Color> getAll() {
+        List<Color> colors = new ArrayList<>();
         String sql = "SELECT * FROM colors";
         try (Connection conn = connection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                ProductColor color = new ProductColor();
+                Color color = new Color(46, 204, 113);
                 color.setColorId(rs.getInt("color_id"));
                 color.setName(rs.getString("name"));
                 color.setDescription(rs.getString("description"));
@@ -90,7 +90,7 @@ public class ColorDAO {
         return colors;
     }
 
-    public boolean update(ProductColor color) {
+    public boolean update(Color color) {
         String sql = "UPDATE colors SET name = ?, description = ?, updated_at = ? WHERE color_id = ?";
         try (Connection conn = connection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

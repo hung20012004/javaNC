@@ -10,6 +10,8 @@ import com.mycompany.storeapp.view.page.admin.Material.MaterialGUI;
 import com.mycompany.storeapp.view.page.admin.Size.SizeGUI;
 import com.mycompany.storeapp.view.page.admin.Supplier.SupplierGUI;
 import com.mycompany.storeapp.view.page.admin.Order.OrderKanbanView;
+import com.mycompany.storeapp.view.page.admin.PurchaseOrder.POKanBanView;
+import com.mycompany.storeapp.view.page.admin.Report.ReportPanel;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -200,7 +202,7 @@ public class AdminLayer extends JFrame {
     private JPanel createContentForAction(String action) {
         switch (action) {
             case "dashboard":
-                return createContentPanel("Dashboard", "Tổng quan về hoạt động của cửa hàng", "📊");
+                return new ReportPanel();
             case "notifications":
                 return createContentPanel("Thông báo", "Quản lý thông báo hệ thống", "🔔");
             case "products":
@@ -226,7 +228,7 @@ public class AdminLayer extends JFrame {
             case "order-shipping":
                 return createContentPanel("Vận chuyển", "Theo dõi vận chuyển đơn hàng", "🚛");
             case "purchase-orders":
-                return createContentPanel("Đơn nhập hàng", "Quản lý đơn hàng nhập từ nhà cung cấp", "🛒");
+                return new POKanBanView();
             case "payment":
                 return createContentPanel("Danh sách thanh toán", "Quản lý các giao dịch thanh toán", "💳");
             case "reconcile-vnpay":
@@ -242,7 +244,7 @@ public class AdminLayer extends JFrame {
             case "banners":
                 return new BannerGUI();
             case "settings":
-                return createContentPanel("Cài đặt hệ thống", "Cấu hình các thiết lập hệ thống", "⚙️");
+                return new ReportPanel();
             case "staffs":
                 return createContentPanel("Quản lý nhân viên", "Quản lý thông tin nhân viên", "👤");
             default:
