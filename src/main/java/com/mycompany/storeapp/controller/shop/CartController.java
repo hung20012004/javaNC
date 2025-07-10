@@ -7,32 +7,33 @@ import java.util.List;
 
 public class CartController {
     private final CartDAO cartDAO;
-
+    
     public CartController() {
         this.cartDAO = new CartDAO(new DatabaseConnection());
     }
-
+    
     public CartController(DatabaseConnection dbConnection) {
         this.cartDAO = new CartDAO(dbConnection);
     }
-
+    
     public void addItem(CartItem cartItem) {
         cartDAO.addItem(cartItem);
     }
-
+    
     public void removeItem(int cartItemId) {
         cartDAO.removeItem(cartItemId);
     }
-
+    
     public void updateQuantity(int cartItemId, int quantity) {
         cartDAO.updateQuantity(cartItemId, quantity);
     }
-
+    
     public void clearCart(int cartId) {
         cartDAO.clearCart(cartId);
     }
-
+    
+    // Sửa lại method này - cần truyền cartId vào
     public List<CartItem> getAllItems(int cartId) {
-        return cartDAO.getAllItems();
+        return cartDAO.getAllItems(cartId); 
     }
 }

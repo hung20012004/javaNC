@@ -286,7 +286,7 @@ public class OrderDAO {
     String orderSql = "INSERT INTO orders (user_id, shipping_address_id, promotion_id, order_date, subtotal, shipping_fee, discount_amount, total_amount, payment_method, payment_status, order_status, note, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     String detailSql = "INSERT INTO order_details (order_id, variant_id, quantity, unit_price, subtotal) VALUES (?, ?, ?, ?, ?)";
     
-    try  {
+    try  (Connection conn = connection.getConnection(); ){
         conn.setAutoCommit(false); // Bắt đầu giao dịch
         try (PreparedStatement orderStmt = conn.prepareStatement(orderSql, Statement.RETURN_GENERATED_KEYS)) {
             // Lưu order
