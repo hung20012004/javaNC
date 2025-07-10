@@ -1,13 +1,13 @@
+
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Click nbfs://SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.storeapp.view.component.shop;
 
-/**
- *
- * @author Manh Hung
- */
+import com.mycompany.storeapp.model.entity.User;
+import com.mycompany.storeapp.session.Session;
+import com.mycompany.storeapp.session.SessionListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -17,7 +17,7 @@ import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ShopHeaderComponent extends JPanel {
+public class ShopHeaderComponent extends JPanel implements SessionListener {
     
     // Colors
     private static final Color HEADER_BACKGROUND = new Color(59, 130, 246);
@@ -43,11 +43,17 @@ public class ShopHeaderComponent extends JPanel {
     // Timer for clock
     private Timer clockTimer;
     
+    // Session
+    private final Session session;
+    
     public ShopHeaderComponent() {
+        this.session = Session.getInstance();
         initializeHeader();
         setupComponents();
         setupLayout();
         startClock();
+        session.addSessionListener(this); // Đăng ký lắng nghe thay đổi phiên
+        updateUserLabel(); // Cập nhật userLabel ban đầu
     }
     
     private void initializeHeader() {
@@ -66,7 +72,7 @@ public class ShopHeaderComponent extends JPanel {
         logoLabel.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 28));
         logoLabel.setBorder(new EmptyBorder(0, 0, 0, 12));
         
-        titleLabel = new JLabel("Hệ thống POS");
+        titleLabel = new JLabel("Cửa hàng StyleHub");
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 20));
         titleLabel.setForeground(TEXT_COLOR);
         
@@ -126,7 +132,7 @@ public class ShopHeaderComponent extends JPanel {
         timeLabel.setForeground(SECONDARY_TEXT_COLOR);
         
         // User info
-        userLabel = new JLabel("👤 Admin");
+        userLabel = new JLabel("👤 Đang tải...");
         userLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         userLabel.setForeground(TEXT_COLOR);
         userLabel.setBorder(new EmptyBorder(0, 12, 0, 12));
@@ -220,6 +226,23 @@ public class ShopHeaderComponent extends JPanel {
             JOptionPane.INFORMATION_MESSAGE);
     }
     
+    private void updateUserLabel() {
+        User currentUser = session.getCurrentUser();
+        if (currentUser != null && currentUser.getName() != null && !currentUser.getName().trim().isEmpty()) {
+            userLabel.setText("👤 " + currentUser.getName());
+        } else if (currentUser != null && currentUser.getEmail() != null && !currentUser.getEmail().trim().isEmpty()) {
+            userLabel.setText("👤 " + currentUser.getEmail());
+        } else {
+            userLabel.setText("👤 Khách");
+        }
+    }
+    
+    // SessionListener implementation
+    @Override
+    public void onSessionChanged(User user) {
+        SwingUtilities.invokeLater(this::updateUserLabel);
+    }
+    
     // Public methods
     public void addLogoutActionListener(ActionListener listener) {
         this.logoutActionListener = listener;
@@ -247,11 +270,5 @@ public class ShopHeaderComponent extends JPanel {
         searchField.requestFocus();
     }
     
-    @Override
-    public void removeNotify() {
-        super.removeNotify();
-        if (clockTimer != null) {
-            clockTimer.stop();
-        }
-    }
+    
 }

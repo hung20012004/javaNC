@@ -1,3 +1,8 @@
+
+/*
+ * Click nbfs://SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package com.mycompany.storeapp.view.component.shop.order;
 
 import com.mycompany.storeapp.view.component.shop.order.OrderInfoPanel;
@@ -6,12 +11,14 @@ import com.mycompany.storeapp.view.component.shop.order.FooterPanel;
 import com.mycompany.storeapp.view.component.shop.order.CustomerInfoPanel;
 import com.mycompany.storeapp.view.component.shop.order.AddressPanel;
 import com.mycompany.storeapp.model.entity.CartItem;
-import com.mycompany.storeapp.model.entity.ProductVariant;
+import com.mycompany.storeapp.controller.admin.OrderController;
 import com.mycompany.storeapp.controller.admin.ProductVariantController;
+import com.mycompany.storeapp.config.DatabaseConnection;
+import com.mycompany.storeapp.model.entity.ShippingAddress;
+import com.mycompany.storeapp.session.Session;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -29,6 +36,7 @@ public class CreateOrderDialog extends JDialog {
     private double discountPercent;
     private DecimalFormat currencyFormat;
     private ProductVariantController variantController;
+    private OrderController orderController;
     private boolean orderCreated = false;
 
     public CreateOrderDialog(Frame parent, List<CartItem> cartItems, double discountPercent) {
@@ -37,6 +45,7 @@ public class CreateOrderDialog extends JDialog {
         this.discountPercent = discountPercent;
         this.currencyFormat = new DecimalFormat("#,###,### ₫");
         this.variantController = new ProductVariantController();
+        this.orderController = new OrderController(new DatabaseConnection());
         
         initializeDialog();
         initializeComponents();
@@ -121,10 +130,8 @@ public class CreateOrderDialog extends JDialog {
         footerPanel.addCancelButton("Hủy", e -> dispose());
         footerPanel.addSubmitButton("Tạo đơn hàng", e -> createOrder());
         
-        // Order info events - OrderInfoPanel tự quản lý việc tính toán
         orderInfoPanel.addDeliveryMethodListener(e -> {
-            // Có thể thêm logic bổ sung nếu cần
-            // OrderInfoPanel đã tự động tính toán lại trong calculateTotals()
+            // Update UI if needed
         });
     }
 
@@ -134,12 +141,12 @@ public class CreateOrderDialog extends JDialog {
             return;
         }
         
-        // Validate address - pass delivery method to check if address is required
+        // Validate address based on delivery method
         if (!addressPanel.validateFields(orderInfoPanel.getDeliveryMethod())) {
             return;
         }
         
-        // Show confirmation with order details
+        // Show confirmation dialog
         StringBuilder confirmMessage = new StringBuilder();
         confirmMessage.append("Xác nhận tạo đơn hàng với thông tin sau:\n\n");
         confirmMessage.append("Khách hàng: ").append(customerInfoPanel.getCustomerName()).append("\n");
@@ -161,16 +168,62 @@ public class CreateOrderDialog extends JDialog {
         );
         
         if (option == JOptionPane.YES_OPTION) {
-            // TODO: Implement order creation logic here
-            // Save order to database with all the information
-            
-            orderCreated = true;
-            JOptionPane.showMessageDialog(this, 
-                "Đơn hàng đã được tạo thành công!\n" +
-                "Tổng tiền: " + currencyFormat.format(orderInfoPanel.getTotal()), 
-                "Thành công", 
-                JOptionPane.INFORMATION_MESSAGE);
-            dispose();
+            try {
+                // Get user ID from session or customer info
+                String customerIdStr = customerInfoPanel.getCustomerId();
+                int userId = customerIdStr != null && !customerIdStr.trim().isEmpty() 
+                    ? Integer.parseInt(customerIdStr) : 0;
+                
+                if (userId <= 0) {
+                    JOptionPane.showMessageDialog(this, 
+                        "Không thể xác định ID người dùng!", 
+                        "Lỗi", 
+                        JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                // Get current user ID from session for processed_by_user_id
+                Session session = Session.getInstance();
+                Integer processedByUserId = session.getCurrentUser() != null 
+                    ? session.getCurrentUser().getId() : null;
+                
+                // Create order using OrderController
+                OrderController.OrderTransitionResult result = orderController.createOrder(
+                    userId,
+                    addressPanel.getSelectedAddress(),
+                    cartItems,
+                    discountPercent,
+                    orderInfoPanel.getPaymentMethod(),
+                    orderInfoPanel.getDeliveryMethod(),
+                    addressPanel.getNote(),
+                    processedByUserId
+                );
+                
+                if (result.isSuccess()) {
+                    orderCreated = true;
+                    JOptionPane.showMessageDialog(this, 
+                        "Đơn hàng đã được tạo thành công!\nTổng tiền: " + 
+                        currencyFormat.format(orderInfoPanel.getTotal()), 
+                        "Thành công", 
+                        JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, 
+                        "Tạo đơn hàng thất bại: " + result.getMessage(), 
+                        "Lỗi", 
+                        JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, 
+                    "Lỗi định dạng ID người dùng: " + e.getMessage(), 
+                    "Lỗi", 
+                    JOptionPane.ERROR_MESSAGE);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, 
+                    "Lỗi hệ thống khi tạo đơn hàng: " + e.getMessage(), 
+                    "Lỗi", 
+                    JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
@@ -184,11 +237,9 @@ public class CreateOrderDialog extends JDialog {
         return customerInfoPanel.getCustomerName(); 
     }
     
-    
     public String getCustomerEmail() { 
         return customerInfoPanel.getCustomerEmail(); 
     }
-    
     
     // Address information
     public String getAddress() { 

@@ -53,11 +53,9 @@ public class ShopNavbarComponent extends JPanel {
     private void createNavbarItems() {
         // Tạo các menu item cho shop
         addNavbarItem("pos", "🛒", "POS", "Điểm bán hàng", true);
-        addNavbarItem("products", "📦", "Sản phẩm", "Danh sách sản phẩm", false);
+       
         addNavbarItem("orders", "📋", "Đơn hàng", "Quản lý đơn hàng", false);
-        addNavbarItem("customers", "👥", "Khách hàng", "Thông tin khách hàng", false);
-        addNavbarItem("reports", "📊", "Báo cáo", "Thống kê bán hàng", false);
-        addNavbarItem("settings", "⚙️", "Cài đặt", "Cấu hình hệ thống", false);
+     
     }
     
     private void addNavbarItem(String action, String icon, String text, String tooltip, boolean isActive) {

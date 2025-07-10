@@ -279,4 +279,74 @@ public class OrderDAO {
             return false;
         }
     }
+    public boolean saveOrderWithDetails(Order order, List<OrderDetail> details) {
+    String orderSql = "INSERT INTO orders (user_id, shipping_address_id, promotion_id, order_date, subtotal, shipping_fee, discount_amount, total_amount, payment_method, payment_status, order_status, note, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    String detailSql = "INSERT INTO order_details (order_id, variant_id, quantity, unit_price, subtotal) VALUES (?, ?, ?, ?, ?)";
+    
+    try  {
+        conn.setAutoCommit(false); // Bắt đầu giao dịch
+        try (PreparedStatement orderStmt = conn.prepareStatement(orderSql, Statement.RETURN_GENERATED_KEYS)) {
+            // Lưu order
+            orderStmt.setInt(1, order.getUserId());
+            orderStmt.setInt(2, order.getShippingAddressId());
+            orderStmt.setObject(3, order.getPromotionId());
+            orderStmt.setTimestamp(4, Timestamp.valueOf(order.getOrderDate()));
+            orderStmt.setDouble(5, order.getSubtotal());
+            orderStmt.setDouble(6, order.getShippingFee());
+            orderStmt.setDouble(7, order.getDiscountAmount());
+            orderStmt.setDouble(8, order.getTotalAmount());
+            orderStmt.setString(9, order.getPaymentMethod());
+            orderStmt.setString(10, order.getPaymentStatus());
+            orderStmt.setString(11, order.getOrderStatus());
+            orderStmt.setString(12, order.getNote());
+            orderStmt.setTimestamp(13, Timestamp.valueOf(LocalDateTime.now()));
+            orderStmt.setTimestamp(14, Timestamp.valueOf(LocalDateTime.now()));
+            
+            int rowsAffected = orderStmt.executeUpdate();
+            if (rowsAffected == 0) {
+                conn.rollback();
+                return false;
+            }
+            
+            // Lấy order_id
+            try (ResultSet generatedKeys = orderStmt.getGeneratedKeys()) {
+                if (!generatedKeys.next()) {
+                    conn.rollback();
+                    return false;
+                }
+                int orderId = generatedKeys.getInt(1);
+                order.setOrderId(orderId);
+            }
+            
+            // Lưu order details
+            try (PreparedStatement detailStmt = conn.prepareStatement(detailSql)) {
+                for (OrderDetail detail : details) {
+                    detailStmt.setInt(1, order.getOrderId());
+                    detailStmt.setInt(2, detail.getVariantId());
+                    detailStmt.setInt(3, detail.getQuantity());
+                    detailStmt.setDouble(4, detail.getUnitPrice());
+                    detailStmt.setDouble(5, detail.getSubtotal());
+                    detailStmt.addBatch();
+                }
+                int[] results = detailStmt.executeBatch();
+                for (int result : results) {
+                    if (result <= 0) {
+                        conn.rollback();
+                        return false;
+                    }
+                }
+            }
+            
+            conn.commit();
+            return true;
+        } catch (SQLException e) {
+            conn.rollback();
+            System.err.println("Error saving order with details: " + e.getMessage());
+            return false;
+        }
+    } catch (SQLException e) {
+        System.err.println("Error connecting to database: " + e.getMessage());
+        return false;
+    }
+}
 }
