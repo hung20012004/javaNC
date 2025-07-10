@@ -41,27 +41,25 @@ public class OrderEditDialog extends JDialog {
     private final ExecutorService imageLoadExecutor = Executors.newCachedThreadPool();
     private final Map<String, ImageIcon> imageCache = new HashMap<>();
     
-    // Form fields
+    private final Map<String, String> statusDisplayMap = new HashMap<>();
+    private final Map<String, String> statusValueMap = new HashMap<>();
+    
     private JTextField customerNameField;
     private JTextField customerPhoneField;
     private JTextArea addressArea;
     private JTextArea notesArea;
     private JComboBox<String> statusComboBox;
     
-    // Info labels
     private JLabel orderIdLabel;
     private JLabel orderDateLabel;
     private JLabel totalAmountLabel;
     
-    // Product list
     private JPanel productListPanel;
     private JScrollPane productScrollPane;
     
-    // Buttons
     private JButton saveButton;
     private JButton cancelButton;
     
-    // Format
     private final NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
     private final DateTimeFormatter dateFormatter;
     
@@ -73,6 +71,7 @@ public class OrderEditDialog extends JDialog {
         this.onSaveCallback = onSaveCallback;
         this.dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         
+        initStatusMaps();
         initComponents();
         setupLayout();
         populateFields();
@@ -84,8 +83,23 @@ public class OrderEditDialog extends JDialog {
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     }
     
+    private void initStatusMaps() {
+        statusDisplayMap.put("pending", "Chờ xử lý");
+        statusDisplayMap.put("confirmed", "Đã xác nhận");
+        statusDisplayMap.put("processing", "Đang xử lý");
+        statusDisplayMap.put("shipping", "Đang giao");
+        statusDisplayMap.put("delivered", "Đã giao");
+        statusDisplayMap.put("cancelled", "Đã hủy");
+        
+        statusValueMap.put("Chờ xử lý", "pending");
+        statusValueMap.put("Đã xác nhận", "confirmed");
+        statusValueMap.put("Đang xử lý", "processing");
+        statusValueMap.put("Đang giao", "shipping");
+        statusValueMap.put("Đã giao", "delivered");
+        statusValueMap.put("Đã hủy", "cancelled");
+    }
+    
     private void initComponents() {
-        // Info labels
         orderIdLabel = new JLabel("Mã đơn hàng: #" + order.getOrderId());
         orderIdLabel.setFont(orderIdLabel.getFont().deriveFont(Font.BOLD, 16f));
         
@@ -96,7 +110,6 @@ public class OrderEditDialog extends JDialog {
         totalAmountLabel.setFont(totalAmountLabel.getFont().deriveFont(Font.BOLD, 16f));
         totalAmountLabel.setForeground(new Color(46, 204, 113));
         
-        // Form fields
         customerNameField = new JTextField(20);
         customerPhoneField = new JTextField(20);
         
@@ -108,12 +121,10 @@ public class OrderEditDialog extends JDialog {
         notesArea.setLineWrap(true);
         notesArea.setWrapStyleWord(true);
         
-        // Status combo box
         statusComboBox = new JComboBox<>(new String[]{
-            "pending", "confirmed", "processing", "shipping", "delivered", "cancelled"
+            "Chờ xử lý", "Đã xác nhận", "Đang xử lý", "Đang giao", "Đã giao", "Đã hủy"
         });
         
-        // Product list panel
         productListPanel = new JPanel();
         productListPanel.setLayout(new BoxLayout(productListPanel, BoxLayout.Y_AXIS));
         productScrollPane = new JScrollPane(productListPanel);
@@ -121,11 +132,9 @@ public class OrderEditDialog extends JDialog {
         productScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         productScrollPane.setPreferredSize(new Dimension(750, 200));
         
-        // Buttons
         saveButton = new JButton("Lưu thay đổi");
         cancelButton = new JButton("Hủy");
         
-        // Button styling
         saveButton.setBackground(new Color(46, 204, 113));
         saveButton.setForeground(Color.WHITE);
         saveButton.setFocusPainted(false);
@@ -141,13 +150,8 @@ public class OrderEditDialog extends JDialog {
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
         
-        // Header panel
         JPanel headerPanel = createHeaderPanel();
-        
-        // Content panel with tabs or sections
         JPanel contentPanel = createContentPanel();
-        
-        // Button panel
         JPanel buttonPanel = createButtonPanel();
         
         mainPanel.add(headerPanel, BorderLayout.NORTH);
@@ -179,15 +183,12 @@ public class OrderEditDialog extends JDialog {
     private JPanel createContentPanel() {
         JTabbedPane tabbedPane = new JTabbedPane();
         
-        // Customer info tab
         JPanel customerPanel = createCustomerInfoPanel();
         tabbedPane.addTab("Thông tin khách hàng", customerPanel);
         
-        // Products tab
         JPanel productsPanel = createProductsPanel();
         tabbedPane.addTab("Danh sách sản phẩm", productsPanel);
         
-        // Order status tab
         JPanel statusPanel = createStatusPanel();
         tabbedPane.addTab("Trạng thái đơn hàng", statusPanel);
         
@@ -204,7 +205,6 @@ public class OrderEditDialog extends JDialog {
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.WEST;
         
-        // Customer Name
         gbc.gridx = 0; gbc.gridy = 0;
         customerPanel.add(new JLabel("Tên khách hàng:"), gbc);
         gbc.gridx = 1;
@@ -212,7 +212,6 @@ public class OrderEditDialog extends JDialog {
         gbc.weightx = 1.0;
         customerPanel.add(customerNameField, gbc);
         
-        // Customer Phone
         gbc.gridx = 0; gbc.gridy = 1;
         gbc.fill = GridBagConstraints.NONE;
         gbc.weightx = 0;
@@ -222,7 +221,6 @@ public class OrderEditDialog extends JDialog {
         gbc.weightx = 1.0;
         customerPanel.add(customerPhoneField, gbc);
         
-        // Delivery Address
         gbc.gridx = 0; gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.fill = GridBagConstraints.NONE;
@@ -236,7 +234,6 @@ public class OrderEditDialog extends JDialog {
         addressScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         customerPanel.add(addressScroll, gbc);
         
-        // Notes
         gbc.gridx = 0; gbc.gridy = 3;
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.fill = GridBagConstraints.NONE;
@@ -258,7 +255,6 @@ public class OrderEditDialog extends JDialog {
         JPanel productsPanel = new JPanel(new BorderLayout());
         productsPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         
-        // Title
         JLabel titleLabel = new JLabel("Danh sách sản phẩm");
         titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 14f));
         titleLabel.setBorder(new EmptyBorder(0, 0, 10, 0));
@@ -299,12 +295,13 @@ public class OrderEditDialog extends JDialog {
         addressArea.setText(order.getDeliveryAddress() != null ? order.getDeliveryAddress() : "");
         notesArea.setText(order.getNotes() != null ? order.getNotes() : "");
         
-        // Set status
         if (order.getStatus() != null) {
-            statusComboBox.setSelectedItem(order.getStatus());
+            String displayStatus = statusDisplayMap.get(order.getStatus());
+            if (displayStatus != null) {
+                statusComboBox.setSelectedItem(displayStatus);
+            }
         }
         
-        // Calculate and display total amount
         updateTotalAmount();
     }
     
@@ -336,7 +333,6 @@ public class OrderEditDialog extends JDialog {
         ));
         itemPanel.setBackground(Color.WHITE);
         
-        // Image panel
         JPanel imagePanel = new JPanel(new BorderLayout());
         imagePanel.setPreferredSize(new Dimension(200, 200));
         JLabel imageLabel = new JLabel();
@@ -345,36 +341,42 @@ public class OrderEditDialog extends JDialog {
         imageLabel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
         imagePanel.add(imageLabel, BorderLayout.CENTER);
         
-        // Load image asynchronously
         loadProductImage(item.getVariant().getImageUrl(), imageLabel);
         
-        // Info panel
         JPanel infoPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(2, 5, 2, 5);
         
-        // Product name
         gbc.gridx = 0; gbc.gridy = 0;
         gbc.gridwidth = 2;
-        JLabel nameLabel = new JLabel( productController.getProductById(item.getVariant().getProductId()).getName());
-        nameLabel.setFont(nameLabel.getFont().deriveFont(Font.BOLD, 14f));
+        JLabel nameLabel = new JLabel(productController.getProductById(item.getVariant().getProductId()).getName());
+        nameLabel.setFont(nameLabel.getFont().deriveFont(Font.BOLD, 20f));
         infoPanel.add(nameLabel, gbc);
         
-        // Quantity
         gbc.gridx = 0; gbc.gridy = 1;
         gbc.gridwidth = 1;
         infoPanel.add(new JLabel("Số lượng:"), gbc);
         gbc.gridx = 1;
         infoPanel.add(new JLabel(String.valueOf(item.getQuantity())), gbc);
         
-        // Unit price
-        gbc.gridx = 0; gbc.gridy = 2;
+        gbc.gridx = 2; gbc.gridy = 1;
         infoPanel.add(new JLabel("Đơn giá:"), gbc);
-        gbc.gridx = 1;
+        gbc.gridx = 3;
         infoPanel.add(new JLabel(currencyFormat.format(item.getUnitPrice())), gbc);
         
-        // Total price
+        gbc.gridx = 0; gbc.gridy = 2;
+        gbc.gridwidth = 1;
+        infoPanel.add(new JLabel("Màu sắc:"), gbc);
+        gbc.gridx = 1;
+        infoPanel.add(new JLabel(item.getVariant().getColor().getName()), gbc);
+        
+        gbc.gridx = 2; gbc.gridy = 2;
+        gbc.gridwidth = 1;
+        infoPanel.add(new JLabel("Kich cỡ:"), gbc);
+        gbc.gridx = 3;
+        infoPanel.add(new JLabel(item.getVariant().getSize().getName()), gbc);
+        
         gbc.gridx = 0; gbc.gridy = 3;
         infoPanel.add(new JLabel("Thành tiền:"), gbc);
         gbc.gridx = 1;
@@ -396,29 +398,23 @@ public class OrderEditDialog extends JDialog {
             return;
         }
         
-        // Check cache first
         if (imageCache.containsKey(imageUrl)) {
             imageLabel.setIcon(imageCache.get(imageUrl));
             return;
         }
         
-        // Show loading indicator
         imageLabel.setText("Loading...");
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
         
-        // Load image asynchronously
         imageLoadExecutor.submit(() -> {
             try {
                 BufferedImage originalImage = ImageIO.read(new URL(imageUrl));
                 if (originalImage != null) {
-                    // Resize image to fit the label
                     Image scaledImage = originalImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
                     ImageIcon icon = new ImageIcon(scaledImage);
                     
-                    // Cache the image
                     imageCache.put(imageUrl, icon);
                     
-                    // Update UI on EDT
                     SwingUtilities.invokeLater(() -> {
                         imageLabel.setText("");
                         imageLabel.setIcon(icon);
@@ -467,56 +463,37 @@ public class OrderEditDialog extends JDialog {
             }
         });
         
-        // ESC key to cancel
         getRootPane().registerKeyboardAction(
             e -> dispose(),
             KeyStroke.getKeyStroke("ESCAPE"),
             JComponent.WHEN_IN_FOCUSED_WINDOW
         );
         
-        // Set default button
         getRootPane().setDefaultButton(saveButton);
     }
     
     private void saveOrder() {
         try {
-            // Validate input
             if (!validateInput()) {
                 return;
             }
             
-            // Disable buttons during save
             saveButton.setEnabled(false);
             cancelButton.setEnabled(false);
             saveButton.setText("Đang lưu...");
             
-            // Get updated values
-            String customerName = customerNameField.getText().trim();
-            String customerPhone = customerPhoneField.getText().trim();
-            String deliveryAddress = addressArea.getText().trim();
-            String notes = notesArea.getText().trim();
-            String status = (String) statusComboBox.getSelectedItem();
+            String selectedDisplayStatus = (String) statusComboBox.getSelectedItem();
+            String newStatus = statusValueMap.get(selectedDisplayStatus);
+            String currentStatus = order.getStatus();
             
-            // TODO: Implement updateOrder method in OrderController
-            // boolean success = orderController.updateOrder(
-            //     order.getOrderId(),
-            //     customerName,
-            //     customerPhone,
-            //     deliveryAddress,
-            //     notes,
-            //     status
-            // );
+            OrderController.OrderTransitionResult result = orderController.changeOrderStatus(order.getOrderId(), newStatus);
             
-            // For now, simulate success
-            boolean success = true;
-            
-            if (success) {
+            if (result.isSuccess()) {
                 JOptionPane.showMessageDialog(this,
                     "Cập nhật đơn hàng thành công!",
                     "Thành công",
                     JOptionPane.INFORMATION_MESSAGE);
                 
-                // Call callback to refresh parent view
                 if (onSaveCallback != null) {
                     onSaveCallback.run();
                 }
@@ -524,7 +501,7 @@ public class OrderEditDialog extends JDialog {
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(this,
-                    "Có lỗi xảy ra khi cập nhật đơn hàng!",
+                    "Có lỗi xảy ra khi cập nhật đơn hàng: " + result.getMessage(),
                     "Lỗi",
                     JOptionPane.ERROR_MESSAGE);
             }
@@ -536,7 +513,6 @@ public class OrderEditDialog extends JDialog {
                 JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
         } finally {
-            // Re-enable buttons
             saveButton.setEnabled(true);
             cancelButton.setEnabled(true);
             saveButton.setText("Lưu thay đổi");
@@ -544,7 +520,6 @@ public class OrderEditDialog extends JDialog {
     }
     
     private boolean validateInput() {
-        // Validate customer name
         if (customerNameField.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this,
                 "Vui lòng nhập tên khách hàng!",
@@ -554,7 +529,6 @@ public class OrderEditDialog extends JDialog {
             return false;
         }
         
-        // Validate phone number
         String phone = customerPhoneField.getText().trim();
         if (phone.isEmpty()) {
             JOptionPane.showMessageDialog(this,
@@ -565,7 +539,6 @@ public class OrderEditDialog extends JDialog {
             return false;
         }
         
-        // Basic phone validation (Vietnamese phone numbers)
         if (!phone.matches("^(\\+84|0)[0-9]{9,10}$")) {
             JOptionPane.showMessageDialog(this,
                 "Số điện thoại không hợp lệ!\nVui lòng nhập số điện thoại Việt Nam (10-11 chữ số)",
@@ -575,7 +548,6 @@ public class OrderEditDialog extends JDialog {
             return false;
         }
         
-        // Validate delivery address
         if (addressArea.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this,
                 "Vui lòng nhập địa chỉ giao hàng!",
@@ -590,14 +562,10 @@ public class OrderEditDialog extends JDialog {
     
     @Override
     public void dispose() {
-        // Shutdown image loading executor
         imageLoadExecutor.shutdown();
         super.dispose();
     }
     
-    /**
-     * Static method để hiển thị dialog một cách tiện lợi
-     */
     public static void showDialog(Window parent, Order order, OrderController orderController, Runnable onSaveCallback) {
         OrderEditDialog dialog = new OrderEditDialog(parent, order, orderController, onSaveCallback);
         dialog.setVisible(true);

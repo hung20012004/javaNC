@@ -298,5 +298,43 @@ public class ProductVariantDAO {
         variant.setPrice(rs.getBigDecimal("price"));
         return variant;
     }
+    
+    public ProductVariant getVariantByIdwithConn(int variantId, Connection conn) {
+        String sql = "SELECT pv.*, c.name as color_name, s.name as size_name " +
+                            "FROM product_variants pv " +
+                            "LEFT JOIN colors c ON pv.color_id = c.color_id " +
+                            "LEFT JOIN sizes s ON pv.size_id = s.size_id " +
+                            "WHERE pv.variant_id = ? ORDER BY pv.variant_id";
+        
+        try (
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, variantId);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    ProductVariant variant = mapResultSetToProductVariant(rs);  
+                    loadColorAndSize(variant, conn);
+                    return variant;
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getting variant by ID: " + e.getMessage());
+        }
+        return null;
+    }
+    public boolean updateStock(int variantId, int quantity, Connection conn) throws SQLException {
+        String sql = "UPDATE product_variants SET stock_quantity = stock_quantity + ?, updated_at = NOW() WHERE variant_id = ?";
+        
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, quantity);
+            stmt.setInt(2, variantId);
+            
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            System.err.println("Error updating stock for variant ID " + variantId + ": " + e.getMessage());
+            throw e;
+        }
+    }
 }
 

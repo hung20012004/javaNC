@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.storeapp.view.page.admin.Order;
 
 import com.mycompany.storeapp.config.DatabaseConnection;
@@ -15,12 +11,8 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Kanban Board view cho quản lý đơn hàng với chức năng drag & drop
- * @author Hi
- */
 public class OrderKanbanView extends JPanel {
-   private final OrderController orderController;
+    private final OrderController orderController;
     private KanbanHeader header;
     private KanbanContent content;
     
@@ -38,10 +30,8 @@ public class OrderKanbanView extends JPanel {
     }
     
     private void initComponents() {
-        // Initialize components
         header = new KanbanHeader();
         content = new KanbanContent(orderController);
-
         content.setRefreshCallback(this::refreshData);
     }
     
@@ -49,13 +39,11 @@ public class OrderKanbanView extends JPanel {
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
         
-        // Add components to main panel
         add(header, BorderLayout.NORTH);
         add(content, BorderLayout.CENTER);
     }
     
     private void setupEventHandlers() {
-        // Refresh button handler
         header.addRefreshListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -69,7 +57,6 @@ public class OrderKanbanView extends JPanel {
             @Override
             protected Void doInBackground() throws Exception {
                 try {
-                    // Load orders data
                     ordersData = orderController.getOrdersGroupedByStatus();
                     orderCounts = orderController.getOrderCountByStatus();
                     
@@ -85,9 +72,8 @@ public class OrderKanbanView extends JPanel {
             @Override
             protected void done() {
                 try {
-                    get(); // Check for exceptions
+                    get();
                     
-                    // Update UI components
                     content.loadData(ordersData, orderCounts);
                     
                 } catch (Exception e) {
@@ -107,7 +93,6 @@ public class OrderKanbanView extends JPanel {
                 String status = entry.getKey();
                 List<Order> orders = entry.getValue();
                 
-                // Only count delivered orders for revenue
                 if ("delivered".equals(status)) {
                     for (Order order : orders) {
                         totalRevenue += order.getTotalAmount();
@@ -120,7 +105,6 @@ public class OrderKanbanView extends JPanel {
     }
     
     private void refreshData() {
-        // Show loading indicator
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         header.getRefreshButton().setText("Đang tải...");
         header.getRefreshButton().setEnabled(false);
@@ -128,10 +112,8 @@ public class OrderKanbanView extends JPanel {
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
-                // Simulate loading delay
                 Thread.sleep(500);
                 
-                // Reload data
                 ordersData = orderController.getOrdersGroupedByStatus();
                 orderCounts = orderController.getOrderCountByStatus();
                 
@@ -141,15 +123,13 @@ public class OrderKanbanView extends JPanel {
             @Override
             protected void done() {
                 try {
-                    get(); // Check for exceptions
+                    get();
                     
-                    // Update UI
                     content.loadData(ordersData, orderCounts);
                     
                 } catch (Exception e) {
                     showErrorDialog("Lỗi khi làm mới dữ liệu: " + e.getMessage());
                 } finally {
-                    // Reset UI state
                     setCursor(Cursor.getDefaultCursor());
                     header.getRefreshButton().setText("Làm mới");
                     header.getRefreshButton().setEnabled(true);
@@ -168,7 +148,6 @@ public class OrderKanbanView extends JPanel {
         JOptionPane.showMessageDialog(this, message, "Lỗi", JOptionPane.ERROR_MESSAGE);
     }
     
-    // Public methods for external access
     public void refreshView() {
         refreshData();
     }
@@ -193,17 +172,9 @@ public class OrderKanbanView extends JPanel {
         return orderCounts;
     }
     
-    /**
-     * Method to add custom event handlers
-     */
     public void addCustomEventHandlers() {
-        // Override this method in subclasses to add custom event handlers
     }
     
-    /**
-     * Method to customize appearance
-     */
     public void customizeAppearance() {
-        // Override this method in subclasses to customize appearance
     }
 }

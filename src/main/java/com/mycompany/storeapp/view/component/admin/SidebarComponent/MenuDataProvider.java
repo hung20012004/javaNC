@@ -74,7 +74,8 @@ public class MenuDataProvider {
             
             // Cài đặt hệ thống
             new MenuGroupData("Cài đặt hệ thống",
-                new MenuItemData("👤", "Quản lý nhân viên", "staffs")
+                new MenuItemData("👤", "Quản lý nhân viên", "staffs"),
+                new MenuItemData("🖊️", "Quản lý chức vụ", "roles")
             )
         );
     }

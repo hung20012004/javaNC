@@ -37,9 +37,12 @@ public class OrderDAO {
             
             while (rs.next()) {
                 Order order = mapResultSetToOrder(rs);
-                loadShippingAddress(order);
-                order.setDetails(getOrderDetailsByOrderId(order.getOrderId()));
                 orders.add(order);
+            }
+            
+            for (Order order : orders) {
+                loadShippingAddress(order, conn); 
+                order.setDetails(getOrderDetailsByOrderId(order.getOrderId(), conn));
             }
             
         } catch (SQLException e) {
@@ -64,8 +67,8 @@ public class OrderDAO {
                 orders.add(order);
             }
             for (Order order : orders) {
-                loadShippingAddress(order); // Bây giờ an toàn hơn
-                order.setDetails(getOrderDetailsByOrderId(order.getOrderId()));
+                loadShippingAddress(order, conn); 
+                order.setDetails(getOrderDetailsByOrderId(order.getOrderId(), conn));
             }
             
         } catch (SQLException e) {
@@ -106,8 +109,8 @@ public class OrderDAO {
             
             if (rs.next()) {
                 Order order = mapResultSetToOrder(rs);
-                loadShippingAddress(order);
-                order.setDetails(getOrderDetailsByOrderId(orderId));
+                loadShippingAddress(order, conn);
+                order.setDetails(getOrderDetailsByOrderId(orderId, conn));
                 return order;
             }
             
@@ -118,11 +121,11 @@ public class OrderDAO {
         return null;
     }
     
-    public List<OrderDetail> getOrderDetailsByOrderId(int orderId) {
+    public List<OrderDetail> getOrderDetailsByOrderId(int orderId,Connection conn) {
         List<OrderDetail> details = new ArrayList<>();
         String sql = "SELECT * FROM order_details WHERE order_id = ?";
         
-        try (Connection conn = connection.getConnection();
+        try (
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setInt(1, orderId);
@@ -135,9 +138,10 @@ public class OrderDAO {
                 detail.setQuantity(rs.getInt("quantity"));
                 detail.setUnitPrice(rs.getDouble("unit_price"));
                 detail.setSubtotal(rs.getDouble("subtotal"));
-                detail.setVariant(variantDAO.getVariantById(rs.getInt("variant_id")));
-                
                 details.add(detail);
+            }
+            for (OrderDetail detail : details) {
+                detail.setVariant(variantDAO.getVariantByIdwithConn(detail.getVariantId(), conn));  
             }
             
         } catch (SQLException e) {
@@ -147,9 +151,9 @@ public class OrderDAO {
         return details;
     }
     
-    private void loadShippingAddress(Order order) {
+    private void loadShippingAddress(Order order, Connection conn) {
         if (order.getShippingAddressId() > 0) {
-            ShippingAddress shippingAddress = shippingAddressDAO.getShippingAddressById(order.getShippingAddressId());
+            ShippingAddress shippingAddress = shippingAddressDAO.getShippingAddressByIdwithConn(order.getShippingAddressId(), conn);
             order.setShippingAddress(shippingAddress);
         }
     }
@@ -218,8 +222,8 @@ public class OrderDAO {
 
             while (rs.next()) {
                 Order order = mapResultSetToOrder(rs);
-                loadShippingAddress(order);
-                order.setDetails(getOrderDetailsByOrderId(order.getOrderId()));
+                loadShippingAddress(order, conn);
+                order.setDetails(getOrderDetailsByOrderId(order.getOrderId(), conn));
                 orders.add(order);
             }
         } catch (SQLException e) {
@@ -286,7 +290,7 @@ public class OrderDAO {
     String orderSql = "INSERT INTO orders (user_id, shipping_address_id, promotion_id, order_date, subtotal, shipping_fee, discount_amount, total_amount, payment_method, payment_status, order_status, note, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     String detailSql = "INSERT INTO order_details (order_id, variant_id, quantity, unit_price, subtotal) VALUES (?, ?, ?, ?, ?)";
     
-    try  {
+    try  {Connection conn = connection.getConnection(); 
         conn.setAutoCommit(false); // Bắt đầu giao dịch
         try (PreparedStatement orderStmt = conn.prepareStatement(orderSql, Statement.RETURN_GENERATED_KEYS)) {
             // Lưu order
@@ -352,4 +356,43 @@ public class OrderDAO {
         return false;
     }
 }
+    public boolean restoreProductQuantities(int orderId) {
+        try (Connection conn = connection.getConnection()) {
+            conn.setAutoCommit(false); // Start transaction
+            try {
+                Order order = getOrderById(orderId);
+                if (order == null) {
+                    System.err.println("Order not found for ID: " + orderId);
+                    return false;
+                }
+
+                List<OrderDetail> details = order.getDetails();
+                if (details == null || details.isEmpty()) {
+                    System.err.println("No order details found for order ID: " + orderId);
+                    return false;
+                }
+
+                for (OrderDetail detail : details) {
+                    int variantId = detail.getVariantId();
+                    int quantity = detail.getQuantity();
+                    
+                    boolean updated = variantDAO.updateStock(variantId, quantity, conn);
+                    if (!updated) {
+                        conn.rollback();
+                        System.err.println("Failed to update stock for variant ID: " + variantId);
+                        return false;
+                    }
+                }
+                conn.commit();
+                return true;
+            } catch (SQLException e) {
+                conn.rollback();
+                System.err.println("Error restoring product quantities: " + e.getMessage());
+                return false;
+            }
+        } catch (SQLException e) {
+            System.err.println("Database connection error: " + e.getMessage());
+            return false;
+        }
+    }
 }

@@ -6,6 +6,7 @@ import com.mycompany.storeapp.view.component.admin.Sidebar;
 import com.mycompany.storeapp.view.page.admin.Banner.BannerGUI;
 import com.mycompany.storeapp.view.page.admin.Category.CategoryGUI;
 import com.mycompany.storeapp.view.page.admin.Color.ColorGUI;
+import com.mycompany.storeapp.view.page.admin.Customer.CustomerGUI;
 import com.mycompany.storeapp.view.page.admin.Material.MaterialGUI;
 import com.mycompany.storeapp.view.page.admin.Size.SizeGUI;
 import com.mycompany.storeapp.view.page.admin.Supplier.SupplierGUI;
@@ -13,6 +14,7 @@ import com.mycompany.storeapp.view.page.admin.Order.OrderKanbanView;
 import com.mycompany.storeapp.view.page.admin.Product.ProductGUI;
 import com.mycompany.storeapp.view.page.admin.PurchaseOrder.POKanBanView;
 import com.mycompany.storeapp.view.page.admin.Report.ReportPanel;
+import com.mycompany.storeapp.view.page.admin.Role.RoleGUI;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -223,12 +225,13 @@ public class AdminLayer extends JFrame {
             case "purchase-orders":
                 return new POKanBanView();
             case "customers":
-                return createContentPanel("Quản lý khách hàng", "Thông tin và lịch sử khách hàng", "👥");
+                return new CustomerGUI();
             case "banners":
                 return new BannerGUI();
-                
             case "staffs":
                 return createContentPanel("Quản lý nhân viên", "Quản lý thông tin nhân viên", "👤");
+            case "roles":
+                return new RoleGUI();
             default:
                 return new ReportPanel();
         }

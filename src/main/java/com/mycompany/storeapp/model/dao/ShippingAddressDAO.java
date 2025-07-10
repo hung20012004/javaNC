@@ -279,4 +279,24 @@ public class ShippingAddressDAO {
 
         return address;
     }
+    
+    public ShippingAddress getShippingAddressByIdwithConn(int addressId, Connection conn) {
+        String sql = "SELECT * FROM shipping_addresses WHERE address_id = ?";
+
+        try (
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, addressId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return mapResultSetToShippingAddress(rs);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error getting shipping address by ID: " + e.getMessage());
+        }
+
+        return null;
+    }
 }

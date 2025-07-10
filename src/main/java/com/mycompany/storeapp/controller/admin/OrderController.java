@@ -15,6 +15,7 @@ import com.mycompany.storeapp.config.DatabaseConnection;
 import com.mycompany.storeapp.model.entity.UserProfile;
 import com.mycompany.storeapp.model.dao.ProductVariantDAO;
 import com.mycompany.storeapp.model.entity.Product;
+import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -335,6 +336,10 @@ public class OrderController {
         }
 
         return monthlySales;
+    }
+    
+    public boolean restoreProductQuantity(int orderId) {
+       return orderDAO.restoreProductQuantities(orderId);
     }
 
     public int getTotalQuantitySold(int year, int month) {
