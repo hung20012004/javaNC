@@ -1,6 +1,6 @@
 package com.mycompany.storeapp.view.component.shop;
 
-import com.mycompany.storeapp.controller.admin.CartController;
+import com.mycompany.storeapp.controller.shop.CartController;
 import com.mycompany.storeapp.controller.admin.ProductVariantController;
 import com.mycompany.storeapp.model.entity.CartItem;
 import com.mycompany.storeapp.model.entity.ProductVariant;

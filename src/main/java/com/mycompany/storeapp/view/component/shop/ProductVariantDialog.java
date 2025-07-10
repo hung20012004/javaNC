@@ -4,7 +4,7 @@ import com.mycompany.storeapp.controller.admin.ColorController;
 import com.mycompany.storeapp.controller.admin.SizeController;
 import com.mycompany.storeapp.controller.admin.ProductVariantController;
 import com.mycompany.storeapp.model.entity.Product;
-import com.mycompany.storeapp.model.entity.ProductColor;
+import com.mycompany.storeapp.model.entity.Color;
 import com.mycompany.storeapp.model.entity.Size;
 import com.mycompany.storeapp.model.entity.ProductVariant;
 import javax.swing.*;
@@ -152,9 +152,9 @@ public class ProductVariantDialog extends JDialog {
 
     private void populateColors() {
         colorComboBox.addItem("Chọn màu sắc");
-        List<ProductColor> colors = colorController.getAllColors();
+        List<Color> colors = colorController.getAllColors();
         if (colors != null) {
-            for (ProductColor color : colors) {
+            for (Color color : colors) {
                 if (!isColorInComboBox(color.getName())) {
                     colorComboBox.addItem(color.getName());
                 }
@@ -209,7 +209,7 @@ public class ProductVariantDialog extends JDialog {
             return;
         }
 
-        ProductColor selectedColor = colorController.getAllColors()
+        Color selectedColor = colorController.getAllColors()
             .stream()
             .filter(c -> c.getName().equals(selectedColorName))
             .findFirst()

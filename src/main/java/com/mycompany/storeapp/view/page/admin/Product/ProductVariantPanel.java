@@ -7,16 +7,21 @@ import com.mycompany.storeapp.model.entity.ProductVariant;
 import com.mycompany.storeapp.model.entity.Color;
 import com.mycompany.storeapp.model.entity.Size;
 import com.mycompany.storeapp.view.component.CustomTable;
+import com.mycompany.storeapp.service.CloudinaryService;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import javax.imageio.ImageIO;
 
 public class ProductVariantPanel extends JPanel {
     
@@ -36,6 +41,10 @@ public class ProductVariantPanel extends JPanel {
     private JTextField imageUrlField;
     private JTextField stockQuantityField;
     private JTextField priceField;
+    private JButton selectImageButton;
+    private JLabel imagePreviewLabel;
+    private JProgressBar uploadProgressBar;
+    private File selectedImageFile;
     
     // Data
     private List<ProductVariant> variants;
@@ -86,9 +95,31 @@ public class ProductVariantPanel extends JPanel {
         stockQuantityField = new JTextField();
         priceField = new JTextField();
         
+        // Initialize image components
+        selectImageButton = new JButton("Chọn ảnh");
+        imagePreviewLabel = new JLabel();
+        uploadProgressBar = new JProgressBar(0, 100);
+        
+        // Style image button
+        selectImageButton.setBackground(new java.awt.Color(156, 39, 176));
+        selectImageButton.setForeground(java.awt.Color.WHITE);
+        selectImageButton.setFocusPainted(false);
+        
+        // Style progress bar
+        uploadProgressBar.setStringPainted(true);
+        uploadProgressBar.setVisible(false);
+        
+        // Style preview label
+        imagePreviewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        imagePreviewLabel.setVerticalAlignment(SwingConstants.CENTER);
+        imagePreviewLabel.setBorder(BorderFactory.createLineBorder(java.awt.Color.GRAY));
+        imagePreviewLabel.setPreferredSize(new Dimension(120, 120));
+        imagePreviewLabel.setText("Chưa có ảnh");
+        
         // Set default values
         stockQuantityField.setText("0");
         priceField.setText("0.0");
+        imageUrlField.setEditable(false); // Make URL field read-only
     }
     
     private void loadData() {
@@ -137,6 +168,7 @@ public class ProductVariantPanel extends JPanel {
         
         // Set up table action listeners
         variantTable.setEditActionListener(e -> {
+            if (!editable) return; // Chỉ cho phép sửa khi editable = true
             int row = variantTable.getSelectedRowIndex();
             if (row >= 0 && row < variants.size()) {
                 ProductVariant variant = variants.get(row);
@@ -145,11 +177,15 @@ public class ProductVariantPanel extends JPanel {
         });
         
         variantTable.setDeleteActionListener(e -> {
+            if (!editable) return; // Chỉ cho phép xóa khi editable = true
             int row = variantTable.getSelectedRowIndex();
             if (row >= 0 && row < variants.size()) {
                 deleteVariant(row);
             }
         });
+        
+        // Image selection listener
+        selectImageButton.addActionListener(e -> selectImage());
     }
 
     private void duplicateSelectedVariant() {
@@ -200,9 +236,117 @@ public class ProductVariantPanel extends JPanel {
         }
     }
     
+    private void selectImage() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Chọn ảnh sản phẩm");
+        
+        // Set file filter for images
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+            "Ảnh (*.jpg, *.jpeg, *.png, *.gif, *.bmp, *.webp)", 
+            "jpg", "jpeg", "png", "gif", "bmp", "webp");
+        fileChooser.setFileFilter(filter);
+        
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            selectedImageFile = fileChooser.getSelectedFile();
+            
+            // Validate file size (max 10MB)
+            if (selectedImageFile.length() > 10 * 1024 * 1024) {
+                JOptionPane.showMessageDialog(this, 
+                    "Kích thước ảnh không được vượt quá 10MB!", 
+                    "Lỗi", JOptionPane.ERROR_MESSAGE);
+                selectedImageFile = null;
+                return;
+            }
+            
+            // Load and display preview
+            loadImagePreview(selectedImageFile);
+        }
+    }
+    
+    private void loadImagePreview(File imageFile) {
+        try {
+            BufferedImage originalImage = ImageIO.read(imageFile);
+            if (originalImage != null) {
+                // Resize image for preview
+                int previewWidth = 120;
+                int previewHeight = 120;
+                
+                // Calculate aspect ratio
+                double aspectRatio = (double) originalImage.getWidth() / originalImage.getHeight();
+                if (aspectRatio > 1) {
+                    previewHeight = (int) (previewWidth / aspectRatio);
+                } else {
+                    previewWidth = (int) (previewHeight * aspectRatio);
+                }
+                
+                Image scaledImage = originalImage.getScaledInstance(previewWidth, previewHeight, Image.SCALE_SMOOTH);
+                ImageIcon imageIcon = new ImageIcon(scaledImage);
+                imagePreviewLabel.setIcon(imageIcon);
+                imagePreviewLabel.setText("");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Không thể tải ảnh xem trước: " + e.getMessage(),
+                "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void uploadImageToCloudinary(Runnable onSuccess, Runnable onError) {
+        if (selectedImageFile == null) {
+            onError.run();
+            return;
+        }
+        
+        // Show progress bar
+        uploadProgressBar.setVisible(true);
+        uploadProgressBar.setValue(0);
+        selectImageButton.setEnabled(false);
+        
+        // Upload in background thread
+        SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
+            @Override
+            protected String doInBackground() throws Exception {
+                return CloudinaryService.uploadImage(selectedImageFile, new CloudinaryService.ProgressCallback() {
+                    @Override
+                    public void onProgress(int percentage) {
+                        SwingUtilities.invokeLater(() -> {
+                            uploadProgressBar.setValue(percentage);
+                            uploadProgressBar.setString(percentage + "%");
+                        });
+                    }
+                });
+            }
+            
+            @Override
+            protected void done() {
+                try {
+                    String imageUrl = get();
+                    if (imageUrl != null) {
+                        imageUrlField.setText(imageUrl);
+                        onSuccess.run();
+                    } else {
+                        onError.run();
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(ProductVariantPanel.this,
+                        "Lỗi khi upload ảnh: " + e.getMessage(),
+                        "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    onError.run();
+                } finally {
+                    // Reset UI
+                    uploadProgressBar.setVisible(false);
+                    selectImageButton.setEnabled(true);
+                }
+            }
+        };
+        
+        worker.execute();
+    }
+    
     private boolean showVariantDialog(ProductVariant variant, String title) {
         JDialog dialog = new JDialog((JDialog) SwingUtilities.getWindowAncestor(this), title, true);
-        dialog.setSize(400, 300);
+        dialog.setSize(500, 400);
         dialog.setLocationRelativeTo(this);
         
         JPanel panel = new JPanel(new GridBagLayout());
@@ -223,20 +367,40 @@ public class ProductVariantPanel extends JPanel {
         gbc.gridx = 1; gbc.weightx = 1.0;
         panel.add(sizeComboBox, gbc);
         
-        // Image URL
+        // Image selection panel
         gbc.gridx = 0; gbc.gridy = 2; gbc.weightx = 0;
-        panel.add(new JLabel("URL hình ảnh:"), gbc);
+        panel.add(new JLabel("Hình ảnh:"), gbc);
+        
+        JPanel imagePanel = new JPanel(new BorderLayout(5, 5));
+        
+        // Image preview and button panel
+        JPanel imageControlPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        imageControlPanel.add(imagePreviewLabel);
+        
+        JPanel imageButtonPanel = new JPanel(new GridLayout(2, 1, 5, 5));
+        imageButtonPanel.add(selectImageButton);
+        imageButtonPanel.add(uploadProgressBar);
+        
+        imageControlPanel.add(imageButtonPanel);
+        imagePanel.add(imageControlPanel, BorderLayout.NORTH);
+        
+        gbc.gridx = 1; gbc.weightx = 1.0; gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel.add(imagePanel, gbc);
+        
+        // Image URL (read-only)
+        gbc.gridx = 0; gbc.gridy = 3; gbc.weightx = 0;
+        panel.add(new JLabel("URL ảnh:"), gbc);
         gbc.gridx = 1; gbc.weightx = 1.0;
         panel.add(imageUrlField, gbc);
         
         // Stock Quantity
-        gbc.gridx = 0; gbc.gridy = 3; gbc.weightx = 0;
+        gbc.gridx = 0; gbc.gridy = 4; gbc.weightx = 0;
         panel.add(new JLabel("Tồn kho:"), gbc);
         gbc.gridx = 1; gbc.weightx = 1.0;
         panel.add(stockQuantityField, gbc);
         
         // Price
-        gbc.gridx = 0; gbc.gridy = 4; gbc.weightx = 0;
+        gbc.gridx = 0; gbc.gridy = 5; gbc.weightx = 0;
         panel.add(new JLabel("Giá:"), gbc);
         gbc.gridx = 1; gbc.weightx = 1.0;
         panel.add(priceField, gbc);
@@ -250,18 +414,24 @@ public class ProductVariantPanel extends JPanel {
         saveButton.setForeground(java.awt.Color.WHITE);
         saveButton.setFocusPainted(false);
         
-        cancelButton.setBackground(new  java.awt.Color(244, 67, 54));
-        cancelButton.setForeground( java.awt.Color.WHITE);
+        cancelButton.setBackground(new java.awt.Color(244, 67, 54));
+        cancelButton.setForeground(java.awt.Color.WHITE);
         cancelButton.setFocusPainted(false);
         
         buttonPanel.add(saveButton);
         buttonPanel.add(cancelButton);
         
-        gbc.gridx = 0; gbc.gridy = 5; gbc.gridwidth = 2;
+        gbc.gridx = 0; gbc.gridy = 6; gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(buttonPanel, gbc);
         
         dialog.add(panel);
+        
+        // Reset form state
+        selectedImageFile = null;
+        uploadProgressBar.setVisible(false);
+        imagePreviewLabel.setIcon(null);
+        imagePreviewLabel.setText("Chưa có ảnh");
         
         // Populate form with variant data
         populateVariantForm(variant);
@@ -270,9 +440,28 @@ public class ProductVariantPanel extends JPanel {
         
         saveButton.addActionListener(e -> {
             if (validateVariantForm()) {
-                updateVariantFromForm(variant);
-                result[0] = true;
-                dialog.dispose();
+                // Nếu có ảnh được chọn, upload trước khi lưu
+                if (selectedImageFile != null) {
+                    uploadImageToCloudinary(
+                        () -> {
+                            // Success callback
+                            updateVariantFromForm(variant);
+                            result[0] = true;
+                            dialog.dispose();
+                        },
+                        () -> {
+                            // Error callback
+                            JOptionPane.showMessageDialog(dialog,
+                                "Lỗi khi upload ảnh. Vui lòng thử lại!",
+                                "Lỗi", JOptionPane.ERROR_MESSAGE);
+                        }
+                    );
+                } else {
+                    // Không có ảnh mới, lưu trực tiếp
+                    updateVariantFromForm(variant);
+                    result[0] = true;
+                    dialog.dispose();
+                }
             }
         });
         
@@ -310,6 +499,12 @@ public class ProductVariantPanel extends JPanel {
         imageUrlField.setText(variant.getImageUrl() != null ? variant.getImageUrl() : "");
         stockQuantityField.setText(String.valueOf(variant.getStockQuantity()));
         priceField.setText(variant.getPrice() != null ? variant.getPrice().toString() : "0.0");
+        
+        // Load existing image preview if available
+        if (variant.getImageUrl() != null && !variant.getImageUrl().trim().isEmpty()) {
+            // You can implement loading image from URL for preview if needed
+            imagePreviewLabel.setText("Đã có ảnh");
+        }
     }
     
     private boolean validateVariantForm() {
@@ -393,7 +588,7 @@ public class ProductVariantPanel extends JPanel {
         this.editable = editable;
         addButton.setEnabled(editable);
         duplicateButton.setEnabled(editable);
-        // Update table editability
+        // Update table editability - buttons in table will be controlled by event listeners
         variantTable.setEnabled(editable);
     }
     

@@ -414,7 +414,7 @@ public class ProductGUI extends JPanel {
         
         if (confirm == JOptionPane.YES_OPTION) {
             if (productController.deleteProduct(product.getProductId())) {
-                loadData(); // Reload data after successful deletion
+                loadData();
             }
         }
     }

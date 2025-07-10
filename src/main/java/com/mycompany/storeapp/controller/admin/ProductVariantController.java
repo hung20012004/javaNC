@@ -82,7 +82,7 @@ public class ProductVariantController {
     /**
      * Lấy ProductVariant theo Product ID, Color ID và Size ID
      */
-    public ProductVariant getVariantByProductColorSize(long productId, int colorId, int sizeId) {
+    public ProductVariant getVariantByProductColorSize(long productId, long colorId, int sizeId) {
         try {
             if (productId <= 0 || colorId <= 0 || sizeId <= 0) {
                 showErrorMessage("Thông tin sản phẩm, màu sắc hoặc kích cỡ không hợp lệ!");

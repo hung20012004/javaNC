@@ -1,3 +1,4 @@
+com\mycompany\storeapp\view\component\shop\CartComponent$2.class
 com\mycompany\storeapp\model\entity\Supplier.class
 com\mycompany\storeapp\model\entity\CartItem.class
 com\mycompany\storeapp\model\entity\InventoryCheck.class
@@ -41,6 +42,7 @@ com\mycompany\storeapp\view\component\admin\SidebarComponent\MenuDataProvider.cl
 com\mycompany\storeapp\model\dao\ProductImageDAO.class
 com\mycompany\storeapp\view\component\CustomTable.class
 com\mycompany\storeapp\view\component\admin\ContentComponent\ContentHeader$1.class
+com\mycompany\storeapp\view\component\shop\CartComponent$DeleteButtonEditor$1.class
 com\mycompany\storeapp\model\dao\MaterialDAO.class
 com\mycompany\storeapp\view\layer\AdminLayer$2.class
 com\mycompany\storeapp\view\page\admin\Product\ProductFormDialog$DialogMode.class
@@ -68,6 +70,7 @@ com\mycompany\storeapp\model\dao\PurchaseOrderDAO.class
 com\mycompany\storeapp\view\page\admin\Order\KanbanContent$1.class
 com\mycompany\storeapp\model\dao\RoleDAO.class
 com\mycompany\storeapp\model\dao\PromotionDAO.class
+com\mycompany\storeapp\view\page\admin\Product\ProductVariantPanel$1$1.class
 com\mycompany\storeapp\view\component\CustomTable$VariantCellRenderer$4.class
 com\mycompany\storeapp\view\page\admin\Material\MaterialGUI$1.class
 com\mycompany\storeapp\view\component\admin\SidebarComponent\MenuItem$2.class
@@ -161,6 +164,7 @@ com\mycompany\storeapp\view\page\admin\Order\OrderKanbanView$1.class
 com\mycompany\storeapp\view\component\admin\ContentComponent\ContentFooter.class
 com\mycompany\storeapp\view\component\admin\Sidebar.class
 com\mycompany\storeapp\model\entity\Color.class
+com\mycompany\storeapp\view\page\admin\Product\ProductVariantPanel$1.class
 com\mycompany\storeapp\model\entity\ProductImage.class
 com\mycompany\storeapp\controller\admin\CategoryController.class
 com\mycompany\storeapp\model\dao\ShippingAddressDAO.class
@@ -181,6 +185,7 @@ com\mycompany\storeapp\view\layer\AdminLayer$5.class
 com\mycompany\storeapp\view\page\admin\Banner\BannerFormDialog$1.class
 com\mycompany\storeapp\view\component\admin\SidebarComponent\MenuGroup.class
 com\mycompany\storeapp\model\entity\OrderDetail.class
+com\mycompany\storeapp\view\component\shop\CartComponent$1.class
 com\mycompany\storeapp\model\dao\ProductDAO.class
 com\mycompany\storeapp\view\page\admin\Product\ProductImagePanel.class
 com\mycompany\storeapp\view\component\admin\ContentComponent\ContentFooter$1.class

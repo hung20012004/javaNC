@@ -164,9 +164,9 @@ public class ProductFormPanel extends JPanel {
         gbc.gridx = 1; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weightx = 1.0;
         panel.add(nameField, gbc);
         
-        gbc.gridx = 3; gbc.weightx = 0;
+        gbc.gridx = 2; gbc.weightx = 0;
         panel.add(new JLabel("Thương hiệu:"), gbc);
-        gbc.gridx = 4; gbc.weightx = 1.0;
+        gbc.gridx = 3; gbc.weightx = 1.0;
         panel.add(brandField, gbc);
         
         // Row 2: SKU and Slug
@@ -175,13 +175,13 @@ public class ProductFormPanel extends JPanel {
         gbc.gridx = 1; gbc.weightx = 1.0;
         panel.add(skuField, gbc);
         
-        gbc.gridx = 2; gbc.gridy = 1; gbc.weightx = 0;
-        panel.add(createGenerateSKUButton(), gbc);
-        
-        gbc.gridx = 3; gbc.weightx = 0;
+        gbc.gridx = 2; gbc.weightx = 0;
         panel.add(new JLabel("Slug:"), gbc);
-        gbc.gridx = 4; gbc.weightx = 1.0;
+        gbc.gridx = 3; gbc.weightx = 1.0;
         panel.add(slugField, gbc);
+        
+        gbc.gridx = 4; gbc.gridy = 1; gbc.weightx = 0;
+        panel.add(createGenerateSKUButton(), gbc);
         
         // Row 3: Category and Material
         gbc.gridx = 0; gbc.gridy = 2; gbc.weightx = 0;
@@ -189,9 +189,9 @@ public class ProductFormPanel extends JPanel {
         gbc.gridx = 1; gbc.weightx = 1.0;
         panel.add(categoryComboBox, gbc);
         
-        gbc.gridx = 3; gbc.weightx = 0;
+        gbc.gridx = 2; gbc.weightx = 0;
         panel.add(new JLabel("Chất liệu:"), gbc);
-        gbc.gridx = 4; gbc.weightx = 1.0;
+        gbc.gridx = 3; gbc.weightx = 1.0;
         panel.add(materialComboBox, gbc);
         
         // Row 4: Gender and Active
@@ -200,9 +200,9 @@ public class ProductFormPanel extends JPanel {
         gbc.gridx = 1; gbc.weightx = 1.0;
         panel.add(genderComboBox, gbc);
         
-        gbc.gridx = 3; gbc.weightx = 0;
+        gbc.gridx = 2; gbc.weightx = 0;
         panel.add(new JLabel("Trạng thái:"), gbc);
-        gbc.gridx = 4; gbc.weightx = 1.0;
+        gbc.gridx = 3; gbc.weightx = 1.0;
         panel.add(activeCheckBox, gbc);
         
         return panel;

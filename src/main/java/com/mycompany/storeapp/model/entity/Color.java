@@ -12,7 +12,7 @@ import java.util.Date;
  */
 public class Color {
 
-    private int colorId;
+    private long colorId;
     private String name;
     private String description;
     private Date created_at;
@@ -20,14 +20,14 @@ public class Color {
 
     public Color() {}
 
-    public Color(int colorId, String name, String description) {
+    public Color(long colorId, String name, String description) {
         this.colorId = colorId;
         this.name = name;
         this.description = description;
     }
 
-    public int getColorId() { return colorId; }
-    public void setColorId(int colorId) { this.colorId = colorId; }
+    public long getColorId() { return colorId; }
+    public void setColorId(long colorId) { this.colorId = colorId; }
     
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

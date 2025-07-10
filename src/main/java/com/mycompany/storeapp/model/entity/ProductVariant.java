@@ -9,8 +9,6 @@ import java.math.BigDecimal;
 public class ProductVariant {
     private int variantId;
     private long productId;
-    private int colorId;
-    private long productId;
     private long colorId;
     private int sizeId;
     private String imageUrl;
@@ -32,11 +30,9 @@ public class ProductVariant {
     }
 
     public long getProductId() {
-    public long getProductId() {
         return productId;
     }
 
-    public void setProductId(long productId) {
     public void setProductId(long productId) {
         this.productId = productId;
     }
@@ -86,22 +82,22 @@ public class ProductVariant {
         return productDAO.getProductById(productId);
     }
 
-    public ProductColor getColor() {
-        ColorController colorController = new ColorController();
-        return colorController.getColorById(colorId);
+    public Color getColor() {
+        return color;
     }
 
     public Size getSize() {
-        return size;
+         return size;
     }
 
     public void setSize(Size size) {
         this.size = size;
     }
-        SizeController sizeController = new SizeController();
-        return sizeController.getSizeById(sizeId);
-    }
 
+    public void setColor(Color color) {
+        this.color = color;
+    }
+    
     public String getName() {
         Product product = getProduct();
         return (product != null) ? product.getName() : "Không xác định";

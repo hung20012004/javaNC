@@ -115,13 +115,13 @@ public class ProductVariantDAO {
     /**
      * Lấy ProductVariant theo màu sắc và kích cỡ
      */
-    public ProductVariant getVariantByProductColorSize(long productId, int colorId, int sizeId) {
+    public ProductVariant getVariantByProductColorSize(long productId, long colorId, int sizeId) {
         String sql = "SELECT * FROM product_variants WHERE product_id = ? AND color_id = ? AND size_id = ?";
         
         try (Connection conn = connection.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setLong(1, productId);
-            stmt.setInt(2, colorId);
+            stmt.setLong(2, colorId);
             stmt.setInt(3, sizeId);
             
             try (ResultSet rs = stmt.executeQuery()) {
@@ -190,7 +190,7 @@ public class ProductVariantDAO {
         try (Connection conn = connection.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setLong(1, variant.getProductId());
-            stmt.setInt(2, variant.getColorId());
+            stmt.setLong(2, variant.getColorId());
             stmt.setInt(3, variant.getSizeId());
             stmt.setString(4, variant.getImageUrl());
             stmt.setInt(5, variant.getStockQuantity());
@@ -212,7 +212,7 @@ public class ProductVariantDAO {
         try (Connection conn = connection.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setLong(1, variant.getProductId());
-            stmt.setInt(2, variant.getColorId());
+            stmt.setLong(2, variant.getColorId());
             stmt.setInt(3, variant.getSizeId());
             stmt.setString(4, variant.getImageUrl());
             stmt.setInt(5, variant.getStockQuantity());
@@ -285,7 +285,7 @@ public class ProductVariantDAO {
         ProductVariant variant = new ProductVariant();
         variant.setVariantId(rs.getInt("variant_id"));
         variant.setProductId(rs.getLong("product_id"));
-        variant.setColorId(rs.getInt("color_id"));
+        variant.setColorId(rs.getLong("color_id"));
         variant.setSizeId(rs.getInt("size_id"));
         variant.setImageUrl(rs.getString("image_url"));
         variant.setStockQuantity(rs.getInt("stock_quantity"));
