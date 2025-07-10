@@ -2,6 +2,7 @@ com\mycompany\storeapp\model\entity\Supplier.class
 com\mycompany\storeapp\model\entity\CartItem.class
 com\mycompany\storeapp\model\entity\InventoryCheck.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryGUI.class
+com\mycompany\storeapp\view\page\admin\Product\ProductFormPanel.class
 com\mycompany\storeapp\model\entity\ShippingAddress.class
 com\mycompany\storeapp\view\component\admin\SidebarComponent\CustomScrollBarUI.class
 com\mycompany\storeapp\view\layer\AdminLayer$1.class
@@ -12,6 +13,7 @@ com\mycompany\storeapp\model\dao\OrderDAO.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryFormDialog$4.class
 com\mycompany\storeapp\view\component\CustomTable$ActionCellEditor.class
 com\mycompany\storeapp\view\page\admin\Banner\BannerFormDialog$3.class
+com\mycompany\storeapp\view\page\admin\Product\ProductImagePanel$1.class
 com\mycompany\storeapp\model\entity\Cart.class
 com\mycompany\storeapp\view\page\admin\Order\OrderEditDialog$2.class
 com\mycompany\storeapp\model\entity\PurchaseOrder.class
@@ -26,7 +28,7 @@ com\mycompany\storeapp\view\page\admin\Order\OrderKanbanView$2.class
 com\mycompany\storeapp\view\page\admin\Size\SizeGUI.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryFormDialog.class
 com\mycompany\storeapp\view\page\admin\Order\KanbanContent$4.class
-com\mycompany\storeapp\view\page\admin\Product\ProductFormDialog$1.class
+com\mycompany\storeapp\view\page\admin\Product\ProductImagePanel$2.class
 com\mycompany\storeapp\controller\admin\MaterialController.class
 com\mycompany\storeapp\model\dao\BannerDAO.class
 com\mycompany\storeapp\StoreApp.class
@@ -41,6 +43,7 @@ com\mycompany\storeapp\view\component\CustomTable.class
 com\mycompany\storeapp\view\component\admin\ContentComponent\ContentHeader$1.class
 com\mycompany\storeapp\model\dao\MaterialDAO.class
 com\mycompany\storeapp\view\layer\AdminLayer$2.class
+com\mycompany\storeapp\view\page\admin\Product\ProductFormDialog$DialogMode.class
 com\mycompany\storeapp\view\page\guest\LoginPage.class
 com\mycompany\storeapp\view\page\admin\Order\OrderEditDialog$1.class
 com\mycompany\storeapp\model\dao\PurchaseOrderDetailDAO.class
@@ -69,6 +72,7 @@ com\mycompany\storeapp\view\component\CustomTable$VariantCellRenderer$4.class
 com\mycompany\storeapp\view\page\admin\Material\MaterialGUI$1.class
 com\mycompany\storeapp\view\component\admin\SidebarComponent\MenuItem$2.class
 com\mycompany\storeapp\view\page\admin\Banner\BannerDetailsDialog$1.class
+com\mycompany\storeapp\view\page\admin\Product\ProductVariantPanel.class
 com\mycompany\storeapp\model\dao\SupplierDAO.class
 com\mycompany\storeapp\model\entity\Payment.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryFormDialog$7$1.class
@@ -90,6 +94,7 @@ com\mycompany\storeapp\view\component\CustomTable$3.class
 com\mycompany\storeapp\view\page\admin\Size\SizeFormDialog.class
 com\mycompany\storeapp\view\component\admin\FooterComponent.class
 com\mycompany\storeapp\controller\admin\UserController.class
+com\mycompany\storeapp\view\page\admin\Product\ProductImagePanel$4.class
 com\mycompany\storeapp\model\dao\OrderHistoryDAO.class
 com\mycompany\storeapp\view\page\guest\LoginPage$1.class
 com\mycompany\storeapp\model\dao\ColorDAO.class
@@ -104,6 +109,7 @@ com\mycompany\storeapp\view\component\admin\SidebarComponent\MenuItem$MenuItemCl
 com\mycompany\storeapp\controller\admin\ProductVariantController.class
 com\mycompany\storeapp\view\page\admin\Banner\BannerDetailsDialog.class
 com\mycompany\storeapp\controller\shop\UserController.class
+com\mycompany\storeapp\view\page\admin\Product\ProductImagePanel$ImageListCellRenderer$1.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryFormDialog$1.class
 com\mycompany\storeapp\view\component\CustomTable$VariantCellRenderer$1.class
 com\mycompany\storeapp\model\dao\CartDAO.class
@@ -121,8 +127,10 @@ com\mycompany\storeapp\view\component\CustomTable$ActionCellRenderer.class
 com\mycompany\storeapp\view\component\admin\HeaderComponent$1.class
 com\mycompany\storeapp\view\layer\AdminLayer$3.class
 com\mycompany\storeapp\view\page\admin\Supplier\SupplierFormDialog.class
+com\mycompany\storeapp\view\page\admin\Product\ProductImagePanel$2$1.class
 com\mycompany\storeapp\view\page\admin\Order\OrderKanbanView.class
 com\mycompany\storeapp\view\page\admin\Order\KanbanContent$3.class
+com\mycompany\storeapp\view\page\admin\Product\ProductImagePanel$3.class
 com\mycompany\storeapp\model\dao\SupportRequestDAO.class
 com\mycompany\storeapp\model\dao\TagDAO.class
 com\mycompany\storeapp\view\page\admin\Banner\BannerFormDialog$5.class
@@ -136,6 +144,8 @@ com\mycompany\storeapp\view\page\admin\Color\ColorGUI$1.class
 com\mycompany\storeapp\view\page\admin\Supplier\SupplierGUI$1.class
 com\mycompany\storeapp\model\entity\Role.class
 com\mycompany\storeapp\view\page\admin\Order\KanbanContent$OrderTransferData.class
+com\mycompany\storeapp\view\page\admin\Product\ProductImagePanel$ImageListCellRenderer.class
+com\mycompany\storeapp\view\page\admin\Product\ProductFormPanel$1.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryFormDialog$2.class
 com\mycompany\storeapp\view\page\admin\Product\ProductGUI$1.class
 com\mycompany\storeapp\model\entity\Product.class
@@ -172,6 +182,7 @@ com\mycompany\storeapp\view\page\admin\Banner\BannerFormDialog$1.class
 com\mycompany\storeapp\view\component\admin\SidebarComponent\MenuGroup.class
 com\mycompany\storeapp\model\entity\OrderDetail.class
 com\mycompany\storeapp\model\dao\ProductDAO.class
+com\mycompany\storeapp\view\page\admin\Product\ProductImagePanel.class
 com\mycompany\storeapp\view\component\admin\ContentComponent\ContentFooter$1.class
 com\mycompany\storeapp\view\page\admin\Banner\BannerGUI$1.class
 com\mycompany\storeapp\controller\guest\ForgotPassword.class

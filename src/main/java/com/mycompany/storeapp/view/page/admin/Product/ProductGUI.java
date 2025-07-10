@@ -141,25 +141,31 @@ public class ProductGUI extends JPanel {
         
         // Table events
         table.setEditActionListener(e -> {
-            int row = e.getID();
-            if (row >= 0 && row < filteredData.size()) {
-                Product product = filteredData.get(row);
+            int tableRow = e.getID(); // Chỉ số trong bảng hiện tại (0-based)
+            int actualRow = getActualRowIndex(tableRow); // Chỉ số thực tế trong filteredData
+
+            if (actualRow >= 0 && actualRow < filteredData.size()) {
+                Product product = filteredData.get(actualRow);
                 showEditProductDialog(product);
             }
         });
         
         table.setDeleteActionListener(e -> {
-            int row = e.getID();
-            if (row >= 0 && row < filteredData.size()) {
-                Product product = filteredData.get(row);
+            int tableRow = e.getID(); // Chỉ số trong bảng hiện tại (0-based)
+            int actualRow = getActualRowIndex(tableRow); // Chỉ số thực tế trong filteredData
+
+            if (actualRow >= 0 && actualRow < filteredData.size()) {
+                Product product = filteredData.get(actualRow);
                 deleteProduct(product);
             }
         });
         
         table.setRowDoubleClickListener(e -> {
-            int row = e.getID();
-            if (row >= 0 && row < filteredData.size()) {
-                Product product = filteredData.get(row);
+            int tableRow = e.getID(); // Chỉ số trong bảng hiện tại (0-based)
+            int actualRow = getActualRowIndex(tableRow); // Chỉ số thực tế trong filteredData
+
+            if (actualRow >= 0 && actualRow < filteredData.size()) {
+                Product product = filteredData.get(actualRow);
                 showProductDetailsDialog(product);
             }
         });
@@ -587,4 +593,11 @@ public class ProductGUI extends JPanel {
         public String getStatusDisplay() { return statusDisplay; }
         public String getFormattedCreatedAt() { return formattedCreatedAt; }
     }
+    private int getActualRowIndex(int tableRowIndex) {
+    // Tính chỉ số bắt đầu của trang hiện tại
+    int startIndex = (currentPage - 1) * pageSize;
+    
+    // Tính chỉ số thực tế trong filteredData
+    return startIndex + tableRowIndex;
+}
 }

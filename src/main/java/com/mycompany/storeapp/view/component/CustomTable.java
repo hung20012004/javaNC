@@ -309,7 +309,7 @@ public class CustomTable extends JPanel {
                         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
                         rowData[i] = sdf.format((java.util.Date) value);
                     } else {
-                        rowData[i] = value != null ? value.toString() : "";
+                        rowData[i] = value != null ? value.toString() : "Không tìm thấy dữ liệu";
                     }
                 } catch (Exception e) {
                     rowData[i] = "";
@@ -857,7 +857,7 @@ public class CustomTable extends JPanel {
                 panel.setBackground(new Color(217, 237, 247));
             }
             
-            JButton editBtn = new JButton("✏️");
+            JButton editBtn = new JButton("Sửa️");
             editBtn.setPreferredSize(new Dimension(50, 25));
             editBtn.setBackground(new Color(241, 196, 15));
             editBtn.setForeground(Color.WHITE);
@@ -865,7 +865,7 @@ public class CustomTable extends JPanel {
             editBtn.setBorderPainted(false);
             editBtn.setFocusPainted(false);
             
-            JButton deleteBtn = new JButton("🗑");
+            JButton deleteBtn = new JButton("Xóa");
             deleteBtn.setPreferredSize(new Dimension(50, 25));
             deleteBtn.setBackground(new Color(231, 76, 60));
             deleteBtn.setForeground(Color.WHITE);

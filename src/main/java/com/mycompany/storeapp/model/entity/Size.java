@@ -46,6 +46,11 @@ public class Size {
 
     public Date getUpdated_at() { return updated_at; }
     public void setUpdated_at(Date updated_at) { this.updated_at = updated_at; }
+    
+          @Override
+    public String toString() {
+        return this.name != null ? this.name : "Không xác định";
+    }
 }
 
 

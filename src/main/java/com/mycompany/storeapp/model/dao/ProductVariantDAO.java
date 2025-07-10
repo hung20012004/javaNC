@@ -63,7 +63,11 @@ public class ProductVariantDAO {
      */
     public List<ProductVariant> getVariantByProductId(long productId) {
         List<ProductVariant> variants = new ArrayList<>();
-        String sql = "SELECT * FROM product_variants WHERE product_id = ?";
+        String sql = "SELECT pv.*, c.name as color_name, s.name as size_name " +
+                            "FROM product_variants pv " +
+                            "LEFT JOIN colors c ON pv.color_id = c.color_id " +
+                            "LEFT JOIN sizes s ON pv.size_id = s.size_id " +
+                            "WHERE product_id = ?";
 
         try (Connection conn = connection.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {

@@ -12,7 +12,7 @@ import java.util.Date;
  */
 public class Color {
 
-    private long colorId;
+    private int colorId;
     private String name;
     private String description;
     private Date created_at;
@@ -20,14 +20,14 @@ public class Color {
 
     public Color() {}
 
-    public Color(long colorId, String name, String description) {
+    public Color(int colorId, String name, String description) {
         this.colorId = colorId;
         this.name = name;
         this.description = description;
     }
 
-    public long getColorId() { return colorId; }
-    public void setColorId(long colorId) { this.colorId = colorId; }
+    public int getColorId() { return colorId; }
+    public void setColorId(int colorId) { this.colorId = colorId; }
     
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
@@ -40,4 +40,9 @@ public class Color {
 
     public Date getUpdated_at() { return updated_at; }
     public void setUpdated_at(Date updated_at) { this.updated_at = updated_at; }
+    
+          @Override
+    public String toString() {
+        return this.name != null ? this.name : "Không xác định";
+    }
 }
