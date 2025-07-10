@@ -1,10 +1,16 @@
 package com.mycompany.storeapp.view.component.shop;
 
+import com.mycompany.storeapp.view.component.shop.product.ProductGridComponent;
+import com.mycompany.storeapp.view.component.shop.cart.CartComponent;
 import com.mycompany.storeapp.controller.admin.CategoryController;
+import com.mycompany.storeapp.controller.admin.ColorController;
+import com.mycompany.storeapp.controller.admin.SizeController;
 import com.mycompany.storeapp.controller.admin.ProductController;
 import com.mycompany.storeapp.controller.admin.ProductImageController;
+import com.mycompany.storeapp.controller.admin.ProductVariantController;
 import com.mycompany.storeapp.model.entity.Category;
 import com.mycompany.storeapp.model.entity.Product;
+import com.mycompany.storeapp.model.entity.ProductVariant;
 import javax.swing.*;
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -16,17 +22,20 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
 public class POSComponent extends JPanel {
-    private static final Color BACKGROUND_COLOR = Color.WHITE;
-    private static final Color CARD_BACKGROUND = new Color(249, 250, 251);
-    private static final Color BORDER_COLOR = new Color(229, 231, 235);
-    private static final Color PRIMARY_COLOR = new Color(59, 130, 246);
-    private static final Color SUCCESS_COLOR = new Color(16, 185, 129);
-    private static final Color TEXT_COLOR = new Color(55, 65, 81);
+    private static final java.awt.Color BACKGROUND_COLOR = java.awt.Color.WHITE;
+    private static final java.awt.Color CARD_BACKGROUND = new java.awt.Color(249, 250, 251);
+    private static final java.awt.Color BORDER_COLOR = new java.awt.Color(229, 231, 235);
+    private static final java.awt.Color PRIMARY_COLOR = new java.awt.Color(59, 130, 246);
+    private static final java.awt.Color SUCCESS_COLOR = new java.awt.Color(16, 185, 129);
+    private static final java.awt.Color TEXT_COLOR = new java.awt.Color(55, 65, 81);
 
     private final CartComponent cartComponent;
     private final CategoryController categoryController;
     private final ProductController productController;
     private final ProductImageController productImageController;
+    private final ProductVariantController variantController;
+    private final ColorController colorController;
+    private final SizeController sizeController;
     private final DecimalFormat currencyFormat;
     private List<Category> categories;
     private List<Product> products;
@@ -37,19 +46,25 @@ public class POSComponent extends JPanel {
     private int pageSize = 12;
     private int currentPage = 1;
     private ProductGridComponent productGridComponent;
+    private JFrame parentFrame;
 
-    public POSComponent(CartComponent cartComponent) {
+    public POSComponent(JFrame parentFrame, CartComponent cartComponent) {
+        this.parentFrame = parentFrame;
         this.cartComponent = cartComponent;
         this.currencyFormat = new DecimalFormat("#,###,### ₫");
         this.categoryController = new CategoryController();
         this.productController = new ProductController();
         this.productImageController = new ProductImageController();
+        this.variantController = new ProductVariantController();
+        this.colorController = new ColorController();
+        this.sizeController = new SizeController();
         setLayout(new BorderLayout());
         setBackground(BACKGROUND_COLOR);
         selectedCategory = "all";
         initializeData();
         add(new CategoryListComponent(categories, this::updateSelectedCategory), BorderLayout.WEST);
-        productGridComponent = new ProductGridComponent(products, displayedProducts, imageCache, currencyFormat, this::addProductToCart, () -> selectedCategory, pageSize, productImageController);
+        productGridComponent = new ProductGridComponent(parentFrame, products, displayedProducts, imageCache, currencyFormat, 
+            this::addProductToCart, () -> String.valueOf(pageSize), productImageController, variantController, colorController, sizeController);
         add(productGridComponent, BorderLayout.CENTER);
     }
 
@@ -62,7 +77,7 @@ public class POSComponent extends JPanel {
         Category allCategory = new Category();
         allCategory.setSlug("all");
         allCategory.setName("Tất cả");
-        allCategory.setCategoryId(0); // Ensure a unique ID for "all"
+        allCategory.setCategoryId(0);
         categories.add(allCategory);
 
         List<Category> dbCategories = categoryController.getActiveCategories();
@@ -70,29 +85,20 @@ public class POSComponent extends JPanel {
             categories.addAll(dbCategories);
             for (Category cat : dbCategories) {
                 categoryIdToSlugMap.put(cat.getCategoryId(), cat.getSlug());
-                System.out.println("Category ID: " + cat.getCategoryId() + ", Slug: " + cat.getSlug()); // Debug
             }
-        } else {
-            System.out.println("Warning: No categories loaded from database.");
         }
 
         List<Product> dbProducts = productController.getAllProducts();
         if (dbProducts != null && !dbProducts.isEmpty()) {
             products.addAll(dbProducts);
-            for (Product product : products) {
-                System.out.println("Product ID: " + product.getProductId() + ", Category ID: " + product.getCategoryId()); // Debug
-            }
-        } else {
-            System.out.println("Warning: No products loaded from database.");
         }
         displayedProducts.addAll(products);
     }
 
     private void updateSelectedCategory(String categorySlug) {
         selectedCategory = categorySlug;
-        System.out.println("Selected Category Slug: " + selectedCategory); // Debug
         filterProducts();
-        productGridComponent.loadVisibleProducts(); // Refresh grid
+        productGridComponent.loadVisibleProducts();
     }
 
     private void filterProducts() {
@@ -108,19 +114,19 @@ public class POSComponent extends JPanel {
                 }
             }
         }
-        System.out.println("Filtered products: " + displayedProducts.size()); // Debug
         currentPage = 1;
     }
 
-    private void addProductToCart(Product product) {
-        if (product.getStockQuantity() <= 0) {
+    private void addProductToCart(ProductVariant variant) {
+        if (variant.getStockQuantity() <= 0) {
             JOptionPane.showMessageDialog(this,
-                    "Sản phẩm " + product.getName() + " đã hết hàng!",
-                    "Thông báo",
-                    JOptionPane.WARNING_MESSAGE);
+                "Sản phẩm " + variant.getProduct().getName() + " (Màu: " + 
+                variant.getColor().getName() + ", Size: " + variant.getSize().getName() + 
+                ") đã hết hàng!",
+                "Thông báo",
+                JOptionPane.WARNING_MESSAGE);
             return;
         }
-        cartComponent.addItem(product.getName(), currencyFormat.format(product.getSalePrice() > 0 ? product.getSalePrice() : product.getPrice()), 1);
-        product.setStockQuantity(product.getStockQuantity() - 1);
+        cartComponent.addItem(variant.getVariantId(), 1); // Sử dụng variantId và số lượng 1
     }
 }

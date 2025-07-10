@@ -1,17 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.storeapp.model.dao;
 
-/**
- *
- * @author Hi
- */
 import com.mycompany.storeapp.config.DatabaseConnection;
-import com.mycompany.storeapp.model.entity.Product;
 import com.mycompany.storeapp.model.entity.ProductVariant;
-
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,12 +13,10 @@ import java.util.List;
 public class ProductVariantDAO {
     private final DatabaseConnection connection;
     private final Connection conn;
-    private ProductDAO productDAO;
 
     public ProductVariantDAO(DatabaseConnection connection) {
         this.connection = connection;
         this.conn = connection.getConnection();
-        this.productDAO = new ProductDAO(connection);
     }
 
     public ProductVariant getVariantById(int variantId) {
@@ -47,19 +35,11 @@ public class ProductVariantDAO {
                 variant.setImageUrl(rs.getString("image_url"));
                 variant.setStockQuantity(rs.getInt("stock_quantity"));
                 variant.setPrice(rs.getBigDecimal("price"));
-
-                // Nếu cần load Product (nếu có ProductDAO):
-                 
-                 Product product = productDAO.getProductById(variant.getProductId());
-                 variant.setProduct(product);
-
                 return variant;
             }
-
         } catch (SQLException e) {
             System.err.println("Error getting variant by ID: " + e.getMessage());
         }
-
         return null;
     }
     
@@ -99,8 +79,16 @@ public class ProductVariantDAO {
             stmt.setInt(1, productId);
             stmt.setInt(2, sizeId);
             stmt.setInt(3, colorId);
-            ResultSet rs = stmt.executeQuery();
 
+
+    public ProductVariant getByProductColorSize(long productId, long colorId, int sizeId) {
+        String sql = "SELECT * FROM product_variants WHERE product_id = ? AND color_id = ? AND size_id = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setLong(1, productId);
+            stmt.setLong(2, colorId);
+            stmt.setInt(3, sizeId);
+            ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 ProductVariant variant = new ProductVariant();
                 variant.setVariantId(rs.getInt("variant_id"));
@@ -110,14 +98,10 @@ public class ProductVariantDAO {
                 variant.setImageUrl(rs.getString("image_url"));
                 variant.setStockQuantity(rs.getInt("stock_quantity"));
                 variant.setPrice(rs.getBigDecimal("price"));
-
-                Product product = productDAO.getProductById(variant.getProductId());
-                variant.setProduct(product);
-
                 return variant;
             }
         } catch (SQLException e) {
-            System.err.println("Error getting variant by product, size, and color: " + e.getMessage());
+            System.err.println("Error getting variant by product, color, and size: " + e.getMessage());
         }
         return null;
     }
@@ -147,3 +131,18 @@ public class ProductVariantDAO {
         }
     }
 }
+
+    public void updateStockQuantity(int variantId, int stockQuantity) {
+        String sql = "UPDATE product_variants SET stock_quantity = ? WHERE variant_id = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, stockQuantity);
+            stmt.setInt(2, variantId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error updating stock quantity: " + e.getMessage());
+        }
+    }
+   
+}
+

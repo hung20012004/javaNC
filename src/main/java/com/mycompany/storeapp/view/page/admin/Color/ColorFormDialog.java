@@ -8,7 +8,7 @@ package com.mycompany.storeapp.view.page.admin.Color;
  *
  * @author ADMIN
  */
-import com.mycompany.storeapp.model.entity.Color;
+import com.mycompany.storeapp.model.entity.ProductColor;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -21,11 +21,11 @@ public class ColorFormDialog extends JDialog {
     private JTextArea descriptionArea;
     private JButton saveButton;
     private JButton cancelButton;
-    private Color color;
+    private ProductColor color;
     private boolean isEditMode;
     private boolean confirmed = false;
 
-    public ColorFormDialog(JFrame parent, String title, Color color) {
+    public ColorFormDialog(JFrame parent, String title, ProductColor color) {
         super(parent, title, true);
         this.color = color != null ? color : new Color(46, 204, 113);
         this.isEditMode = (color != null);
@@ -125,6 +125,6 @@ public class ColorFormDialog extends JDialog {
         dispose();
     }
 
-    public Color getColor() { return color; }
+    public ProductColor getColor() { return color; }
     public boolean isConfirmed() { return confirmed; }
 }

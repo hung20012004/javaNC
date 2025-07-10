@@ -1,26 +1,25 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.storeapp.model.entity;
 
-/**
- *
- * @author Hi
- */
+import com.mycompany.storeapp.model.entity.CartItem;
+import java.util.List;
+
 public class Cart {
-    private long cartId;
-    private long userId;
+    private int cartId;
+    private List<CartItem> items;
 
-    public Cart() {}
-
-    public Cart(long cartId, long userId) {
-        this.cartId = cartId;
-        this.userId = userId;
+    public int getCartId() {
+        return cartId;
     }
 
-    public long getCartId() { return cartId; }
-    public void setCartId(long cartId) { this.cartId = cartId; }
-    public long getUserId() { return userId; }
-    public void setUserId(long userId) { this.userId = userId; }
+    public void setCartId(int cartId) {
+        this.cartId = cartId;
+    }
+
+    public List<CartItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<CartItem> items) {
+        this.items = items;
+    }
 }

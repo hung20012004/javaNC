@@ -28,8 +28,8 @@ public class ColorGUI extends JPanel {
     private ContentHeader header;
     private CustomTable table;
     private ContentFooter footer;
-    private List<Color> currentData;
-    private List<Color> filteredData;
+    private List<ProductColor> currentData;
+    private List<ProductColor> filteredData;
     private String currentSearchText = "";
     private int currentPage = 1;
     private int pageSize = 12;
@@ -84,16 +84,16 @@ public class ColorGUI extends JPanel {
 
         table.setEditActionListener(e -> {
             int row = e.getID();
-            List<Color> pageData = getCurrentPageData();
+            List<ProductColor> pageData = getCurrentPageData();
             if (row >= 0 && row < pageData.size()) {
-                Color color = pageData.get(row);
+                ProductColor color = pageData.get(row);
                 showEditColorDialog(color);
             }
         });
 
         table.setDeleteActionListener(e -> {
             int row = e.getID();
-            List<Color> pageData = getCurrentPageData();
+            List<ProductColor> pageData = getCurrentPageData();
             if (row >= 0 && row < pageData.size()) {
                 long colorId = pageData.get(row).getColorId();
                 deleteColor(colorId);
@@ -133,12 +133,12 @@ public class ColorGUI extends JPanel {
     }
 
     private void updateTable() {
-        List<Color> pageData = getCurrentPageData();
+        List<ProductColor> pageData = getCurrentPageData();
         table.setData(pageData);
         footer.updatePagination(filteredData.size(), currentPage, pageSize);
     }
 
-    private List<Color> getCurrentPageData() {
+    private List<ProductColor> getCurrentPageData() {
         int startIndex = (currentPage - 1) * pageSize;
         int endIndex = Math.min(startIndex + pageSize, filteredData.size());
         return startIndex >= filteredData.size() ? new ArrayList<>() : filteredData.subList(startIndex, endIndex);
@@ -164,7 +164,7 @@ public class ColorGUI extends JPanel {
         }
     }
 
-    private void showEditColorDialog(Color color) {
+    private void showEditColorDialog(ProductColor color) {
         ColorFormDialog dialog = new ColorFormDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Chỉnh sửa màu", color);
         dialog.setVisible(true);
         if (dialog.isConfirmed()) {
@@ -172,7 +172,7 @@ public class ColorGUI extends JPanel {
         }
     }
 
-    private void showColorDetailsDialog(Color color) {
+    private void showColorDetailsDialog(ProductColor color) {
         JOptionPane.showMessageDialog(this, "Chi tiết màu: " + color.getName(), "Chi tiết", JOptionPane.INFORMATION_MESSAGE);
     }
 
