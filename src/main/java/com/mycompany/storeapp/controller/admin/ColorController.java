@@ -115,6 +115,13 @@ public class ColorController {
             return false;
         }
     }
+    
+    public Long getColorIdByName(String name) {
+        for (Color color : getAllColors()) {
+            if (color.getName().equals(name)) return color.getColorId();
+        }
+        return null;
+    }
 
     private void showSuccessMessage(String message) {
         JOptionPane.showMessageDialog(null, message, "Thành công", JOptionPane.INFORMATION_MESSAGE);

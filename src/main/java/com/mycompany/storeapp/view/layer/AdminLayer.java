@@ -202,16 +202,12 @@ public class AdminLayer extends JFrame {
         switch (action) {
             case "dashboard":
                 return createContentPanel("Dashboard", "Tổng quan về hoạt động của cửa hàng", "📊");
-            case "notifications":
-                return createContentPanel("Thông báo", "Quản lý thông báo hệ thống", "🔔");
             case "products":
                 return new ProductGUI();
             case "categories":
                 return new CategoryGUI();
             case "suppliers":
                 return new SupplierGUI();
-            case "inventory-checks":
-                return createContentPanel("Kiểm kho", "Kiểm tra và quản lý tồn kho", "📋");
             case "sizes":
                 return new SizeGUI();
             case "colors":
@@ -222,28 +218,12 @@ public class AdminLayer extends JFrame {
                 return createContentPanel("Quản lý Tag", "Quản lý thẻ cho sản phẩm", "🏷️");
             case "orders":
                 return new OrderKanbanView();
-            case "order-warehouse":
-                return createContentPanel("Đóng hàng", "Quản lý việc đóng gói đơn hàng", "📦");
-            case "order-shipping":
-                return createContentPanel("Vận chuyển", "Theo dõi vận chuyển đơn hàng", "🚛");
             case "purchase-orders":
                 return createContentPanel("Đơn nhập hàng", "Quản lý đơn hàng nhập từ nhà cung cấp", "🛒");
-            case "payment":
-                return createContentPanel("Danh sách thanh toán", "Quản lý các giao dịch thanh toán", "💳");
-            case "reconcile-vnpay":
-                return createContentPanel("Đối soát VNPay", "Đối soát giao dịch với VNPay", "🔄");
-            case "payment-report":
-                return createContentPanel("Báo cáo thanh toán", "Thống kê và báo cáo thanh toán", "📊");
             case "customers":
                 return createContentPanel("Quản lý khách hàng", "Thông tin và lịch sử khách hàng", "👥");
-            case "support-requests":
-                return createContentPanel("Yêu cầu hỗ trợ", "Xử lý yêu cầu hỗ trợ từ khách hàng", "🎧");
-            case "reviews":
-                return createContentPanel("Quản lý đánh giá", "Quản lý đánh giá và nhận xét", "⭐");
             case "banners":
                 return new BannerGUI();
-            case "settings":
-                return createContentPanel("Cài đặt hệ thống", "Cấu hình các thiết lập hệ thống", "⚙️");
             case "staffs":
                 return createContentPanel("Quản lý nhân viên", "Quản lý thông tin nhân viên", "👤");
             default:

@@ -42,8 +42,7 @@ public class MenuDataProvider {
         return Arrays.asList(
             // Tổng quan
             new MenuGroupData("Tổng quan",
-                new MenuItemData("📊", "Dashboard", "dashboard"),
-                new MenuItemData("🔔", "Thông báo", "notifications")
+                new MenuItemData("📊", "Dashboard", "dashboard")
             ),
             
             // Quản lý sản phẩm
@@ -51,7 +50,6 @@ public class MenuDataProvider {
                 new MenuItemData("📦", "Sản phẩm", "products"),
                 new MenuItemData("🏷️", "Danh mục", "categories"),
                 new MenuItemData("🚚", "Nhà cung cấp", "suppliers"),
-                new MenuItemData("📋", "Kiểm kho", "inventory-checks"),
                 new MenuItemData("📐", "Kích thước", "sizes"),
                 new MenuItemData("🎨", "Màu sắc", "colors"),
                 new MenuItemData("🧵", "Chất liệu", "materials"),
@@ -61,23 +59,12 @@ public class MenuDataProvider {
             // Quản lý đơn hàng
             new MenuGroupData("Quản lý đơn hàng",
                 new MenuItemData("🛍️", "Đơn hàng", "orders"),
-                new MenuItemData("📦", "Đóng hàng", "order-warehouse"),
-                new MenuItemData("🚛", "Vận chuyển", "order-shipping"),
                 new MenuItemData("🛒", "Đơn nhập hàng", "purchase-orders")
-            ),
-            
-            // Quản lý thanh toán
-            new MenuGroupData("Quản lý thanh toán",
-                new MenuItemData("💳", "Danh sách thanh toán", "payment"),
-                new MenuItemData("🔄", "Đối soát VNPay", "reconcile-vnpay"),
-                new MenuItemData("📊", "Báo cáo thanh toán", "payment-report")
             ),
             
             // Quản lý khách hàng
             new MenuGroupData("Quản lý khách hàng",
-                new MenuItemData("👥", "Khách hàng", "customers"),
-                new MenuItemData("🎧", "Yêu cầu hỗ trợ", "support-requests"),
-                new MenuItemData("⭐", "Đánh giá", "reviews")
+                new MenuItemData("👥", "Khách hàng", "customers")
             ),
             
             // Marketing
@@ -87,7 +74,6 @@ public class MenuDataProvider {
             
             // Cài đặt hệ thống
             new MenuGroupData("Cài đặt hệ thống",
-                new MenuItemData("⚙️", "Cấu hình", "settings"),
                 new MenuItemData("👤", "Quản lý nhân viên", "staffs")
             )
         );

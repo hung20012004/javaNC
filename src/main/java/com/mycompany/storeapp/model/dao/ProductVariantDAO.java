@@ -76,8 +76,6 @@ public class ProductVariantDAO {
                 for (ProductVariant variant : variants) {
                     loadColorAndSize(variant, conn); 
                 }
-
-                System.out.println("Total variants found: " + variants.size());
             }
         } catch (SQLException e) {
             System.err.println("Error getting variants by product ID: " + e.getMessage());

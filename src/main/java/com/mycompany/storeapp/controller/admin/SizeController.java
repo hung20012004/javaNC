@@ -115,6 +115,13 @@ public class SizeController {
             return false;
         }
     }
+    
+    public Integer getSizeIdByName(String name) {
+        for (Size size : getAllSizes()) {
+            if (size.getName().equals(name)) return size.getSizeId();
+        }
+        return null;
+    }
 
     private void showSuccessMessage(String message) {
         JOptionPane.showMessageDialog(null, message, "Thành công", JOptionPane.INFORMATION_MESSAGE);

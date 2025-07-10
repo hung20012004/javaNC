@@ -255,10 +255,6 @@ public class ProductGUI extends JPanel {
             filteredData = currentData.stream()
                 .filter(product -> 
                     product.getName().toLowerCase().contains(currentSearchText) ||
-                    (product.getBrand() != null && 
-                     product.getBrand().toLowerCase().contains(currentSearchText)) ||
-                    (product.getDescription() != null && 
-                     product.getDescription().toLowerCase().contains(currentSearchText)) ||
                     (product.getSku() != null && 
                      product.getSku().toLowerCase().contains(currentSearchText)) ||
                     (product.getSlug() != null && 
