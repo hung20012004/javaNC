@@ -217,7 +217,7 @@ public class ProductDAO {
      */
     private void loadProductVariants(Product product) {
         if (product.getProductId() > 0) {
-            List<ProductVariant> variants = productVariantDAO.getVariantByProductId(product.getProductId());
+            List<ProductVariant> variants = productVariantDAO.getVariantsByProductId(product.getProductId());
             product.setVariants(variants);
         }
     }

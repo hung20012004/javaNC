@@ -210,7 +210,8 @@ public class OrderDAO {
         List<Order> orders = new ArrayList<>();
         String sql = "SELECT * FROM orders WHERE YEAR(order_date) = ? AND MONTH(order_date) = ? ORDER BY order_date DESC";
 
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = connection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, year);
             stmt.setInt(2, month);
             ResultSet rs = stmt.executeQuery();
@@ -230,7 +231,8 @@ public class OrderDAO {
 
     public int saveOrder(Order order) {
         String sql = "INSERT INTO orders (user_id, shipping_address_id, promotion_id, order_date, subtotal, shipping_fee, discount_amount, total_amount, payment_method, payment_status, order_status, note, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection conn = connection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, order.getUserId());
             stmt.setInt(2, order.getShippingAddressId());
             stmt.setObject(3, order.getPromotionId()); // Nullable
@@ -265,7 +267,8 @@ public class OrderDAO {
      */
     public boolean saveOrderDetail(OrderDetail detail) {
         String sql = "INSERT INTO order_details (order_id, variant_id, quantity, unit_price, subtotal) VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try(Connection conn = connection.getConnection(); 
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, detail.getOrderId());
             stmt.setInt(2, detail.getVariantId());
             stmt.setInt(3, detail.getQuantity());

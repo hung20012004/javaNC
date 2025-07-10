@@ -52,7 +52,7 @@ public class ColorDAO {
         String sql = "SELECT * FROM colors WHERE color_id = ?";
         try (Connection conn = connection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, id);
+            stmt.setLong(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 Color color = new Color();

@@ -51,7 +51,7 @@ public class ProductVariantDAO {
         return null;
     }
     
-    public List<ProductVariant> getVariantByProductId(long productId) {
+    public List<ProductVariant> getVariantsByProductId(long productId) {
         List<ProductVariant> variants = new ArrayList<>();
         String sql = "SELECT pv.*, c.name as color_name, s.name as size_name " +
                             "FROM product_variants pv " +
@@ -147,7 +147,8 @@ public class ProductVariantDAO {
     
     public void updateProductVariant(ProductVariant variant) {
         String sql = "UPDATE product_variants SET stock_quantity = ?, updated_at = NOW() WHERE variant_id = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = connection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, variant.getStockQuantity());
             stmt.setInt(2, variant.getVariantId());
             stmt.executeUpdate();
@@ -159,7 +160,8 @@ public class ProductVariantDAO {
     public boolean updateQuantity(int variantId, int quantity) {
         String sql = "UPDATE product_variants SET quantity = quantity + ? WHERE variant_id = ?";
         
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = connection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, quantity);
             stmt.setInt(2, variantId);
             int rowsAffected = stmt.executeUpdate();

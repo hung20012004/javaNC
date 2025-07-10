@@ -47,7 +47,7 @@ public class ProductVariantController {
                 return new ArrayList<>();
             }
             
-            List<ProductVariant> variants = productVariantDAO.getVariantByProductId(productId);
+            List<ProductVariant> variants = productVariantDAO.getVariantsByProductId(productId);
             if (variants.isEmpty()) {
                 System.out.println("Chưa có chi tiết sản phẩm nào cho sản phẩm: " + productId);
             }
@@ -307,7 +307,7 @@ public class ProductVariantController {
                 return false;
             }
             
-            List<ProductVariant> variants = productVariantDAO.getVariantByProductId(productId);
+            List<ProductVariant> variants = productVariantDAO.getVariantsByProductId(productId);
             if (variants.isEmpty()) {
                 showInfoMessage("Không có chi tiết sản phẩm nào để xóa!");
                 return true;

@@ -562,7 +562,7 @@ public class POEditDialog extends JDialog {
                         return;
                     }
 
-                    ProductVariant variant = productVariantDAO.getByProductColorSize( selectedProduct.getProductId(), selectedColor.getColorId(), selectedSize.getSizeId()); 
+                    ProductVariant variant = productVariantDAO.getVariantByProductColorSize(selectedProduct.getProductId(), selectedColor.getColorId(), selectedSize.getSizeId()); 
                     if (variant == null) {
                         JOptionPane.showMessageDialog(addProductDialog, "Biến thể sản phẩm không tồn tại!", "Lỗi", JOptionPane.WARNING_MESSAGE);
                         return;
