@@ -1,4 +1,4 @@
-package com.mycompany.storeapp.view.component.shop;
+package com.mycompany.storeapp.view.component.shop.product;
 
 import com.mycompany.storeapp.controller.admin.ColorController;
 import com.mycompany.storeapp.controller.admin.SizeController;

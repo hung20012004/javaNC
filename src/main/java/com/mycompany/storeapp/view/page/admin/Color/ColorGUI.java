@@ -10,6 +10,7 @@ package com.mycompany.storeapp.view.page.admin.Color;
  */
 import com.mycompany.storeapp.controller.admin.ColorController;
 import com.mycompany.storeapp.model.entity.Color;
+import com.mycompany.storeapp.service.ExcelExporter;
 import com.mycompany.storeapp.view.component.CustomTable;
 import com.mycompany.storeapp.view.component.admin.ContentComponent.ContentFooter;
 import com.mycompany.storeapp.view.component.admin.ContentComponent.ContentHeader;
@@ -18,6 +19,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,6 +74,7 @@ public class ColorGUI extends JPanel {
     private void setupEventListeners() {
         header.addAddButtonListener(e -> showAddColorDialog());
         header.addSearchButtonListener(e -> performSearch());
+        header.addExportExcelButtonListener(e -> exportToExcel());
         header.addSearchFieldListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -175,5 +178,21 @@ public class ColorGUI extends JPanel {
 
     private void deleteColor(long id) {
         if (colorController.deleteColor(id)) loadData();
+    }
+    
+    private void exportToExcel() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Lưu file Excel");
+        fileChooser.setSelectedFile(new File("colors.xlsx"));
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String filePath = fileToSave.getAbsolutePath();
+            if (!filePath.endsWith(".xlsx")) {
+                filePath += ".xlsx";
+            }
+            ExcelExporter.exportToExcel(columnNames, filteredData, fieldNames, filePath);
+        }
     }
 }

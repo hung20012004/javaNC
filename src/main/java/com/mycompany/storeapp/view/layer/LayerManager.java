@@ -51,7 +51,9 @@ public class LayerManager implements SessionListener {
     }
 
     public void login(User user) {
-        System.out.println("Logging in user with role: " + (user != null ? user.getRole() : "null"));
+        System.out.println("Logging in user: " + 
+    (user != null ? "Name=" + user.getName() + ", Role=" + user.getRole() : "null"));
+
         session.setCurrentUser(user);
     }
 

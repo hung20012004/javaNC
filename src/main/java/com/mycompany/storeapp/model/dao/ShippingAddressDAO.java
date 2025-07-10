@@ -73,7 +73,7 @@ public class ShippingAddressDAO {
      */
     public List<ShippingAddress> getShippingAddressesByUserId(int userId) {
         List<ShippingAddress> addresses = new ArrayList<>();
-        String sql = "SELECT * FROM shipping_addresses WHERE user_id = ? ORDER BY address_id DESC";
+        String sql = "SELECT * FROM shipping_addresses WHERE user_id = ? ORDER BY is_default DESC, address_id DESC";
 
         try (
             PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -93,28 +93,103 @@ public class ShippingAddressDAO {
     }
 
     /**
+     * Get default shipping address for user
+     */
+    public ShippingAddress getDefaultAddress(int userId) {
+        String sql = "SELECT * FROM shipping_addresses WHERE user_id = ? AND is_default = true LIMIT 1";
+
+        try (
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return mapResultSetToShippingAddress(rs);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error getting default shipping address: " + e.getMessage());
+        }
+
+        return null;
+    }
+
+    /**
+     * Set default shipping address for user
+     */
+    public boolean setDefaultAddress(int userId, int addressId) {
+        Connection conn = null;
+        try {
+            conn = connection.getConnection();
+            conn.setAutoCommit(false);
+
+            // First, unset all default addresses for this user
+            String unsetSql = "UPDATE shipping_addresses SET is_default = false WHERE user_id = ?";
+            try (PreparedStatement unsetStmt = conn.prepareStatement(unsetSql)) {
+                unsetStmt.setInt(1, userId);
+                unsetStmt.executeUpdate();
+            }
+
+            // Then set the specified address as default
+            String setSql = "UPDATE shipping_addresses SET is_default = true WHERE address_id = ? AND user_id = ?";
+            try (PreparedStatement setStmt = conn.prepareStatement(setSql)) {
+                setStmt.setInt(1, addressId);
+                setStmt.setInt(2, userId);
+                int rowsAffected = setStmt.executeUpdate();
+                
+                if (rowsAffected > 0) {
+                    conn.commit();
+                    return true;
+                } else {
+                    conn.rollback();
+                    return false;
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error setting default shipping address: " + e.getMessage());
+            try {
+                if (conn != null) {
+                    conn.rollback();
+                }
+            } catch (SQLException rollbackEx) {
+                System.err.println("Error rolling back transaction: " + rollbackEx.getMessage());
+            }
+            return false;
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.setAutoCommit(true);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error resetting auto-commit: " + e.getMessage());
+            }
+        }
+    }
+
+    /**
      * Update shipping address
      */
     public boolean updateShippingAddress(ShippingAddress address) {
-        String sql = "UPDATE shipping_addresses SET user_id = ?, recipient_name = ?, phone = ?, " +
+        String sql = "UPDATE shipping_addresses SET recipient_name = ?, phone = ?, " +
                      "province = ?, district = ?, ward = ?, street_address = ?, is_default = ?, " +
                      "latitude = ?, longitude = ?, updated_at = ? WHERE address_id = ?";
 
         try (
             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, address.getUserId());
-            stmt.setString(2, address.getRecipientName());
-            stmt.setString(3, address.getPhone());
-            stmt.setString(4, address.getProvince());
-            stmt.setString(5, address.getDistrict());
-            stmt.setString(6, address.getWard());
-            stmt.setString(7, address.getStreetAddress());
-            stmt.setBoolean(8, address.isDefault());
-            stmt.setBigDecimal(9, address.getLatitude());
-            stmt.setBigDecimal(10, address.getLongitude());
-            stmt.setTimestamp(11, new java.sql.Timestamp(System.currentTimeMillis()));
-            stmt.setInt(12, address.getAddressId());
+            stmt.setString(1, address.getRecipientName());
+            stmt.setString(2, address.getPhone());
+            stmt.setString(3, address.getProvince());
+            stmt.setString(4, address.getDistrict());
+            stmt.setString(5, address.getWard());
+            stmt.setString(6, address.getStreetAddress());
+            stmt.setBoolean(7, address.isDefault());
+            stmt.setBigDecimal(8, address.getLatitude());
+            stmt.setBigDecimal(9, address.getLongitude());
+            stmt.setTimestamp(10, new java.sql.Timestamp(System.currentTimeMillis()));
+            stmt.setInt(11, address.getAddressId());
 
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
@@ -164,6 +239,25 @@ public class ShippingAddressDAO {
         }
 
         return false;
+    }
+
+    /**
+     * Delete shipping address
+     */
+    public boolean deleteShippingAddress(int addressId) {
+        String sql = "DELETE FROM shipping_addresses WHERE address_id = ?";
+
+        try (
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, addressId);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            System.err.println("Error deleting shipping address: " + e.getMessage());
+            return false;
+        }
     }
 
     /**

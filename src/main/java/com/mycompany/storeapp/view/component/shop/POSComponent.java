@@ -1,5 +1,7 @@
 package com.mycompany.storeapp.view.component.shop;
 
+import com.mycompany.storeapp.view.component.shop.product.ProductGridComponent;
+import com.mycompany.storeapp.view.component.shop.cart.CartComponent;
 import com.mycompany.storeapp.controller.admin.CategoryController;
 import com.mycompany.storeapp.controller.admin.ColorController;
 import com.mycompany.storeapp.controller.admin.SizeController;

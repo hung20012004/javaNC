@@ -48,7 +48,7 @@ public class ColorDAO {
         }
     }
 
-    public Color getById(int id) {
+    public Color getById(Long id) {
         String sql = "SELECT * FROM colors WHERE color_id = ?";
         try (Connection conn = connection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

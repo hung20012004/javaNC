@@ -1,4 +1,4 @@
-package com.mycompany.storeapp.view.component.shop;
+package com.mycompany.storeapp.view.component.shop.product;
 
 import com.mycompany.storeapp.controller.admin.ColorController;
 import com.mycompany.storeapp.controller.admin.SizeController;
@@ -318,10 +318,18 @@ public class ProductVariantDialog extends JDialog {
             clearVariantInfo();
             return;
         }
-        
-        Color selectedColor = findColorByName(selectedColorName);
-        Size selectedSize = findSizeByName(selectedSizeName);
-        
+
+        Color selectedColor = colorController.getAllColors()
+            .stream()
+            .filter(c -> c.getName().equals(selectedColorName))
+            .findFirst()
+            .orElse(null);
+        Size selectedSize = sizeController.getAllSizes()
+            .stream()
+            .filter(s -> s.getName().equals(selectedSizeName))
+            .findFirst()
+            .orElse(null);
+
         if (selectedColor == null || selectedSize == null) {
             clearVariantInfo();
             return;

@@ -5,6 +5,7 @@ import com.mycompany.storeapp.controller.admin.SizeController;
 import com.mycompany.storeapp.model.dao.ProductDAO;
 import com.mycompany.storeapp.config.DatabaseConnection;
 import java.math.BigDecimal;
+import java.util.List;
 
 public class ProductVariant {
     private int variantId;
@@ -103,3 +104,5 @@ public class ProductVariant {
         return (product != null) ? product.getName() : "Không xác định";
     }
 }
+
+

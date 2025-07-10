@@ -8,10 +8,13 @@ import com.mycompany.storeapp.model.dao.OrderDAO;
 import com.mycompany.storeapp.model.entity.Order;
 import com.mycompany.storeapp.model.entity.OrderDetail;
 import com.mycompany.storeapp.config.DatabaseConnection;
+import com.mycompany.storeapp.model.entity.Product;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Arrays;
+import javax.swing.JOptionPane;
 
 /**
  * Controller for Order management with Kanban board functionality
@@ -20,7 +23,6 @@ import java.util.Arrays;
 public class OrderController {
     private final OrderDAO orderDAO;
     
-    // Định nghĩa các trạng thái đơn hàng theo thứ tự workflow
     public static final String STATUS_PENDING = "pending";
     public static final String STATUS_CONFIRMED = "confirmed";
     public static final String STATUS_PROCESSING = "processing";
@@ -28,10 +30,9 @@ public class OrderController {
     public static final String STATUS_DELIVERED = "delivered";
     public static final String STATUS_CANCELLED = "cancelled";
     
-    // Danh sách các trạng thái có thể chỉnh sửa (trước khi confirm)
+
     private static final List<String> EDITABLE_STATUSES = Arrays.asList(STATUS_PENDING);
     
-    // Quy tắc chuyển đổi trạng thái
     private static final Map<String, List<String>> STATUS_TRANSITIONS = new HashMap<>();
     
     static {
@@ -47,9 +48,6 @@ public class OrderController {
         this.orderDAO = new OrderDAO(connection);
     }
     
-    /**
-     * Lấy tất cả đơn hàng được nhóm theo trạng thái (cho Kanban board)
-     */
     public Map<String, List<Order>> getOrdersGroupedByStatus() {
         Map<String, List<Order>> groupedOrders = new HashMap<>();
         
@@ -64,9 +62,6 @@ public class OrderController {
         return groupedOrders;
     }
     
-    /**
-     * Lấy số lượng đơn hàng theo từng trạng thái (cho dashboard)
-     */
     public Map<String, Integer> getOrderCountByStatus() {
         Map<String, Integer> counts = new HashMap<>();
         
@@ -80,9 +75,6 @@ public class OrderController {
         return counts;
     }
     
-    /**
-     * Chuyển đổi trạng thái đơn hàng
-     */
     public OrderTransitionResult changeOrderStatus(int orderId, String newStatus) {
         try {
             // Lấy thông tin đơn hàng hiện tại
@@ -93,14 +85,12 @@ public class OrderController {
             
             String currentStatus = order.getOrderStatus().trim();
             
-            // Kiểm tra quy tắc chuyển đổi trạng thái
             if (!isValidStatusTransition(currentStatus, newStatus)) {
                 return new OrderTransitionResult(false, 
                     String.format("Không thể chuyển từ trạng thái '%s' sang '%s'", 
                     currentStatus, newStatus));
             }
             
-            // Thực hiện cập nhật trạng thái
             boolean success = orderDAO.updateOrderStatus(orderId, newStatus);
             
             if (success) {
@@ -114,9 +104,6 @@ public class OrderController {
         }
     }
     
-    /**
-     * Kiểm tra xem đơn hàng có thể chỉnh sửa không
-     */
     public boolean canEditOrder(int orderId) {
         Order order = orderDAO.getOrderById(orderId);
         if (order == null) {
@@ -126,29 +113,21 @@ public class OrderController {
         return EDITABLE_STATUSES.contains(order.getOrderStatus());
     }
     
-    /**
-     * Kiểm tra xem đơn hàng có thể chỉnh sửa không (theo trạng thái)
-     */
+
     public boolean canEditOrder(String orderStatus) {
         return EDITABLE_STATUSES.contains(orderStatus);
     }
     
-    /**
-     * Lấy danh sách trạng thái có thể chuyển đổi từ trạng thái hiện tại
-     */
+
     public List<String> getValidNextStatuses(String currentStatus) {
         return STATUS_TRANSITIONS.getOrDefault(currentStatus, Arrays.asList());
     }
     
-    /**
-     * Kiểm tra tính hợp lệ của việc chuyển đổi trạng thái
-     */
     private boolean isValidStatusTransition(String currentStatus, String newStatus) {
         if (currentStatus == null || newStatus == null) {
             return false;
         }
         
-        // Cho phép giữ nguyên trạng thái
         if (currentStatus.equals(newStatus)) {
             return true;
         }
@@ -157,30 +136,22 @@ public class OrderController {
         return validNextStatuses != null && validNextStatuses.contains(newStatus);
     }
     
-    /**
-     * Lấy thông tin chi tiết đơn hàng
-     */
+
     public Order getOrderDetails(int orderId) {
         return orderDAO.getOrderById(orderId);
     }
     
-    /**
-     * Lấy tất cả đơn hàng
-     */
+
     public List<Order> getAllOrders() {
         return orderDAO.getAllOrders();
     }
     
-    /**
-     * Lấy đơn hàng theo trạng thái
-     */
+
     public List<Order> getOrdersByStatus(String status) {
         return orderDAO.getOrdersByStatus(status);
     }
     
-    /**
-     * Hủy đơn hàng (chỉ cho phép khi chưa confirm hoặc đang processing)
-     */
+
     public OrderTransitionResult cancelOrder(int orderId, String reason) {
         Order order = orderDAO.getOrderById(orderId);
         if (order == null) {
@@ -189,7 +160,6 @@ public class OrderController {
         
         String currentStatus = order.getOrderStatus();
         
-        // Chỉ cho phép hủy khi đơn hàng ở trạng thái PENDING, CONFIRMED hoặc PROCESSING
         if (!Arrays.asList(STATUS_PENDING, STATUS_CONFIRMED, STATUS_PROCESSING).contains(currentStatus)) {
             return new OrderTransitionResult(false, 
                 "Không thể hủy đơn hàng ở trạng thái " + currentStatus);
@@ -198,37 +168,26 @@ public class OrderController {
         return changeOrderStatus(orderId, STATUS_CANCELLED);
     }
     
-    /**
-     * Xác nhận đơn hàng (chuyển từ PENDING sang CONFIRMED)
-     */
+  
     public OrderTransitionResult confirmOrder(int orderId) {
         return changeOrderStatus(orderId, STATUS_CONFIRMED);
     }
     
-    /**
-     * Bắt đầu xử lý đơn hàng (chuyển từ CONFIRMED sang PROCESSING)
-     */
+
     public OrderTransitionResult startProcessing(int orderId) {
         return changeOrderStatus(orderId, STATUS_PROCESSING);
     }
     
-    /**
-     * Bắt đầu giao hàng (chuyển từ PROCESSING sang SHIPPING)
-     */
     public OrderTransitionResult startShipping(int orderId) {
         return changeOrderStatus(orderId, STATUS_SHIPPING);
     }
     
-    /**
-     * Hoàn thành giao hàng (chuyển từ SHIPPING sang DELIVERED)
-     */
+
     public OrderTransitionResult completeDelivery(int orderId) {
         return changeOrderStatus(orderId, STATUS_DELIVERED);
     }
     
-    /**
-     * Lấy danh sách tất cả trạng thái có thể có
-     */
+
     public List<String> getAllStatuses() {
         return Arrays.asList(
             STATUS_PENDING,
@@ -240,9 +199,7 @@ public class OrderController {
         );
     }
     
-    /**
-     * Class để trả về kết quả của việc chuyển đổi trạng thái
-     */
+
     public static class OrderTransitionResult {
         private final boolean success;
         private final String message;
@@ -264,5 +221,76 @@ public class OrderController {
         public String toString() {
             return String.format("OrderTransitionResult{success=%s, message='%s'}", success, message);
         }
+    }
+    
+  
+   public List<Order> getOrdersByMonth(int year, int month) {
+        try {
+            List<Order> orders = orderDAO.getOrdersByMonth(year, month);
+            return orders; // Trả về danh sách rỗng nếu không có dữ liệu, không hiển thị thông báo
+        } catch (Exception e) {
+            showErrorMessage("Lỗi khi lấy danh sách đơn hàng: " + e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+
+    public Map<Product, Integer> getTopSellingProducts(int limit, int year, int month) {
+        Map<Product, Integer> productSales = new HashMap<>();
+        List<Order> orders = getOrdersByMonth(year, month);
+
+        for (Order order : orders) {
+            for (OrderDetail detail : order.getDetails()) {
+                if (detail.getVariant() != null && detail.getVariant().getProduct() != null) {
+                    Product product = detail.getVariant().getProduct();
+                    productSales.put(product, productSales.getOrDefault(product, 0) + detail.getQuantity());
+                }
+            }
+        }
+
+        return productSales.entrySet().stream()
+                .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+                .limit(limit)
+                .collect(HashMap::new, (m, e) -> m.put(e.getKey(), e.getValue()), HashMap::putAll);
+    }
+
+
+    public Map<String, Integer> getMonthlySales(int year, int month) {
+        Map<String, Integer> monthlySales = new HashMap<>();
+        List<Order> orders = getOrdersByMonth(year, month);
+
+        for (Order order : orders) {
+            if (order.getOrderDate() != null) {
+                String monthKey = "Tháng " + order.getOrderDate().getMonthValue();
+                monthlySales.put(monthKey, monthlySales.getOrDefault(monthKey, 0) + order.getTotalQuantity());
+            }
+        }
+
+        return monthlySales;
+    }
+
+
+    public int getTotalQuantitySold(int year, int month) {
+        return getOrdersByMonth(year, month).stream()
+                .mapToInt(Order::getTotalQuantity)
+                .sum();
+    }
+
+
+    public double getTotalRevenue(int year, int month) {
+        return getOrdersByMonth(year, month).stream()
+                .mapToDouble(Order::getTotalAmount)
+                .sum();
+    }
+
+    private void showSuccessMessage(String message) {
+        JOptionPane.showMessageDialog(null, message, "Thành công", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void showErrorMessage(String message) {
+        JOptionPane.showMessageDialog(null, message, "Lỗi", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private void showInfoMessage(String message) {
+        JOptionPane.showMessageDialog(null, message, "Thông tin", JOptionPane.INFORMATION_MESSAGE);
     }
 }

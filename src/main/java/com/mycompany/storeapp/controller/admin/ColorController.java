@@ -54,7 +54,7 @@ public class ColorController {
         }
     }
 
-    public Color getColorById(int colorId) {
+    public Color getColorById(long colorId) {
         try {
             if (colorId <= 0) {
                 showErrorMessage("ID màu không hợp lệ!");

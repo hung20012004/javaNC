@@ -1,5 +1,6 @@
-package com.mycompany.storeapp.view.component.shop;
+package com.mycompany.storeapp.view.component.shop.cart;
 
+import com.mycompany.storeapp.view.component.shop.order.CreateOrderDialog;
 import com.mycompany.storeapp.controller.shop.CartController;
 import com.mycompany.storeapp.controller.admin.ProductVariantController;
 import com.mycompany.storeapp.model.entity.CartItem;
@@ -492,41 +493,19 @@ public class CartComponent extends JPanel {
             return;
         }
 
-        String[] paymentMethods = {"Tiền mặt", "Thẻ", "Chuyển khoản"};
-        String selectedMethod = (String) JOptionPane.showInputDialog(
-            this,
-            "Chọn phương thức thanh toán:",
-            "Thanh toán",
-            JOptionPane.QUESTION_MESSAGE,
-            null,
-            paymentMethods,
-            paymentMethods[0]
-        );
+        // Mở dialog tạo đơn hàng
+        Frame parentFrame = (Frame) SwingUtilities.getWindowAncestor(this);
+        CreateOrderDialog orderDialog = new CreateOrderDialog(parentFrame, cartItems, discountPercent);
+        orderDialog.setVisible(true);
 
-        if (selectedMethod != null) {
-            double total = cartItems.stream()
-                .mapToDouble(item -> {
-                    ProductVariant variant = variantController.getVariantById(item.getVariantId());
-                    if (variant != null) {
-                        return variant.getPrice().multiply(BigDecimal.valueOf(item.getQuantity())).doubleValue();
-                    }
-                    return 0.0;
-                }).sum();
-            total = total * (1 - discountPercent / 100.0);
-
-            int option = JOptionPane.showConfirmDialog(
-                this,
-                String.format("Xác nhận thanh toán %s bằng %s?", currencyFormat.format(total), selectedMethod),
-                "Xác nhận thanh toán",
-                JOptionPane.YES_NO_OPTION
-            );
-
-            if (option == JOptionPane.YES_OPTION) {
-                JOptionPane.showMessageDialog(this, "Thanh toán thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
-                clearCart();
-                customerField.setText("Khách lẻ");
-                notesArea.setText("");
-            }
+        // Kiểm tra nếu đơn hàng được tạo thành công
+        if (orderDialog.isOrderCreated()) {
+            // Xóa giỏ hàng sau khi tạo đơn hàng thành công
+            clearCart();
+            customerField.setText("Khách lẻ");
+            notesArea.setText("");
+            discountPercent = 0.0; // Reset giảm giá
+            updateCartSummary();
         }
     }
 

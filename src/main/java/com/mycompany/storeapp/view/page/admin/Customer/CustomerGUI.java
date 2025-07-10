@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.storeapp.controller.guest;
+package com.mycompany.storeapp.view.page.admin.Customer;
 
 /**
  *
  * @author Manh Hung
  */
-public class AuthController {
+public class CustomerGUI {
     
 }
