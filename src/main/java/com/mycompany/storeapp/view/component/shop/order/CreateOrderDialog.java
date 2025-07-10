@@ -143,11 +143,6 @@ public class CreateOrderDialog extends JDialog {
         StringBuilder confirmMessage = new StringBuilder();
         confirmMessage.append("Xác nhận tạo đơn hàng với thông tin sau:\n\n");
         confirmMessage.append("Khách hàng: ").append(customerInfoPanel.getCustomerName()).append("\n");
-        confirmMessage.append("Loại khách hàng: ").append(customerInfoPanel.getCustomerType()).append("\n");
-        
-        if (!customerInfoPanel.getCustomerPhone().isEmpty()) {
-            confirmMessage.append("Điện thoại: ").append(customerInfoPanel.getCustomerPhone()).append("\n");
-        }
         
         if (!orderInfoPanel.getDeliveryMethod().equals("Tại cửa hàng")) {
             confirmMessage.append("Địa chỉ: ").append(addressPanel.getFullAddress()).append("\n");
@@ -189,17 +184,11 @@ public class CreateOrderDialog extends JDialog {
         return customerInfoPanel.getCustomerName(); 
     }
     
-    public String getCustomerPhone() { 
-        return customerInfoPanel.getCustomerPhone(); 
-    }
     
     public String getCustomerEmail() { 
         return customerInfoPanel.getCustomerEmail(); 
     }
     
-    public String getCustomerType() { 
-        return customerInfoPanel.getCustomerType(); 
-    }
     
     // Address information
     public String getAddress() { 
