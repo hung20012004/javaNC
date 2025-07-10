@@ -50,6 +50,7 @@ com\mycompany\storeapp\model\dao\PurchaseOrderDetailDAO.class
 com\mycompany\storeapp\model\dao\OrderDetailDAO.class
 com\mycompany\storeapp\model\entity\InventoryCheckDetail.class
 com\mycompany\storeapp\view\page\admin\Size\SizeGUI$1.class
+com\mycompany\storeapp\controller\shop\ShippingAddressController.class
 com\mycompany\storeapp\model\dao\ProductReviewDAO.class
 com\mycompany\storeapp\view\component\admin\KanbanComponent\KanbanHeader.class
 com\mycompany\storeapp\model\entity\PurchaseOrderDetail.class
@@ -93,6 +94,7 @@ com\mycompany\storeapp\view\page\admin\Size\SizeFormDialog.class
 com\mycompany\storeapp\view\component\admin\FooterComponent.class
 com\mycompany\storeapp\controller\admin\UserController.class
 com\mycompany\storeapp\model\dao\OrderHistoryDAO.class
+com\mycompany\storeapp\view\component\shop\order\AddressPanel$1.class
 com\mycompany\storeapp\view\page\guest\LoginPage$1.class
 com\mycompany\storeapp\model\dao\ColorDAO.class
 com\mycompany\storeapp\view\page\admin\Material\MaterialFormDialog.class
@@ -135,6 +137,7 @@ com\mycompany\storeapp\model\entity\User.class
 com\mycompany\storeapp\view\component\shop\order\AddressPanel.class
 com\mycompany\storeapp\view\component\admin\SidebarComponent\MenuDataProvider$MenuGroupData.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryFormDialog$6.class
+com\mycompany\storeapp\view\component\shop\order\AddressPanel$AddressComboItem.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryDetailsDialog$1.class
 com\mycompany\storeapp\view\page\admin\Color\ColorGUI.class
 com\mycompany\storeapp\controller\guest\LoginController.class
