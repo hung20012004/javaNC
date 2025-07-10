@@ -3,6 +3,7 @@ com\mycompany\storeapp\model\entity\CartItem.class
 com\mycompany\storeapp\model\entity\InventoryCheck.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryGUI.class
 com\mycompany\storeapp\view\page\admin\Product\ProductFormPanel.class
+com\mycompany\storeapp\controller\admin\TagController.class
 com\mycompany\storeapp\model\entity\ShippingAddress.class
 com\mycompany\storeapp\view\component\admin\SidebarComponent\CustomScrollBarUI.class
 com\mycompany\storeapp\view\component\shop\OrderHistoryComponent$1.class
@@ -21,6 +22,7 @@ com\mycompany\storeapp\view\page\admin\Order\OrderEditDialog$2.class
 com\mycompany\storeapp\view\component\shop\cart\CartTableComponent$1.class
 com\mycompany\storeapp\model\entity\PurchaseOrder.class
 com\mycompany\storeapp\view\layer\AdminLayer$7.class
+com\mycompany\storeapp\view\page\admin\Tag\TagFormDialog$1.class
 com\mycompany\storeapp\view\layer\GuestLayer.class
 com\mycompany\storeapp\view\component\admin\SidebarComponent\MenuItem$1.class
 com\mycompany\storeapp\view\component\shop\cart\CartTableComponent$QuantityInfo.class
@@ -77,6 +79,7 @@ com\mycompany\storeapp\model\dao\PurchaseOrderDAO.class
 com\mycompany\storeapp\view\page\admin\Order\KanbanContent$1.class
 com\mycompany\storeapp\model\dao\RoleDAO.class
 com\mycompany\storeapp\model\dao\PromotionDAO.class
+com\mycompany\storeapp\view\page\admin\Tag\TagGUI$1.class
 com\mycompany\storeapp\view\component\shop\OrderHistoryComponent.class
 com\mycompany\storeapp\view\page\admin\Product\ProductVariantPanel$1$1.class
 com\mycompany\storeapp\view\component\CustomTable$VariantCellRenderer$4.class
@@ -89,6 +92,7 @@ com\mycompany\storeapp\model\entity\Payment.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryFormDialog$7$1.class
 com\mycompany\storeapp\model\entity\VariantImage.class
 com\mycompany\storeapp\controller\admin\OrderController$OrderTransitionResult.class
+com\mycompany\storeapp\view\page\admin\Tag\TagFormDialog.class
 com\mycompany\storeapp\view\page\admin\Product\ProductGUI.class
 com\mycompany\storeapp\view\component\CustomButton.class
 com\mycompany\storeapp\view\component\admin\SidebarComponent\MenuDataProvider$MenuItemData.class
@@ -124,6 +128,7 @@ com\mycompany\storeapp\controller\admin\ProductVariantController.class
 com\mycompany\storeapp\view\page\admin\Banner\BannerDetailsDialog.class
 com\mycompany\storeapp\controller\shop\UserController.class
 com\mycompany\storeapp\view\component\shop\cart\CartCustomerComponent.class
+com\mycompany\storeapp\view\page\admin\Tag\TagGUI.class
 com\mycompany\storeapp\view\page\admin\Product\ProductImagePanel$ImageListCellRenderer$1.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryFormDialog$1.class
 com\mycompany\storeapp\view\component\CustomTable$VariantCellRenderer$1.class

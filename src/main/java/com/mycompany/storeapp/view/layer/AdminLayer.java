@@ -13,6 +13,7 @@ import com.mycompany.storeapp.view.page.admin.Order.OrderKanbanView;
 import com.mycompany.storeapp.view.page.admin.Product.ProductGUI;
 import com.mycompany.storeapp.view.page.admin.PurchaseOrder.POKanBanView;
 import com.mycompany.storeapp.view.page.admin.Report.ReportPanel;
+import com.mycompany.storeapp.view.page.admin.Tag.TagGUI;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -217,7 +218,7 @@ public class AdminLayer extends JFrame {
             case "materials":
                  return new MaterialGUI();
             case "tags":
-                return createContentPanel("Quản lý Tag", "Quản lý thẻ cho sản phẩm", "🏷️");
+                return new TagGUI();
             case "orders":
                 return new OrderKanbanView();
             case "purchase-orders":
