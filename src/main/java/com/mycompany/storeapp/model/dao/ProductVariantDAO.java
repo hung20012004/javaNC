@@ -1,6 +1,7 @@
 package com.mycompany.storeapp.model.dao;
 
 import com.mycompany.storeapp.config.DatabaseConnection;
+import com.mycompany.storeapp.model.entity.Product;
 import com.mycompany.storeapp.model.entity.ProductVariant;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -60,10 +61,6 @@ public class ProductVariantDAO {
                 variant.setImageUrl(rs.getString("image_url"));
                 variant.setStockQuantity(rs.getInt("stock_quantity"));
                 variant.setPrice(rs.getBigDecimal("price"));
-
-                Product product = productDAO.getProductById(variant.getProductId());
-                variant.setProduct(product);
-
                 variants.add(variant);
             }
         } catch (SQLException e) {
@@ -71,15 +68,6 @@ public class ProductVariantDAO {
         }
         return variants;
     }
-
-    public ProductVariant getVariantByProductSizeColor(int productId, int sizeId, int colorId) {
-        String sql = "SELECT * FROM product_variants WHERE product_id = ? AND size_id = ? AND color_id = ?";
-
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, productId);
-            stmt.setInt(2, sizeId);
-            stmt.setInt(3, colorId);
-
 
     public ProductVariant getByProductColorSize(long productId, long colorId, int sizeId) {
         String sql = "SELECT * FROM product_variants WHERE product_id = ? AND color_id = ? AND size_id = ?";
@@ -130,7 +118,7 @@ public class ProductVariantDAO {
             return false;
         }
     }
-}
+
 
     public void updateStockQuantity(int variantId, int stockQuantity) {
         String sql = "UPDATE product_variants SET stock_quantity = ? WHERE variant_id = ?";

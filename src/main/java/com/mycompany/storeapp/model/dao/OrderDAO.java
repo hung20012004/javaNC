@@ -226,6 +226,7 @@ public class OrderDAO {
         }
 
         return orders;
+    }
 
     public int saveOrder(Order order) {
         String sql = "INSERT INTO orders (user_id, shipping_address_id, promotion_id, order_date, subtotal, shipping_fee, discount_amount, total_amount, payment_method, payment_status, order_status, note, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";

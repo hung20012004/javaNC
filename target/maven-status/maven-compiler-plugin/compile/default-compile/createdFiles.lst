@@ -87,6 +87,7 @@ com\mycompany\storeapp\controller\admin\ReportController$SalesReportData.class
 com\mycompany\storeapp\model\dao\CartItemDAO.class
 com\mycompany\storeapp\model\entity\Material.class
 com\mycompany\storeapp\model\entity\Promotion.class
+com\mycompany\storeapp\controller\shop\CartController.class
 com\mycompany\storeapp\model\entity\Category.class
 com\mycompany\storeapp\view\page\admin\PurchaseOrder\POKanBanContent$3.class
 com\mycompany\storeapp\view\page\admin\Order\KanbanContent$2.class

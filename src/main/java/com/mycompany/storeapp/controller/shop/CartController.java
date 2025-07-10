@@ -1,4 +1,4 @@
-package com.mycompany.storeapp.controller.admin;
+package com.mycompany.storeapp.controller.shop;
 
 import com.mycompany.storeapp.config.DatabaseConnection;
 import com.mycompany.storeapp.model.dao.CartDAO;

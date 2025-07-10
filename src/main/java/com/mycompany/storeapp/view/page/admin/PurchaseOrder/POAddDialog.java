@@ -18,6 +18,7 @@ import com.mycompany.storeapp.model.dao.SizeDAO;
 import com.mycompany.storeapp.model.dao.ColorDAO;
 import com.mycompany.storeapp.model.dao.ProductDAO;
 import com.mycompany.storeapp.config.DatabaseConnection;
+import com.mycompany.storeapp.controller.admin.ProductVariantController;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
@@ -40,6 +41,7 @@ import javax.swing.table.DefaultTableCellRenderer;
  */
 public class POAddDialog extends JDialog {
     private final PurchaseOrderController purchaseOrderController;
+    private final ProductVariantController productVariantController;
     private final SupplierDAO supplierDAO;
     private final ProductVariantDAO productVariantDAO;
     private final SizeDAO sizeDAO;
@@ -65,6 +67,7 @@ public class POAddDialog extends JDialog {
     public POAddDialog(JFrame parent, String title, PurchaseOrder purchaseOrder, PurchaseOrderController purchaseOrderController, Runnable onSaveCallback) {
         super(parent, title, ModalityType.APPLICATION_MODAL);
         this.purchaseOrderController = purchaseOrderController;
+        this.productVariantController = new ProductVariantController();
         this.supplierDAO = new SupplierDAO(new DatabaseConnection());
         this.productVariantDAO = new ProductVariantDAO(new DatabaseConnection());
         this.sizeDAO = new SizeDAO(new DatabaseConnection());
@@ -80,7 +83,7 @@ public class POAddDialog extends JDialog {
     }
 
     private void initComponents() {
-        // Combo box nhà cung cấp (hiển thị tên, lưu ID)
+        
         supplierComboBox = new JComboBox<>(supplierDAO.getAll().toArray(new Supplier[0]));
         supplierComboBox.setRenderer(new DefaultListCellRenderer() {
             @Override
@@ -94,9 +97,9 @@ public class POAddDialog extends JDialog {
         });
 
         createdByUserIdField = new JTextField(String.valueOf(currentUserId), 20);
-        createdByUserIdField.setEditable(false); // Không cho sửa mã người tạo
+        createdByUserIdField.setEditable(false); 
         totalAmountField = new JTextField(20);
-        totalAmountField.setEditable(false); // Tự động tính
+        totalAmountField.setEditable(false); 
         noteArea = new JTextArea(3, 20);
         noteArea.setLineWrap(true);
         noteArea.setWrapStyleWord(true);
@@ -111,7 +114,7 @@ public class POAddDialog extends JDialog {
         productTableModel = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 1 || column == 2; // Chỉ cho phép nhập đơn giá và số lượng
+                return column == 1 || column == 2;
             }
         };
         productTable = new JTable(productTableModel);
@@ -420,7 +423,7 @@ private void showAddProductDialog() {
                 double unitPrice = Double.parseDouble(unitPriceField.getText().trim());
                 Product selectedProduct = (Product) productComboBox.getSelectedItem();
                 Size selectedSize = (Size) sizeComboBox.getSelectedItem();
-                Color selectedColor = (Color) colorComboBox.getSelectedItem();
+                com.mycompany.storeapp.model.entity.Color selectedColor = (com.mycompany.storeapp.model.entity.Color) colorComboBox.getSelectedItem();
 
                 System.out.println("Selected: Product=" + (selectedProduct != null ? selectedProduct.getName() : "null") +
                         ", Size=" + (selectedSize != null ? selectedSize.getName() : "null") +
@@ -437,7 +440,7 @@ private void showAddProductDialog() {
                     return;
                 }
 
-                ProductVariant variant = productVariantDAO.getVariantByProductSizeColor((int) selectedProduct.getProductId(), selectedSize.getSizeId(), (int) selectedColor.getColorId());
+                ProductVariant variant = productVariantController.getVariantByProductColorSize( selectedProduct.getProductId(),selectedColor.getColorId(), selectedSize.getSizeId()  );
                 if (variant == null) {
                     JOptionPane.showMessageDialog(addProductDialog, "Biến thể sản phẩm không tồn tại!", "Lỗi", JOptionPane.WARNING_MESSAGE);
                     return;

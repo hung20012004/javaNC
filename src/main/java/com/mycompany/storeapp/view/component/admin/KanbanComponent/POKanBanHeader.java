@@ -20,7 +20,7 @@ public class POKanBanHeader extends JPanel {
     private JButton addButton;
     //private JButton updateButton;
     private JButton deleteButton;
-    private JButton exportButton;
+    //private JButton exportButton;
     
     public POKanBanHeader() {
         initComponents();
@@ -37,7 +37,7 @@ public class POKanBanHeader extends JPanel {
         addButton = new JButton("Thêm đơn nhập hàng mới");
        // updateButton = new JButton("Cập nhật");
         deleteButton = new JButton("Xóa");
-        exportButton = new JButton("Xuất Excel");
+//        exportButton = new JButton("Xuất Excel");
     }
     
     private void setupLayout() {
@@ -50,7 +50,7 @@ public class POKanBanHeader extends JPanel {
         buttonPanel.add(addButton);
         //buttonPanel.add(updateButton);
         buttonPanel.add(deleteButton);
-        buttonPanel.add(exportButton);
+//        buttonPanel.add(exportButton);
         buttonPanel.add(refreshButton);
         
         header.add(buttonPanel, BorderLayout.EAST);
@@ -94,9 +94,9 @@ public class POKanBanHeader extends JPanel {
         deleteButton.addActionListener(listener);
     }
     
-    public void addExportListener(ActionListener listener) {
-        exportButton.addActionListener(listener);
-    }
+//    public void addExportListener(ActionListener listener) {
+//        exportButton.addActionListener(listener);
+//    }
     
     public JButton getRefreshButton() {
         return refreshButton;
@@ -114,7 +114,7 @@ public class POKanBanHeader extends JPanel {
         return deleteButton;
     }
     
-    public JButton getExportButton() {
-        return exportButton;
-    }
+//    public JButton getExportButton() {
+//        return exportButton;
+//    }
 }

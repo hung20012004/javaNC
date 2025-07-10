@@ -104,7 +104,7 @@ public class POEditDialog extends JDialog {
         populateFields();
         loadProductList();
         setupEventHandlers();
-        setSize(1000, 900);
+        setSize(900, 700);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         User currentUser = Session.getInstance().getCurrentUser();
@@ -448,7 +448,7 @@ public class POEditDialog extends JDialog {
     
    private void showAddProductDialog() {
         JDialog addProductDialog = new JDialog(this, "Thêm sản phẩm", true);
-        addProductDialog.setSize(400, 300);
+        addProductDialog.setSize(600, 400);
         addProductDialog.setLocationRelativeTo(this);
 
         JPanel dialogPanel = new JPanel(new GridBagLayout());
@@ -562,7 +562,7 @@ public class POEditDialog extends JDialog {
                         return;
                     }
 
-                    ProductVariant variant = productVariantDAO.getVariantByProductSizeColor((int) selectedProduct.getProductId(), selectedSize.getSizeId(), (int) selectedColor.getColorId()); // Sửa đổi
+                    ProductVariant variant = productVariantDAO.getByProductColorSize( selectedProduct.getProductId(), selectedColor.getColorId(), selectedSize.getSizeId()); 
                     if (variant == null) {
                         JOptionPane.showMessageDialog(addProductDialog, "Biến thể sản phẩm không tồn tại!", "Lỗi", JOptionPane.WARNING_MESSAGE);
                         return;
