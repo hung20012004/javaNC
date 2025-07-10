@@ -1,23 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.storeapp.controller.admin;
 
 import com.mycompany.storeapp.config.DatabaseConnection;
-import com.mycompany.storeapp.model.dao.SizeDAO;
 import com.mycompany.storeapp.model.dao.SizeDAO;
 import com.mycompany.storeapp.model.entity.Size;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author ADMIN
- */
 public class SizeController {
-     private final SizeDAO sizeDAO;
+    private final SizeDAO sizeDAO;
+    
     public SizeController() {
         var dbConnection = new DatabaseConnection();
         this.sizeDAO = new SizeDAO(dbConnection);
@@ -58,6 +50,19 @@ public class SizeController {
             return sizeDAO.getAll();
         } catch (Exception e) {
             showErrorMessage("Lỗi khi lấy danh sách kích cỡ: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public Size getSizeById(int sizeId) {
+        try {
+            if (sizeId <= 0) {
+                showErrorMessage("ID kích cỡ không hợp lệ!");
+                return null;
+            }
+            return sizeDAO.getById(sizeId);
+        } catch (Exception e) {
+            showErrorMessage("Lỗi khi lấy thông tin kích cỡ: " + e.getMessage());
             return null;
         }
     }

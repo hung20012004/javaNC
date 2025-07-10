@@ -1,14 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.storeapp.model.dao;
 /**
  *
  * @author Hi
  */
 import com.mycompany.storeapp.config.DatabaseConnection;
-import com.mycompany.storeapp.model.entity.Product;
 import com.mycompany.storeapp.model.entity.ProductVariant;
 import com.mycompany.storeapp.model.entity.Color;
 import com.mycompany.storeapp.model.entity.Size;

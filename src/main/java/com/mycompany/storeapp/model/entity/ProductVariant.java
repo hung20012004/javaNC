@@ -1,20 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.storeapp.model.entity;
 
-/**
- *
- * @author Hi
- */
+import com.mycompany.storeapp.controller.admin.ColorController;
+import com.mycompany.storeapp.controller.admin.SizeController;
+import com.mycompany.storeapp.model.dao.ProductDAO;
+import com.mycompany.storeapp.config.DatabaseConnection;
 import java.math.BigDecimal;
-import java.util.List;
 
 public class ProductVariant {
     private int variantId;
     private long productId;
     private int colorId;
+    private long productId;
+    private long colorId;
     private int sizeId;
     private String imageUrl;
     private int stockQuantity;
@@ -35,18 +32,20 @@ public class ProductVariant {
     }
 
     public long getProductId() {
+    public long getProductId() {
         return productId;
     }
 
     public void setProductId(long productId) {
+    public void setProductId(long productId) {
         this.productId = productId;
     }
 
-    public int getColorId() {
+    public long getColorId() {
         return colorId;
     }
 
-    public void setColorId(int colorId) {
+    public void setColorId(long colorId) {
         this.colorId = colorId;
     }
 
@@ -82,12 +81,14 @@ public class ProductVariant {
         this.price = price;
     }
 
-    public Color getColor() {
-        return color;
+    public Product getProduct() {
+        ProductDAO productDAO = new ProductDAO(new DatabaseConnection());
+        return productDAO.getProductById(productId);
     }
 
-    public void setColor(Color color) {
-        this.color = color;
+    public ProductColor getColor() {
+        ColorController colorController = new ColorController();
+        return colorController.getColorById(colorId);
     }
 
     public Size getSize() {
@@ -96,5 +97,13 @@ public class ProductVariant {
 
     public void setSize(Size size) {
         this.size = size;
+    }
+        SizeController sizeController = new SizeController();
+        return sizeController.getSizeById(sizeId);
+    }
+
+    public String getName() {
+        Product product = getProduct();
+        return (product != null) ? product.getName() : "Không xác định";
     }
 }

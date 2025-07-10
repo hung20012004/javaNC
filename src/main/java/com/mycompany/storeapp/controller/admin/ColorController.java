@@ -1,20 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.storeapp.controller.admin;
 
 import com.mycompany.storeapp.config.DatabaseConnection;
 import com.mycompany.storeapp.model.dao.ColorDAO;
-import com.mycompany.storeapp.model.entity.Color;
+import com.mycompany.storeapp.model.entity.ProductColor;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author ADMIN
- */
 public class ColorController {
     private final ColorDAO colorDAO;
     
@@ -27,7 +19,7 @@ public class ColorController {
         this.colorDAO = new ColorDAO(dbConnection);
     }
     
-    public boolean createColor(Color color) {
+    public boolean createColor(ProductColor color) {
         try {
             if (color.getName() == null || color.getName().trim().isEmpty()) {
                 showErrorMessage("Tên màu không được để trống!");
@@ -53,7 +45,7 @@ public class ColorController {
         }
     }
 
-    public List<Color> getAllColors() {
+    public List<ProductColor> getAllColors() {
         try {
             return colorDAO.getAll();
         } catch (Exception e) {
@@ -62,7 +54,20 @@ public class ColorController {
         }
     }
 
-    public boolean updateColor(Color color) {
+    public ProductColor getColorById(long colorId) {
+        try {
+            if (colorId <= 0) {
+                showErrorMessage("ID màu không hợp lệ!");
+                return null;
+            }
+            return colorDAO.getById(colorId);
+        } catch (Exception e) {
+            showErrorMessage("Lỗi khi lấy thông tin màu: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public boolean updateColor(ProductColor color) {
         try {
             if (color.getColorId() <= 0) {
                 showErrorMessage("ID màu không hợp lệ!");
