@@ -18,7 +18,7 @@ public class Color {
     private Date created_at;
     private Date updated_at;
 
-    public Color() {}
+    public Color(int par, int par1, int par2) {}
 
     public Color(long colorId, String name, String description) {
         this.colorId = colorId;

@@ -126,4 +126,10 @@ public class ProductVariant {
     public void setCartItems(List<CartItem> cartItems) {
         this.cartItems = cartItems;
     }
+    
+    
+    //Thêm phương thức này
+     public String getProductName() {
+        return product != null ? product.getName() : "";
+    }
 }

@@ -16,7 +16,6 @@ import java.util.List;
 
 /**
  * DAO for Order management
- * @author Hi
  */
 public class OrderDAO {
     private final DatabaseConnection connection;
@@ -52,9 +51,6 @@ public class OrderDAO {
         return orders;
     }
     
-    /**
-     * Get orders by status
-     */
     public List<Order> getOrdersByStatus(String status) {
         List<Order> orders = new ArrayList<>();
         String sql = "SELECT * FROM orders WHERE order_status = ? ORDER BY order_date DESC";
@@ -79,9 +75,6 @@ public class OrderDAO {
         return orders;
     }
     
-    /**
-     * Update order status
-     */
     public boolean updateOrderStatus(int orderId, String newStatus) {
         String sql = "UPDATE orders SET order_status = ?, updated_at = ? WHERE order_id = ?";
         
@@ -101,9 +94,7 @@ public class OrderDAO {
         }
     }
     
-    /**
-     * Get order by ID
-     */
+
     public Order getOrderById(int orderId) {
         String sql = "SELECT * FROM orders WHERE order_id = ?";
         
@@ -127,9 +118,6 @@ public class OrderDAO {
         return null;
     }
     
-    /**
-     * Get order details by order ID
-     */
     public List<OrderDetail> getOrderDetailsByOrderId(int orderId) {
         List<OrderDetail> details = new ArrayList<>();
         String sql = "SELECT * FROM order_details WHERE order_id = ?";
@@ -166,9 +154,6 @@ public class OrderDAO {
         }
     }
     
-    /**
-     * Map ResultSet to Order object
-     */
     private Order mapResultSetToOrder(ResultSet rs) throws SQLException {
         Order order = new Order();
         order.setOrderId(rs.getInt("order_id"));
@@ -201,9 +186,6 @@ public class OrderDAO {
         return order;
     }
     
-    /**
-     * Get order count by status
-     */
     public int getOrderCountByStatus(String status) {
         String sql = "SELECT COUNT(*) FROM orders WHERE order_status = ?";
         
@@ -222,5 +204,27 @@ public class OrderDAO {
         }
         
         return 0;
+    }
+    
+    public List<Order> getOrdersByMonth(int year, int month) {
+        List<Order> orders = new ArrayList<>();
+        String sql = "SELECT * FROM orders WHERE YEAR(order_date) = ? AND MONTH(order_date) = ? ORDER BY order_date DESC";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, year);
+            stmt.setInt(2, month);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Order order = mapResultSetToOrder(rs);
+                loadShippingAddress(order);
+                order.setDetails(getOrderDetailsByOrderId(order.getOrderId()));
+                orders.add(order);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getting orders by month: " + e.getMessage());
+        }
+
+        return orders;
     }
 }

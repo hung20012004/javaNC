@@ -55,7 +55,7 @@ public class ColorDAO {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                Color color = new Color();
+                Color color = new Color(46, 204, 113);
                 color.setColorId(rs.getInt("color_id"));
                 color.setName(rs.getString("name"));
                 color.setDescription(rs.getString("description"));
@@ -76,7 +76,7 @@ public class ColorDAO {
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                Color color = new Color();
+                Color color = new Color(46, 204, 113);
                 color.setColorId(rs.getInt("color_id"));
                 color.setName(rs.getString("name"));
                 color.setDescription(rs.getString("description"));

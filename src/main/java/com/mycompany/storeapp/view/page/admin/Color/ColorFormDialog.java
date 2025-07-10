@@ -27,7 +27,7 @@ public class ColorFormDialog extends JDialog {
 
     public ColorFormDialog(JFrame parent, String title, Color color) {
         super(parent, title, true);
-        this.color = color != null ? color : new Color();
+        this.color = color != null ? color : new Color(46, 204, 113);
         this.isEditMode = (color != null);
 
         initComponents();
