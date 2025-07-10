@@ -201,16 +201,8 @@ public class ShopLayer extends JFrame {
         switch (action) {
             case "pos":
                 return new POSComponent(this, cartComponent);
-            case "products":
-                return createSimpleContentPanel("Danh sách sản phẩm", "Quản lý và tìm kiếm sản phẩm", "🛍️");
             case "orders":
                 return createSimpleContentPanel("Đơn hàng", "Quản lý đơn hàng", "📋");
-            case "customers":
-                return createSimpleContentPanel("Khách hàng", "Thông tin khách hàng", "👥");
-            case "reports":
-                return createSimpleContentPanel("Báo cáo", "Thống kê bán hàng", "📊");
-            case "settings":
-                return createSimpleContentPanel("Cài đặt", "Cấu hình hệ thống", "⚙️");
             default:
                 return new POSComponent(this, cartComponent);
         }

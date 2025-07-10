@@ -33,7 +33,13 @@ public class Order {
     private List<OrderDetail> details = new ArrayList<>();
     private List<OrderHistory> history = new ArrayList<>();
     private Payment payment;
+    private Integer processedByUserId;
+    private Integer shippedByUserId;
 
+    public Integer getProcessedByUserId() { return processedByUserId; }
+    public void setProcessedByUserId(Integer processedByUserId) { this.processedByUserId = processedByUserId; }
+    public Integer getShippedByUserId() { return shippedByUserId; }
+    public void setShippedByUserId(Integer shippedByUserId) { this.shippedByUserId = shippedByUserId; }
     public Order() {}
 
     // ========== GETTERS & SETTERS GỐC (GIỮ NGUYÊN) ==========

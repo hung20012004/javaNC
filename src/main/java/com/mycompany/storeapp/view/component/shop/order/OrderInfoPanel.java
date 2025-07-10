@@ -71,7 +71,10 @@ public class OrderInfoPanel extends JPanel {
         // Phương thức giao hàng
         deliveryMethodCombo = new JComboBox<>(new String[]{"Tại cửa hàng", "Giao hàng tiêu chuẩn", "Giao hàng nhanh", "Giao hàng hỏa tốc"});
         deliveryMethodCombo.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        deliveryMethodCombo.addActionListener(e -> calculateTotals());
+        deliveryMethodCombo.addActionListener(e -> {
+            updateShippingFee();
+            calculateTotals();
+        });
 
         // Phí giao hàng
         shippingFeeField = new JTextField("0");
@@ -216,6 +219,11 @@ public class OrderInfoPanel extends JPanel {
         return panel;
     }
 
+    private void updateShippingFee() {
+        double shippingFee = getShippingFeeByMethod();
+        shippingFeeField.setText(String.valueOf((int)shippingFee));
+    }
+
     public void calculateTotals() {
         double subtotal = cartItems.stream()
             .mapToDouble(item -> {
@@ -228,11 +236,12 @@ public class OrderInfoPanel extends JPanel {
         
         double discount = subtotal * (discountPercent / 100.0);
         
-        double shippingFee = 0;
+        double shippingFee;
         try {
             shippingFee = Double.parseDouble(shippingFeeField.getText().replaceAll("[^0-9.]", ""));
         } catch (NumberFormatException e) {
             shippingFee = getShippingFeeByMethod();
+            shippingFeeField.setText(String.valueOf((int)shippingFee));
         }
         
         double total = subtotal - discount + shippingFee;
@@ -241,8 +250,6 @@ public class OrderInfoPanel extends JPanel {
         discountLabel.setText("-" + currencyFormat.format(discount));
         shippingLabel.setText(currencyFormat.format(shippingFee));
         totalLabel.setText(currencyFormat.format(total));
-        
-        shippingFeeField.setText(String.valueOf((int)shippingFee));
     }
 
     private double getShippingFeeByMethod() {
@@ -263,7 +270,7 @@ public class OrderInfoPanel extends JPanel {
         try {
             return Double.parseDouble(shippingFeeField.getText().replaceAll("[^0-9.]", ""));
         } catch (NumberFormatException e) {
-            return 0;
+            return getShippingFeeByMethod();
         }
     }
     public double getSubtotal() {
@@ -285,8 +292,15 @@ public class OrderInfoPanel extends JPanel {
 
     // Setters
     public void setPaymentMethod(String method) { paymentMethodCombo.setSelectedItem(method); }
-    public void setDeliveryMethod(String method) { deliveryMethodCombo.setSelectedItem(method); }
-    public void setShippingFee(double fee) { shippingFeeField.setText(String.valueOf((int)fee)); }
+    public void setDeliveryMethod(String method) { 
+        deliveryMethodCombo.setSelectedItem(method);
+        updateShippingFee();
+        calculateTotals();
+    }
+    public void setShippingFee(double fee) { 
+        shippingFeeField.setText(String.valueOf((int)fee));
+        calculateTotals();
+    }
     
     // Add listener for delivery method changes
     public void addDeliveryMethodListener(ActionListener listener) {
