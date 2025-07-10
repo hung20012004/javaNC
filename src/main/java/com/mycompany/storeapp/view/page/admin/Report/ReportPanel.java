@@ -52,27 +52,6 @@ public class ReportPanel extends JPanel {
         tabbedPane.addTab("Biểu Đồ Thống Kê", createChartsPanel());
         tabbedPane.addTab("Danh Sách Sản Phẩm", createTopProductsTable());
         add(tabbedPane, BorderLayout.CENTER);
-
-        // Nút đóng
-        JButton closeButton = new JButton("Đóng");
-        closeButton.setBackground(new Color(231, 76, 60));
-        closeButton.setForeground(Color.WHITE);
-        closeButton.addActionListener(e -> {
-            Window window = SwingUtilities.getWindowAncestor(this);
-            if (window != null) {
-                window.dispose(); // Đóng toàn bộ cửa sổ
-            } else {
-                Container parent = getParent();
-                if (parent instanceof JPanel) {
-                    parent.remove(this);
-                    parent.revalidate();
-                    parent.repaint();
-                }
-            }
-        });
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        buttonPanel.add(closeButton);
-        add(buttonPanel, BorderLayout.SOUTH);
     }
 
 private JPanel createOverviewPanel() {

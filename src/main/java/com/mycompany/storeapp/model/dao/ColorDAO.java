@@ -55,7 +55,7 @@ public class ColorDAO {
             stmt.setLong(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                Color color = new Color(46, 204, 113);
+                Color color = new Color();
                 color.setColorId(rs.getInt("color_id"));
                 color.setName(rs.getString("name"));
                 color.setDescription(rs.getString("description"));
@@ -76,8 +76,8 @@ public class ColorDAO {
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                Color color = new Color(46, 204, 113);
-                color.setColorId(rs.getInt("color_id"));
+                Color color = new Color();
+                color.setColorId(rs.getLong("color_id"));
                 color.setName(rs.getString("name"));
                 color.setDescription(rs.getString("description"));
                 color.setCreated_at(rs.getTimestamp("created_at"));
@@ -115,5 +115,26 @@ public class ColorDAO {
             e.printStackTrace();
             return false;
         }
+    }
+    
+    public Color getByIdwithConn(long id, Connection conn) {
+        String sql = "SELECT * FROM colors WHERE color_id = ?";
+        try (
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setLong(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Color color = new Color();
+                color.setColorId(rs.getInt("color_id"));
+                color.setName(rs.getString("name"));
+                color.setDescription(rs.getString("description"));
+                color.setCreated_at(rs.getTimestamp("created_at"));
+                color.setUpdated_at(rs.getTimestamp("updated_at"));
+                return color;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

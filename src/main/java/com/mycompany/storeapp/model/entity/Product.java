@@ -1,6 +1,7 @@
 package com.mycompany.storeapp.model.entity;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class Product {
     private long productId;
@@ -22,9 +23,11 @@ public class Product {
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
+    private List<ProductVariant> variants;
+    
     public Product() {}
 
-    public Product(long productId, Integer categoryId, long materialId, String brand, String name, String gender, String careInstruction, String slug, String description, double price, double salePrice, int stockQuantity, String sku, int minPurchaseQuantity, int maxPurchaseQuantity, boolean isActive, Timestamp createdAt, Timestamp updatedAt) {
+    public Product(long productId, Integer categoryId, long materialId, String brand, String name, String gender, String careInstruction, String slug, String description, double price, double salePrice, int stockQuantity, String sku, int minPurchaseQuantity, int maxPurchaseQuantity, boolean isActive, Timestamp createdAt, Timestamp updatedAt,  List<ProductVariant> variants) {
         this.productId = productId;
         this.categoryId = categoryId;
         this.materialId = materialId;
@@ -43,6 +46,7 @@ public class Product {
         this.isActive = isActive;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.variants = variants;
     }
 
     public long getProductId() { return productId; }
@@ -81,4 +85,13 @@ public class Product {
     public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
     public Timestamp getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(Timestamp updatedAt) { this.updatedAt = updatedAt; }
+
+    public List<ProductVariant> getVariants() {
+        return variants;
+    }
+
+    public void setVariants(List<ProductVariant> variants) {
+        this.variants = variants;
+    }
+    
 }

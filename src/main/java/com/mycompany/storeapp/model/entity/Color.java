@@ -18,6 +18,7 @@ public class Color {
     private Date created_at;
     private Date updated_at;
 
+    public Color() {}
     public Color (int par1, int par2, int par3) {}
 
     public Color(long colorId, String name, String description) {
@@ -40,4 +41,9 @@ public class Color {
 
     public Date getUpdated_at() { return updated_at; }
     public void setUpdated_at(Date updated_at) { this.updated_at = updated_at; }
+    
+          @Override
+    public String toString() {
+        return this.name != null ? this.name : "Không xác định";
+    }
 }
