@@ -10,7 +10,7 @@ import java.sql.Timestamp;
  */
 public class ProductImage {
     private int imageId;
-    private int productId;
+    private long productId;
     private String imageUrl;
     private int displayOrder;
     private boolean isPrimary;
@@ -30,11 +30,11 @@ public class ProductImage {
         this.imageId = imageId;
     }
 
-    public int getProductId() {
+    public long getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(long productId) {
         this.productId = productId;
     }
 

@@ -10,6 +10,9 @@ import com.mycompany.storeapp.view.page.admin.Material.MaterialGUI;
 import com.mycompany.storeapp.view.page.admin.Size.SizeGUI;
 import com.mycompany.storeapp.view.page.admin.Supplier.SupplierGUI;
 import com.mycompany.storeapp.view.page.admin.Order.OrderKanbanView;
+import com.mycompany.storeapp.view.page.admin.Product.ProductGUI;
+import com.mycompany.storeapp.view.page.admin.PurchaseOrder.POKanBanView;
+import com.mycompany.storeapp.view.page.admin.Report.ReportPanel;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -45,7 +48,7 @@ public class AdminLayer extends JFrame {
         setLocationRelativeTo(null);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         try {
-            setIconImage(Toolkit.getDefaultToolkit().getImage("https://res.cloudinary.com/deczn9jtq/image/upload/v1751535499/logo_nhtaxb.png"));
+            setIconImage(Toolkit.getDefaultToolkit().getImage("resources/icons/shop.png"));
         } catch (Exception e) {
         }
     }
@@ -200,17 +203,13 @@ public class AdminLayer extends JFrame {
     private JPanel createContentForAction(String action) {
         switch (action) {
             case "dashboard":
-                return createContentPanel("Dashboard", "Tổng quan về hoạt động của cửa hàng", "📊");
-            case "notifications":
-                return createContentPanel("Thông báo", "Quản lý thông báo hệ thống", "🔔");
+                return new ReportPanel();
             case "products":
-                return createContentPanel("Quản lý sản phẩm", "Thêm, sửa, xóa và quản lý sản phẩm", "📦");
+                return new ProductGUI();
             case "categories":
                 return new CategoryGUI();
             case "suppliers":
                 return new SupplierGUI();
-            case "inventory-checks":
-                return createContentPanel("Kiểm kho", "Kiểm tra và quản lý tồn kho", "📋");
             case "sizes":
                 return new SizeGUI();
             case "colors":
@@ -221,32 +220,17 @@ public class AdminLayer extends JFrame {
                 return createContentPanel("Quản lý Tag", "Quản lý thẻ cho sản phẩm", "🏷️");
             case "orders":
                 return new OrderKanbanView();
-            case "order-warehouse":
-                return createContentPanel("Đóng hàng", "Quản lý việc đóng gói đơn hàng", "📦");
-            case "order-shipping":
-                return createContentPanel("Vận chuyển", "Theo dõi vận chuyển đơn hàng", "🚛");
             case "purchase-orders":
-                return createContentPanel("Đơn nhập hàng", "Quản lý đơn hàng nhập từ nhà cung cấp", "🛒");
-            case "payment":
-                return createContentPanel("Danh sách thanh toán", "Quản lý các giao dịch thanh toán", "💳");
-            case "reconcile-vnpay":
-                return createContentPanel("Đối soát VNPay", "Đối soát giao dịch với VNPay", "🔄");
-            case "payment-report":
-                return createContentPanel("Báo cáo thanh toán", "Thống kê và báo cáo thanh toán", "📊");
+                return new POKanBanView();
             case "customers":
                 return createContentPanel("Quản lý khách hàng", "Thông tin và lịch sử khách hàng", "👥");
-            case "support-requests":
-                return createContentPanel("Yêu cầu hỗ trợ", "Xử lý yêu cầu hỗ trợ từ khách hàng", "🎧");
-            case "reviews":
-                return createContentPanel("Quản lý đánh giá", "Quản lý đánh giá và nhận xét", "⭐");
             case "banners":
                 return new BannerGUI();
-            case "settings":
-                return createContentPanel("Cài đặt hệ thống", "Cấu hình các thiết lập hệ thống", "⚙️");
+                
             case "staffs":
                 return createContentPanel("Quản lý nhân viên", "Quản lý thông tin nhân viên", "👤");
             default:
-                return createContentPanel("Dashboard", "Tổng quan về hoạt động của cửa hàng", "📊");
+                return new ReportPanel();
         }
     }
 

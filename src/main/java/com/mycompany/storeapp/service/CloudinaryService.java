@@ -1,16 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.storeapp.service;
 
 import javax.swing.*;
 import java.io.*;
 import java.net.*;
 import java.nio.file.Files;
-import java.util.Base64;
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 import java.security.MessageDigest;
 import java.util.*;
 
@@ -25,6 +18,10 @@ public class CloudinaryService {
     private static final String API_KEY = "144834732335636"; // Thay bằng API key của bạn
     private static final String API_SECRET = "NcYKBF9NAcJO7cFfth7UGM0e4I0"; // Thay bằng API secret của bạn
     private static final String UPLOAD_URL = "https://api.cloudinary.com/v1_1/" + CLOUD_NAME + "/image/upload";
+    
+    // Timeout settings
+    private static final int CONNECT_TIMEOUT = 10000; // 10 seconds
+    private static final int READ_TIMEOUT = 30000; // 30 seconds
     
     /**
      * Upload file ảnh lên Cloudinary
@@ -48,12 +45,17 @@ public class CloudinaryService {
                 throw new IllegalArgumentException("File không phải là ảnh hợp lệ hoặc quá lớn (>10MB)");
             }
             
+            // Update progress to 0%
+            if (progressCallback != null) {
+                SwingUtilities.invokeLater(() -> progressCallback.onProgress(0));
+            }
+            
             // Tạo parameters cho upload
             Map<String, String> params = new HashMap<>();
             params.put("timestamp", String.valueOf(System.currentTimeMillis() / 1000));
-            params.put("upload_preset", "category_images"); // Hoặc sử dụng signed upload
+            params.put("folder", "products"); // Organize images in folder
             
-            // Tạo signature (nếu sử dụng signed upload)
+            // Tạo signature cho signed upload
             String signature = createSignature(params, API_SECRET);
             params.put("api_key", API_KEY);
             params.put("signature", signature);
@@ -66,6 +68,13 @@ public class CloudinaryService {
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+            connection.setConnectTimeout(CONNECT_TIMEOUT);
+            connection.setReadTimeout(READ_TIMEOUT);
+            
+            // Update progress to 10%
+            if (progressCallback != null) {
+                SwingUtilities.invokeLater(() -> progressCallback.onProgress(10));
+            }
             
             try (OutputStream outputStream = connection.getOutputStream();
                  PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8"), true)) {
@@ -79,6 +88,11 @@ public class CloudinaryService {
                     writer.flush();
                 }
                 
+                // Update progress to 20%
+                if (progressCallback != null) {
+                    SwingUtilities.invokeLater(() -> progressCallback.onProgress(20));
+                }
+                
                 // Add file
                 writer.append("--").append(boundary).append("\r\n");
                 writer.append("Content-Disposition: form-data; name=\"file\"; filename=\"")
@@ -88,18 +102,21 @@ public class CloudinaryService {
                 writer.flush();
                 
                 // Write file data with progress tracking
-                try (FileInputStream inputStream = new FileInputStream(imageFile)) {
-                    byte[] buffer = new byte[4096];
+                try (FileInputStream inputStream = new FileInputStream(imageFile);
+                     BufferedInputStream bufferedInput = new BufferedInputStream(inputStream)) {
+                    
+                    byte[] buffer = new byte[8192]; // Increased buffer size
                     long totalBytes = imageFile.length();
                     long uploadedBytes = 0;
                     int bytesRead;
                     
-                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    while ((bytesRead = bufferedInput.read(buffer)) != -1) {
                         outputStream.write(buffer, 0, bytesRead);
                         uploadedBytes += bytesRead;
                         
                         if (progressCallback != null) {
-                            int progress = (int) ((uploadedBytes * 100) / totalBytes);
+                            // Progress from 20% to 90% during file upload
+                            int progress = 20 + (int) ((uploadedBytes * 70) / totalBytes);
                             SwingUtilities.invokeLater(() -> progressCallback.onProgress(progress));
                         }
                     }
@@ -108,6 +125,11 @@ public class CloudinaryService {
                 writer.append("\r\n");
                 writer.append("--").append(boundary).append("--\r\n");
                 writer.flush();
+            }
+            
+            // Update progress to 95%
+            if (progressCallback != null) {
+                SwingUtilities.invokeLater(() -> progressCallback.onProgress(95));
             }
             
             // Read response
@@ -124,14 +146,23 @@ public class CloudinaryService {
                 }
                 
                 if (responseCode >= 200 && responseCode < 300) {
-                    return parseImageUrl(response.toString());
+                    String imageUrl = parseImageUrl(response.toString());
+                    
+                    // Update progress to 100%
+                    if (progressCallback != null) {
+                        SwingUtilities.invokeLater(() -> progressCallback.onProgress(100));
+                    }
+                    
+                    return imageUrl;
                 } else {
-                    System.err.println("Upload failed: " + response.toString());
+                    System.err.println("Upload failed with response code: " + responseCode);
+                    System.err.println("Response: " + response.toString());
                     return null;
                 }
             }
             
         } catch (Exception e) {
+            System.err.println("Error uploading image: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -174,7 +205,7 @@ public class CloudinaryService {
      */
     private static String createSignature(Map<String, String> params, String apiSecret) {
         try {
-            // Sort parameters
+            // Sort parameters (exclude api_key and signature)
             TreeMap<String, String> sortedParams = new TreeMap<>(params);
             sortedParams.remove("api_key");
             sortedParams.remove("signature");
@@ -206,6 +237,7 @@ public class CloudinaryService {
             return hexString.toString();
             
         } catch (Exception e) {
+            System.err.println("Error creating signature: " + e.getMessage());
             e.printStackTrace();
             return "";
         }
@@ -223,7 +255,9 @@ public class CloudinaryService {
                 startIndex += searchKey.length();
                 int endIndex = jsonResponse.indexOf("\"", startIndex);
                 if (endIndex != -1) {
-                    return jsonResponse.substring(startIndex, endIndex);
+                    String url = jsonResponse.substring(startIndex, endIndex);
+                    // Unescape the URL
+                    return url.replace("\\/", "/");
                 }
             }
             
@@ -234,14 +268,122 @@ public class CloudinaryService {
                 startIndex += searchKey.length();
                 int endIndex = jsonResponse.indexOf("\"", startIndex);
                 if (endIndex != -1) {
-                    return jsonResponse.substring(startIndex, endIndex);
+                    String url = jsonResponse.substring(startIndex, endIndex);
+                    // Unescape the URL
+                    return url.replace("\\/", "/");
                 }
             }
             
             return null;
         } catch (Exception e) {
+            System.err.println("Error parsing image URL: " + e.getMessage());
             e.printStackTrace();
             return null;
+        }
+    }
+    
+    /**
+     * Delete image from Cloudinary
+     * @param publicId Public ID của ảnh cần xóa
+     * @return true nếu xóa thành công, false nếu thất bại
+     */
+    public static boolean deleteImage(String publicId) {
+        try {
+            String deleteUrl = "https://api.cloudinary.com/v1_1/" + CLOUD_NAME + "/image/destroy";
+            
+            Map<String, String> params = new HashMap<>();
+            params.put("public_id", publicId);
+            params.put("timestamp", String.valueOf(System.currentTimeMillis() / 1000));
+            
+            String signature = createSignature(params, API_SECRET);
+            params.put("api_key", API_KEY);
+            params.put("signature", signature);
+            
+            String boundary = "----WebKitFormBoundary" + System.currentTimeMillis();
+            
+            URL url = new URL(deleteUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoOutput(true);
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+            connection.setConnectTimeout(CONNECT_TIMEOUT);
+            connection.setReadTimeout(READ_TIMEOUT);
+            
+            try (OutputStream outputStream = connection.getOutputStream();
+                 PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8"), true)) {
+                
+                for (Map.Entry<String, String> entry : params.entrySet()) {
+                    writer.append("--").append(boundary).append("\r\n");
+                    writer.append("Content-Disposition: form-data; name=\"").append(entry.getKey()).append("\"\r\n");
+                    writer.append("\r\n");
+                    writer.append(entry.getValue()).append("\r\n");
+                    writer.flush();
+                }
+                
+                writer.append("--").append(boundary).append("--\r\n");
+                writer.flush();
+            }
+            
+            int responseCode = connection.getResponseCode();
+            return responseCode >= 200 && responseCode < 300;
+            
+        } catch (Exception e) {
+            System.err.println("Error deleting image: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    /**
+     * Extract public ID from Cloudinary URL
+     * @param cloudinaryUrl URL của ảnh trên Cloudinary
+     * @return Public ID, null nếu không tìm thấy
+     */
+    public static String extractPublicId(String cloudinaryUrl) {
+        try {
+            if (cloudinaryUrl == null || !cloudinaryUrl.contains("cloudinary.com")) {
+                return null;
+            }
+            
+            // Format: https://res.cloudinary.com/[cloud_name]/image/upload/v[version]/[public_id].[format]
+            String[] parts = cloudinaryUrl.split("/");
+            if (parts.length >= 7) {
+                String lastPart = parts[parts.length - 1];
+                // Remove file extension
+                int dotIndex = lastPart.lastIndexOf('.');
+                if (dotIndex > 0) {
+                    return "products/" + lastPart.substring(0, dotIndex);
+                }
+                return "products/" + lastPart;
+            }
+            
+            return null;
+        } catch (Exception e) {
+            System.err.println("Error extracting public ID: " + e.getMessage());
+            return null;
+        }
+    }
+    
+    /**
+     * Generate transformation URL for image resizing
+     * @param originalUrl URL gốc của ảnh
+     * @param width Chiều rộng mong muốn
+     * @param height Chiều cao mong muốn
+     * @return URL với transformation, null nếu thất bại
+     */
+    public static String getResizedImageUrl(String originalUrl, int width, int height) {
+        try {
+            if (originalUrl == null || !originalUrl.contains("cloudinary.com")) {
+                return originalUrl;
+            }
+            
+            // Insert transformation parameters
+            String transformation = String.format("w_%d,h_%d,c_fill", width, height);
+            return originalUrl.replace("/upload/", "/upload/" + transformation + "/");
+            
+        } catch (Exception e) {
+            System.err.println("Error generating resized URL: " + e.getMessage());
+            return originalUrl;
         }
     }
     

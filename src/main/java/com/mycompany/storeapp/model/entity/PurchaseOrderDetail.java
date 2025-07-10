@@ -9,85 +9,55 @@ package com.mycompany.storeapp.model.entity;
  * @author Hi
  */
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class PurchaseOrderDetail {
-    private int poId;
+   private int poId;
     private int productId;
     private int quantity;
-    private BigDecimal unitPrice;
-    private BigDecimal subtotal;
+    private double unitPrice;
+    private double subTotal;
+    private Date createdAt;
+    private Date updatedAt;
+    
+    private String productName;
+    private String sizeName;
+    private String colorName;
 
-    private PurchaseOrder purchaseOrder;
-    private Product product;
+    public PurchaseOrderDetail(){};
 
-    public PurchaseOrderDetail() {}
-
-    // Getters & Setters
-    public int getPoId() {
-        return poId;
-    }
-    public void setPoId(int poId) {
+    public PurchaseOrderDetail(int poId, int productId, int quantity, double unitPrice, double subTotal, 
+                              Date createdAt, Date updatedAt) {
         this.poId = poId;
-    }
-
-    public int getProductId() {
-        return productId;
-    }
-    public void setProductId(int productId) {
         this.productId = productId;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-    public void setQuantity(int quantity) {
         this.quantity = quantity;
-        recalculateSubtotal();
-    }
-
-    public BigDecimal getUnitPrice() {
-        return unitPrice;
-    }
-    public void setUnitPrice(BigDecimal unitPrice) {
         this.unitPrice = unitPrice;
-        recalculateSubtotal();
+        this.subTotal = subTotal;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
-    public BigDecimal getSubtotal() {
-        return subtotal;
-    }
-    private void setSubtotal(BigDecimal subtotal) {
-        this.subtotal = subtotal;
-    }
-
-    public PurchaseOrder getPurchaseOrder() {
-        return purchaseOrder;
-    }
-    public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
-        this.purchaseOrder = purchaseOrder;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    // Tính lại subtotal tự động khi quantity hoặc unitPrice thay đổi
-    private void recalculateSubtotal() {
-        if (unitPrice != null) {
-            BigDecimal qty = new BigDecimal(quantity);
-            setSubtotal(unitPrice.multiply(qty));
-        } else {
-            setSubtotal(BigDecimal.ZERO);
-        }
-    }
-
-    // Gọi recalculate tổng tiền PO sau khi lưu thay đổi
-    public void onSaved() {
-        if (purchaseOrder != null) {
-            purchaseOrder.recalculateTotalAmount();
-        }
-    }
+    // Getters and Setters
+    public int getPoId() { return poId; }
+    public void setPoId(int poId) { this.poId = poId; }
+    public int getProductId() { return productId; }
+    public void setProductId(int productId) { this.productId = productId; }
+    public int getQuantity() { return quantity; }
+    public void setQuantity(int quantity) { this.quantity = quantity; }
+    public double getUnitPrice() { return unitPrice; }
+    public void setUnitPrice(double unitPrice) { this.unitPrice = unitPrice; }
+    public double getSubTotal() { return subTotal; }
+    public void setSubTotal(double subTotal) { this.subTotal = subTotal; }
+    public Date getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
+    public Date getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(Date updatedAt) { this.updatedAt = updatedAt; }
+    
+    
+    public void setProductName(String productName) { this.productName = productName; }
+    public String getProductName() { return productName; }
+    public void setSizeName(String sizeName) { this.sizeName = sizeName; }
+    public String getSizeName() { return sizeName; }
+    public void setColorName(String colorName) { this.colorName = colorName; }
+    public String getColorName() { return colorName; }
 }

@@ -108,5 +108,10 @@ public class Category {
     public int getProductCount() {
         return products != null ? products.size() : 0;
     }
+    
+              @Override
+    public String toString() {
+        return this.name != null ? this.name : "Không xác định";
+    }
 }
 

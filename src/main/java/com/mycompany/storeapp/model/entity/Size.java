@@ -18,8 +18,6 @@ public class Size {
     private Date created_at;
     private Date updated_at;
 
-    private List<ProductVariant> variants;
-
     public Size() {}
 
     public int getSizeId() {
@@ -48,12 +46,10 @@ public class Size {
 
     public Date getUpdated_at() { return updated_at; }
     public void setUpdated_at(Date updated_at) { this.updated_at = updated_at; }
-
-    public List<ProductVariant> getVariants() {
-        return variants;
-    }
-    public void setVariants(List<ProductVariant> variants) {
-        this.variants = variants;
+    
+          @Override
+    public String toString() {
+        return this.name != null ? this.name : "Không xác định";
     }
 }
 

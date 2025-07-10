@@ -407,35 +407,6 @@ public class Order {
     }
 
     /**
-     * Lấy danh sách tên sản phẩm (để hiển thị preview)
-     */
-    public String getProductNames() {
-        if (details == null || details.isEmpty()) {
-            return "Không có sản phẩm";
-        }
-        
-        StringBuilder products = new StringBuilder();
-        for (int i = 0; i < Math.min(details.size(), 3); i++) {
-            OrderDetail detail = details.get(i);
-            if (detail.getVariant() != null && 
-                detail.getVariant().getProduct() != null &&
-                detail.getVariant().getProduct().getName() != null) {
-                
-                if (products.length() > 0) {
-                    products.append(", ");
-                }
-                products.append(detail.getVariant().getProduct().getName());
-            }
-        }
-        
-        if (details.size() > 3) {
-            products.append("...");
-        }
-        
-        return products.length() > 0 ? products.toString() : "Không có sản phẩm";
-    }
-
-    /**
      * Kiểm tra đơn hàng đã thanh toán chưa
      */
     public boolean isPaid() {

@@ -10,6 +10,7 @@ package com.mycompany.storeapp.view.page.admin.Supplier;
  */
 import com.mycompany.storeapp.controller.admin.SupplierController;
 import com.mycompany.storeapp.model.entity.Supplier;
+import com.mycompany.storeapp.service.ExcelExporter;
 import com.mycompany.storeapp.view.component.CustomTable;
 import com.mycompany.storeapp.view.component.admin.ContentComponent.ContentFooter;
 import com.mycompany.storeapp.view.component.admin.ContentComponent.ContentHeader;
@@ -18,6 +19,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,6 +73,7 @@ public class SupplierGUI extends JPanel {
 
     private void setupEventListeners() {
         header.addAddButtonListener(e -> showAddSupplierDialog());
+        header.addExportExcelButtonListener(e -> exportToExcel());
         header.addSearchButtonListener(e -> performSearch());
         header.addSearchFieldListener(new KeyAdapter() {
             @Override
@@ -193,5 +196,21 @@ public class SupplierGUI extends JPanel {
 
     private void deleteSupplier(int id) {
         if (supplierController.deleteSupplier(id)) loadData();
+    }
+    
+        private void exportToExcel() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Lưu file Excel");
+        fileChooser.setSelectedFile(new File("Suppliers.xlsx"));
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String filePath = fileToSave.getAbsolutePath();
+            if (!filePath.endsWith(".xlsx")) {
+                filePath += ".xlsx";
+            }
+            ExcelExporter.exportToExcel(columnNames, filteredData, fieldNames, filePath);
+        }
     }
 }
