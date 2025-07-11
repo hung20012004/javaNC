@@ -69,7 +69,7 @@ public class MenuDataProvider {
             
             // Marketing
             new MenuGroupData("Marketing",
-                new MenuItemData("🎯", "Banner khuyến mãi", "banners")
+                new MenuItemData("🎁", "Khuyến mãi", "promotions")
             ),
             
             // Cài đặt hệ thống

@@ -12,6 +12,7 @@ import com.mycompany.storeapp.view.page.admin.Size.SizeGUI;
 import com.mycompany.storeapp.view.page.admin.Supplier.SupplierGUI;
 import com.mycompany.storeapp.view.page.admin.Order.OrderKanbanView;
 import com.mycompany.storeapp.view.page.admin.Product.ProductGUI;
+import com.mycompany.storeapp.view.page.admin.Promotion.PromotionGUI;
 import com.mycompany.storeapp.view.page.admin.PurchaseOrder.POKanBanView;
 import com.mycompany.storeapp.view.page.admin.Report.ReportPanel;
 import com.mycompany.storeapp.view.page.admin.Role.RoleGUI;
@@ -225,6 +226,8 @@ public class AdminLayer extends JFrame {
                 return new OrderKanbanView();
             case "purchase-orders":
                 return new POKanBanView();
+            case "promotions":
+                return new PromotionGUI();
             case "customers":
                 return new CustomerGUI();
             case "banners":
