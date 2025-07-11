@@ -11,8 +11,8 @@ package com.mycompany.storeapp.model.entity;
 import java.time.LocalDate;
 
 public class UserProfile {
-    private Integer profileId;
-    private Integer userId;
+    private int profileId;
+    private int userId;
     private String fullName;
     private LocalDate dateOfBirth;
     private String gender;
@@ -24,17 +24,17 @@ public class UserProfile {
 
     public UserProfile() {}
 
-    public Integer getProfileId() {
+    public int getProfileId() {
         return profileId;
     }
-    public void setProfileId(Integer profileId) {
+    public void setProfileId(int profileId) {
         this.profileId = profileId;
     }
 
-    public Integer getUserId() {
+    public int getUserId() {
         return userId;
     }
-    public void setUserId(Integer userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 

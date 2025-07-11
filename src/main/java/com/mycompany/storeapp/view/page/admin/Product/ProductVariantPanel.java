@@ -76,7 +76,7 @@ public class ProductVariantPanel extends JPanel {
         variantTable = new CustomTable(columnNames, fieldNames, true);
         
         // Initialize buttons
-        addButton = new JButton("Thêm Variant");
+        addButton = new JButton("Thêm biến thể");
         duplicateButton = new JButton("Nhân bản");
         
         // Style buttons
@@ -172,7 +172,7 @@ public class ProductVariantPanel extends JPanel {
             int row = variantTable.getSelectedRowIndex();
             if (row >= 0 && row < variants.size()) {
                 ProductVariant variant = variants.get(row);
-                showVariantDialog(variant, "Chỉnh sửa Variant");
+                showVariantDialog(variant, "Chỉnh sửa biến thể");
             }
         });
         
@@ -196,13 +196,13 @@ public class ProductVariantPanel extends JPanel {
             ProductVariant clone = cloneVariant(original);
             // Reset ID for new variant
             clone.setVariantId(0);
-            if (showVariantDialog(clone, "Nhân bản Variant")) {
+            if (showVariantDialog(clone, "Nhân bản biến thể")) {
                 variants.add(clone);
                 refreshTable();
                 notifyVariantChanged();
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn một variant để nhân bản.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một biến thể để nhân bản.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     
@@ -214,7 +214,7 @@ public class ProductVariantPanel extends JPanel {
         if (!editable) return;
         
         int option = JOptionPane.showConfirmDialog(this,
-            "Bạn có chắc chắn muốn xóa variant này?",
+            "Bạn có chắc chắn muốn xóa biến thể này?",
             "Xác nhận xóa",
             JOptionPane.YES_NO_OPTION);
         
@@ -229,7 +229,7 @@ public class ProductVariantPanel extends JPanel {
         if (!editable) return;
         
         ProductVariant variant = new ProductVariant();
-        if (showVariantDialog(variant, "Thêm Variant Mới")) {
+        if (showVariantDialog(variant, "Thêm biến thể Mới")) {
             variants.add(variant);
             refreshTable();
             notifyVariantChanged();

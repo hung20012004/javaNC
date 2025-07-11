@@ -165,4 +165,9 @@ public class ContentHeader extends JPanel {
     public void addSearchFieldListener(java.awt.event.KeyListener listener) {
         searchField.addKeyListener(listener);
     }
+    public void disableAddButton() {
+//        addButton.setEnabled(false);
+//        addButton.setBackground(new Color(150, 150, 150)); // Gray out the button when disabled
+        addButton.setVisible(false);
+    }
 }

@@ -15,7 +15,10 @@ public class User {
     private String password;
     private String email;
     private int role_id;
+    private boolean is_active;
 
+    private UserProfile profile;
+    
     public User() {
     }
 
@@ -60,5 +63,28 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getRole_id() {
+        return role_id;
+    }
+
+    public void setRole_id(int role_id) {
+        this.role_id = role_id;
+    }
+
+    public void setIs_active(Boolean is_active) {
+        this.is_active = is_active;
+    }
+    public Boolean getIs_active() {
+        return is_active;
+    }
+
+    public UserProfile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(UserProfile profile) {
+        this.profile = profile;
     }
 }
