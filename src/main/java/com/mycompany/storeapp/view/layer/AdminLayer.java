@@ -17,6 +17,7 @@ import com.mycompany.storeapp.view.page.admin.PurchaseOrder.POKanBanView;
 import com.mycompany.storeapp.view.page.admin.Report.ReportPanel;
 import com.mycompany.storeapp.view.page.admin.Role.RoleGUI;
 import com.mycompany.storeapp.view.page.admin.Tag.TagGUI;
+import com.mycompany.storeapp.view.page.admin.Staff.StaffGUI;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -233,7 +234,7 @@ public class AdminLayer extends JFrame {
             case "banners":
                 return new BannerGUI();
             case "staffs":
-                return createContentPanel("Quản lý nhân viên", "Quản lý thông tin nhân viên", "👤");
+                return new StaffGUI();
             case "roles":
                 return new RoleGUI();
             default:

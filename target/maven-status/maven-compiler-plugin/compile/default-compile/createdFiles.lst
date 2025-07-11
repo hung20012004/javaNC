@@ -18,7 +18,9 @@ com\mycompany\storeapp\view\page\admin\Product\ProductImagePanel$1.class
 com\mycompany\storeapp\model\entity\Cart.class
 com\mycompany\storeapp\view\component\shop\cart\CartTableComponent$DeleteButtonEditor$1.class
 com\mycompany\storeapp\view\page\admin\Order\OrderEditDialog$2.class
+com\mycompany\storeapp\view\page\admin\Staff\StaffFormDialog$1.class
 com\mycompany\storeapp\view\component\shop\cart\CartTableComponent$1.class
+com\mycompany\storeapp\view\page\admin\Staff\StaffFormDialog.class
 com\mycompany\storeapp\model\entity\PurchaseOrder.class
 com\mycompany\storeapp\view\layer\AdminLayer$7.class
 com\mycompany\storeapp\view\page\admin\Tag\TagFormDialog$1.class
@@ -52,6 +54,7 @@ com\mycompany\storeapp\view\layer\AdminLayer$2.class
 com\mycompany\storeapp\view\page\admin\Product\ProductFormDialog$DialogMode.class
 com\mycompany\storeapp\view\page\guest\LoginPage.class
 com\mycompany\storeapp\view\page\admin\Order\OrderEditDialog$1.class
+com\mycompany\storeapp\view\page\admin\Staff\StaffGUI$1.class
 com\mycompany\storeapp\model\dao\PurchaseOrderDetailDAO.class
 com\mycompany\storeapp\view\component\shop\OrderHistoryComponent$ButtonRenderer.class
 com\mycompany\storeapp\model\dao\OrderDetailDAO.class
@@ -82,6 +85,7 @@ com\mycompany\storeapp\view\page\admin\Material\MaterialGUI$1.class
 com\mycompany\storeapp\view\component\admin\SidebarComponent\MenuItem$2.class
 com\mycompany\storeapp\view\page\admin\Banner\BannerDetailsDialog$1.class
 com\mycompany\storeapp\view\page\admin\Product\ProductVariantPanel.class
+com\mycompany\storeapp\view\page\admin\Staff\StaffGUI.class
 com\mycompany\storeapp\model\dao\SupplierDAO.class
 com\mycompany\storeapp\model\entity\Payment.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryFormDialog$7$1.class
@@ -143,6 +147,7 @@ com\mycompany\storeapp\view\component\admin\HeaderComponent$1.class
 com\mycompany\storeapp\view\layer\AdminLayer$3.class
 com\mycompany\storeapp\view\page\admin\Supplier\SupplierFormDialog.class
 com\mycompany\storeapp\view\page\admin\Product\ProductImagePanel$2$1.class
+com\mycompany\storeapp\view\page\admin\Staff\StaffFormDialog$3.class
 com\mycompany\storeapp\view\page\admin\Order\OrderKanbanView.class
 com\mycompany\storeapp\view\page\admin\Order\KanbanContent$3.class
 com\mycompany\storeapp\view\page\admin\Product\ProductImagePanel$3.class
@@ -156,6 +161,7 @@ com\mycompany\storeapp\view\component\shop\cart\CartTableComponent$CartTableList
 com\mycompany\storeapp\view\page\admin\Category\CategoryDetailsDialog$1.class
 com\mycompany\storeapp\view\page\admin\Color\ColorGUI.class
 com\mycompany\storeapp\controller\guest\LoginController.class
+com\mycompany\storeapp\view\page\admin\Staff\StaffFormDialog$2.class
 com\mycompany\storeapp\view\page\admin\Promotion\PromotionGUI.class
 com\mycompany\storeapp\view\page\admin\Color\ColorGUI$1.class
 com\mycompany\storeapp\view\page\admin\Supplier\SupplierGUI$1.class
