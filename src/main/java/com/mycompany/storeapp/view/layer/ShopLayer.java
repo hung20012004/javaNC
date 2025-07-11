@@ -1,3 +1,4 @@
+
 package com.mycompany.storeapp.view.layer;
 
 import com.mycompany.storeapp.view.component.shop.ShopHeaderComponent;
@@ -5,6 +6,7 @@ import com.mycompany.storeapp.view.component.shop.ShopNavbarComponent;
 import com.mycompany.storeapp.view.component.shop.ShopFooterComponent;
 import com.mycompany.storeapp.view.component.shop.cart.CartComponent;
 import com.mycompany.storeapp.view.component.shop.POSComponent;
+import com.mycompany.storeapp.view.component.shop.OrderHistoryComponent;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -20,13 +22,13 @@ public class ShopLayer extends JFrame {
     private JPanel mainContentPanel;
     private JPanel currentContentPanel;
     private JSplitPane mainSplitPane;
-    private static final java.awt.Color PRIMARY_COLOR = new java.awt.Color(59, 130, 246);
-    private static final java.awt.Color SECONDARY_COLOR = new java.awt.Color(16, 185, 129);
-    private static final java.awt.Color BACKGROUND_COLOR = new java.awt.Color(249, 250, 251);
-    private static final java.awt.Color CONTENT_BACKGROUND = java.awt.Color.WHITE;
-    private static final java.awt.Color BORDER_COLOR = new java.awt.Color(229, 231, 235);
-    private static final java.awt.Color DANGER_COLOR = new java.awt.Color(239, 68, 68);
-    private static final java.awt.Color WARNING_COLOR = new java.awt.Color(245, 158, 11);
+    private static final Color PRIMARY_COLOR = new Color(59, 130, 246);
+    private static final Color SECONDARY_COLOR = new Color(16, 185, 129);
+    private static final Color BACKGROUND_COLOR = new Color(249, 250, 251);
+    private static final Color CONTENT_BACKGROUND = Color.WHITE;
+    private static final Color BORDER_COLOR = new Color(229, 231, 235);
+    private static final Color DANGER_COLOR = new Color(239, 68, 68);
+    private static final Color WARNING_COLOR = new Color(245, 158, 11);
     private Map<String, JPanel> contentCache = new HashMap<>();
     private boolean isCartVisible = true;
     private LayerManager layerManager;
@@ -108,6 +110,7 @@ public class ShopLayer extends JFrame {
         addKeyboardShortcut(KeyEvent.VK_F2, 0, "toggle_cart", e -> toggleCart());
         addKeyboardShortcut(KeyEvent.VK_F3, 0, "new_order", e -> handleNewOrder());
         addKeyboardShortcut(KeyEvent.VK_F4, 0, "payment", e -> handlePayment());
+        addKeyboardShortcut(KeyEvent.VK_F5, 0, "orders", e -> handleMenuAction("orders"));
         addKeyboardShortcut(KeyEvent.VK_Q, InputEvent.ALT_DOWN_MASK, "logout", e -> handleLogout());
     }
 
@@ -202,7 +205,7 @@ public class ShopLayer extends JFrame {
             case "pos":
                 return new POSComponent(this, cartComponent);
             case "orders":
-                return createSimpleContentPanel("Đơn hàng", "Quản lý đơn hàng", "📋");
+                return new OrderHistoryComponent();
             default:
                 return new POSComponent(this, cartComponent);
         }
@@ -296,10 +299,6 @@ public class ShopLayer extends JFrame {
             cartComponent.clearCart();
             JOptionPane.showMessageDialog(this, "Thanh toán thành công!", "Success", JOptionPane.INFORMATION_MESSAGE);
         }
-    }
-
-    private void focusSearch() {
-        System.out.println("Focus search bar");
     }
 
     private void cleanup() {
