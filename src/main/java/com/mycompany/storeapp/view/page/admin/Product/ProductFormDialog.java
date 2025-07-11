@@ -152,7 +152,7 @@ public class ProductFormDialog extends JDialog {
         
         // Add tabs
         tabbedPane.addTab("Thông tin sản phẩm", productFormPanel);
-        tabbedPane.addTab("Variants (" + variants.size() + ")", variantPanel);
+        tabbedPane.addTab("Biến thể (" + variants.size() + ")", variantPanel);
         tabbedPane.addTab("Hình ảnh (" + productImages.size() + ")", imagePanel);
         
         add(tabbedPane, BorderLayout.CENTER);
@@ -267,7 +267,7 @@ public class ProductFormDialog extends JDialog {
     }
     
     private void updateTabTitles() {
-        tabbedPane.setTitleAt(1, "Variants (" + variantPanel.getVariantCount() + ")");
+        tabbedPane.setTitleAt(1, "Biến thể (" + variantPanel.getVariantCount() + ")");
         tabbedPane.setTitleAt(2, "Hình ảnh (" + imagePanel.getImageCount() + ")");
     }
     

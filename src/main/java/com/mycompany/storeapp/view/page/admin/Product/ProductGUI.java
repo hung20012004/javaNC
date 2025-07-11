@@ -49,7 +49,7 @@ public class ProductGUI extends JPanel {
     // Column names và field names cho Product
     private final String[] columnNames = {
         "Hình ảnh", "Tên sản phẩm", "Giá gốc", 
-        "Tổng kho", "Variants", "Trạng thái", "Ngày thêm"
+        "Tổng kho", "BIến thể", "Trạng thái", "Ngày thêm"
     };
     
     private final String[] fieldNames = {
@@ -190,10 +190,10 @@ public class ProductGUI extends JPanel {
                 currentData = new ArrayList<>();
             }
             
-            // Tải trước tất cả dữ liệu liên quan
             loadRelatedData();
             
-            // Thiết lập các thuộc tính động cho Product
+            debugProductData();
+            
             enrichProductData();
             
             filteredData = new ArrayList<>(currentData);
@@ -301,8 +301,7 @@ public class ProductGUI extends JPanel {
     
     private EnhancedProduct createEnhancedProduct(Product product) {
         EnhancedProduct enhanced = new EnhancedProduct();
-        
-        // Copy tất cả thuộc tính từ Product gốc
+
         enhanced.setProductId(product.getProductId());
         enhanced.setCategoryId(product.getCategoryId());
         enhanced.setMaterialId(product.getMaterialId());
@@ -321,14 +320,20 @@ public class ProductGUI extends JPanel {
         enhanced.setActive(product.isActive());
         enhanced.setCreatedAt(product.getCreatedAt());
         enhanced.setUpdatedAt(product.getUpdatedAt());
-        enhanced.setVariants(product.getVariants());
-        
-        // Thiết lập các thuộc tính động
+
         List<ProductVariant> variants = productVariantsMap.get(product.getProductId());
+        if (variants == null) {
+            variants = new ArrayList<>();
+        }
+
+        enhanced.setVariants(variants);
+
         String imageUrl = productImageMap.get(product.getProductId());
-        
         enhanced.setupDynamicProperties(variants, imageUrl);
-        
+
+        System.out.println("Product ID: " + product.getProductId() + 
+                           ", Variants count: " + variants.size());
+
         return enhanced;
     }
     
@@ -415,7 +420,19 @@ public class ProductGUI extends JPanel {
         }
     }
     
-    // Public methods
+    private void debugProductData() {
+        System.out.println("=== DEBUG PRODUCT DATA ===");
+        System.out.println("Current data size: " + currentData.size());
+        System.out.println("Product variants map size: " + productVariantsMap.size());
+
+        for (Product product : currentData) {
+            List<ProductVariant> variants = productVariantsMap.get(product.getProductId());
+            System.out.println("Product: " + product.getName() + 
+                               ", Variants: " + (variants != null ? variants.size() : 0));
+        }
+        System.out.println("=== END DEBUG ===");
+    }
+    
     public void refreshData() {
         loadData();
     }

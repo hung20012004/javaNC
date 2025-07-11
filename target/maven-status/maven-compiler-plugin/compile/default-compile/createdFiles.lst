@@ -13,7 +13,6 @@ com\mycompany\storeapp\controller\admin\SupplierController.class
 com\mycompany\storeapp\view\page\admin\Order\OrderKanbanView$3.class
 com\mycompany\storeapp\model\dao\OrderDAO.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryFormDialog$4.class
-com\mycompany\storeapp\view\component\CustomTable$ActionCellEditor.class
 com\mycompany\storeapp\view\page\admin\Banner\BannerFormDialog$3.class
 com\mycompany\storeapp\view\page\admin\Product\ProductImagePanel$1.class
 com\mycompany\storeapp\model\entity\Cart.class
@@ -44,7 +43,6 @@ com\mycompany\storeapp\model\dao\SizeDAO.class
 com\mycompany\storeapp\model\entity\SupportRequest.class
 com\mycompany\storeapp\view\page\admin\Product\ProductFormDialog.class
 com\mycompany\storeapp\model\entity\UserProfile.class
-com\mycompany\storeapp\view\component\CustomTable$ImageCellRenderer$1.class
 com\mycompany\storeapp\view\component\admin\SidebarComponent\MenuDataProvider.class
 com\mycompany\storeapp\model\dao\ProductImageDAO.class
 com\mycompany\storeapp\view\component\CustomTable.class
@@ -63,7 +61,6 @@ com\mycompany\storeapp\model\dao\ProductReviewDAO.class
 com\mycompany\storeapp\view\component\admin\KanbanComponent\KanbanHeader.class
 com\mycompany\storeapp\model\entity\PurchaseOrderDetail.class
 com\mycompany\storeapp\view\component\admin\HeaderComponent.class
-com\mycompany\storeapp\view\component\CustomTable$VariantCellRenderer$2.class
 com\mycompany\storeapp\view\layer\AdminLayer.class
 com\mycompany\storeapp\controller\admin\BannerController.class
 com\mycompany\storeapp\controller\admin\OrderController.class
@@ -71,7 +68,6 @@ com\mycompany\storeapp\controller\guest\RegisterController.class
 com\mycompany\storeapp\view\page\admin\Material\MaterialGUI.class
 com\mycompany\storeapp\model\dao\WishlistDAO.class
 com\mycompany\storeapp\view\component\CustomTable$1.class
-com\mycompany\storeapp\view\component\CustomTable$VariantCellRenderer.class
 com\mycompany\storeapp\view\component\shop\cart\CartTableComponent$DeleteButtonRenderer.class
 com\mycompany\storeapp\view\component\shop\cart\CartSummaryComponent.class
 com\mycompany\storeapp\model\entity\Banner.class
@@ -82,7 +78,6 @@ com\mycompany\storeapp\model\dao\PromotionDAO.class
 com\mycompany\storeapp\view\page\admin\Tag\TagGUI$1.class
 com\mycompany\storeapp\view\component\shop\OrderHistoryComponent.class
 com\mycompany\storeapp\view\page\admin\Product\ProductVariantPanel$1$1.class
-com\mycompany\storeapp\view\component\CustomTable$VariantCellRenderer$4.class
 com\mycompany\storeapp\view\page\admin\Material\MaterialGUI$1.class
 com\mycompany\storeapp\view\component\admin\SidebarComponent\MenuItem$2.class
 com\mycompany\storeapp\view\page\admin\Banner\BannerDetailsDialog$1.class
@@ -96,11 +91,11 @@ com\mycompany\storeapp\view\page\admin\Tag\TagFormDialog.class
 com\mycompany\storeapp\view\page\admin\Product\ProductGUI.class
 com\mycompany\storeapp\view\component\CustomButton.class
 com\mycompany\storeapp\view\component\admin\SidebarComponent\MenuDataProvider$MenuItemData.class
-com\mycompany\storeapp\view\component\CustomTable$VariantCellRenderer$3.class
 com\mycompany\storeapp\model\dao\CartItemDAO.class
 com\mycompany\storeapp\model\entity\Material.class
 com\mycompany\storeapp\model\entity\Promotion.class
 com\mycompany\storeapp\model\entity\Category.class
+com\mycompany\storeapp\view\page\admin\Promotion\PromotionFormDialog.class
 com\mycompany\storeapp\view\page\admin\PurchaseOrder\POKanBanContent$3.class
 com\mycompany\storeapp\view\component\shop\OrderHistoryComponent$ButtonEditor.class
 com\mycompany\storeapp\view\page\admin\Order\KanbanContent$2.class
@@ -111,6 +106,7 @@ com\mycompany\storeapp\view\component\CustomTable$3.class
 com\mycompany\storeapp\view\page\admin\Size\SizeFormDialog.class
 com\mycompany\storeapp\view\component\admin\FooterComponent.class
 com\mycompany\storeapp\controller\admin\UserController.class
+com\mycompany\storeapp\controller\admin\PromotionController.class
 com\mycompany\storeapp\view\component\shop\cart\CartActionsComponent.class
 com\mycompany\storeapp\view\page\admin\Product\ProductImagePanel$4.class
 com\mycompany\storeapp\model\dao\OrderHistoryDAO.class
@@ -131,7 +127,6 @@ com\mycompany\storeapp\view\component\shop\cart\CartCustomerComponent.class
 com\mycompany\storeapp\view\page\admin\Tag\TagGUI.class
 com\mycompany\storeapp\view\page\admin\Product\ProductImagePanel$ImageListCellRenderer$1.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryFormDialog$1.class
-com\mycompany\storeapp\view\component\CustomTable$VariantCellRenderer$1.class
 com\mycompany\storeapp\model\dao\CartDAO.class
 com\mycompany\storeapp\model\dao\CategoryDAO.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryDetailsDialog.class
@@ -144,7 +139,6 @@ com\mycompany\storeapp\controller\admin\ColorController.class
 com\mycompany\storeapp\service\CloudinaryService.class
 com\mycompany\storeapp\view\page\admin\Banner\BannerGUI.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryFormDialog$7.class
-com\mycompany\storeapp\view\component\CustomTable$ActionCellRenderer.class
 com\mycompany\storeapp\view\component\admin\HeaderComponent$1.class
 com\mycompany\storeapp\view\layer\AdminLayer$3.class
 com\mycompany\storeapp\view\page\admin\Supplier\SupplierFormDialog.class
@@ -162,6 +156,7 @@ com\mycompany\storeapp\view\component\shop\cart\CartTableComponent$CartTableList
 com\mycompany\storeapp\view\page\admin\Category\CategoryDetailsDialog$1.class
 com\mycompany\storeapp\view\page\admin\Color\ColorGUI.class
 com\mycompany\storeapp\controller\guest\LoginController.class
+com\mycompany\storeapp\view\page\admin\Promotion\PromotionGUI.class
 com\mycompany\storeapp\view\page\admin\Color\ColorGUI$1.class
 com\mycompany\storeapp\view\page\admin\Supplier\SupplierGUI$1.class
 com\mycompany\storeapp\model\entity\Role.class
@@ -178,7 +173,6 @@ com\mycompany\storeapp\view\page\admin\Banner\BannerFormDialog$4.class
 com\mycompany\storeapp\config\DatabaseConnection.class
 com\mycompany\storeapp\view\page\admin\Category\CategoryGUI$1.class
 com\mycompany\storeapp\model\dao\ProductVariantDAO.class
-com\mycompany\storeapp\view\component\CustomTable$ImageCellRenderer.class
 com\mycompany\storeapp\view\page\admin\Order\OrderKanbanView$1.class
 com\mycompany\storeapp\view\component\admin\ContentComponent\ContentFooter.class
 com\mycompany\storeapp\view\component\admin\Sidebar.class
@@ -188,8 +182,8 @@ com\mycompany\storeapp\model\entity\ProductImage.class
 com\mycompany\storeapp\controller\admin\CategoryController.class
 com\mycompany\storeapp\model\dao\ShippingAddressDAO.class
 com\mycompany\storeapp\view\page\admin\Order\OrderEditDialog.class
-com\mycompany\storeapp\view\component\CustomTable$4.class
 com\mycompany\storeapp\model\dao\InventoryCheckDetailDAO.class
+com\mycompany\storeapp\view\page\admin\Promotion\PromotionGUI$1.class
 com\mycompany\storeapp\model\entity\Order.class
 com\mycompany\storeapp\view\component\admin\ContentComponent\ContentHeader.class
 com\mycompany\storeapp\model\entity\ProductReview.class

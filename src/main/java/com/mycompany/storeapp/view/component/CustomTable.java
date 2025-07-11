@@ -210,6 +210,11 @@ public class CustomTable extends JPanel {
             return;
         }
         
+        if (variantColumnIndex >= 0) {
+            TableColumn variantColumn = table.getColumnModel().getColumn(variantColumnIndex);
+            variantColumn.setCellRenderer(new VariantCellRenderer(table, currentData));
+        }
+        
         for (Object item : dataList) {
             Object[] rowData = extractRowData(item);
             if (hasActionColumn) {

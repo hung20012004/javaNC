@@ -6,24 +6,31 @@ import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
+import java.util.ArrayList;
 
+/**
+ * Custom cell renderer for displaying ProductVariant data in table cells
+ * with interactive color and size selection functionality
+ */
 public class VariantCellRenderer extends DefaultTableCellRenderer {
-    private final JTable table;
+    
+    private final JTable parentTable;
     private final List<?> currentData;
-
-    public VariantCellRenderer(JTable table, List<?> currentData) {
-        this.table = table;
+    
+    public VariantCellRenderer(JTable parentTable, List<?> currentData) {
+        this.parentTable = parentTable;
         this.currentData = currentData;
     }
-
+    
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
 
+        System.out.println("Rendering variant cell for row: " + row + ", column: " + column);
+        
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setOpaque(true);
 
@@ -45,9 +52,12 @@ public class VariantCellRenderer extends DefaultTableCellRenderer {
             noVariantLabel.setFont(new Font("Segoe UI", Font.ITALIC, 12));
             noVariantLabel.setHorizontalAlignment(SwingConstants.CENTER);
             mainPanel.add(noVariantLabel, BorderLayout.CENTER);
+            
+            System.out.println("No variants found for row " + row);
             return mainPanel;
         }
 
+        System.out.println("Creating variant panel for " + variants.size() + " variants");
         JPanel variantPanel = createVariantPanel(variants, row);
         mainPanel.add(variantPanel, BorderLayout.CENTER);
 
@@ -56,20 +66,34 @@ public class VariantCellRenderer extends DefaultTableCellRenderer {
 
     private List<ProductVariant> getVariantsForRow(int row) {
         if (currentData == null || row >= currentData.size()) {
+            System.out.println("No data for row: " + row);
             return null;
         }
 
         Object item = currentData.get(row);
+        System.out.println("Row " + row + ", Item class: " + item.getClass().getName());
 
         if (item.getClass().getSimpleName().equals("EnhancedProduct")) {
             try {
                 java.lang.reflect.Method getVariants = item.getClass().getMethod("getVariants");
                 @SuppressWarnings("unchecked")
                 List<ProductVariant> variants = (List<ProductVariant>) getVariants.invoke(item);
+                System.out.println("Found " + (variants != null ? variants.size() : 0) + " variants for row " + row);
                 return variants;
             } catch (Exception e) {
-                System.err.println("Error getting variants: " + e.getMessage());
+                System.err.println("Error getting variants for row " + row + ": " + e.getMessage());
+                e.printStackTrace();
             }
+        }
+
+       try {
+            java.lang.reflect.Method getVariants = item.getClass().getMethod("getVariants");
+            @SuppressWarnings("unchecked")
+            List<ProductVariant> variants = (List<ProductVariant>) getVariants.invoke(item);
+            System.out.println("Found " + (variants != null ? variants.size() : 0) + " variants via fallback for row " + row);
+            return variants;
+        } catch (Exception e) {
+            System.err.println("Fallback failed for row " + row + ": " + e.getMessage());
         }
 
         return null;
@@ -80,15 +104,17 @@ public class VariantCellRenderer extends DefaultTableCellRenderer {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setOpaque(false);
 
+        // Group variants by color
         Map<String, List<ProductVariant>> colorGroups = new HashMap<>();
         for (ProductVariant variant : variants) {
             String colorKey = getColorKey(variant);
             colorGroups.computeIfAbsent(colorKey, k -> new ArrayList<>()).add(variant);
         }
 
+        // Create interactive variant display
         int colorCount = 0;
         for (Map.Entry<String, List<ProductVariant>> entry : colorGroups.entrySet()) {
-            if (colorCount >= 3) {
+            if (colorCount >= 3) { // Limit to 3 colors for display
                 break;
             }
 
@@ -98,9 +124,11 @@ public class VariantCellRenderer extends DefaultTableCellRenderer {
             JPanel colorPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 2, 2));
             colorPanel.setOpaque(false);
 
+            // Create color display component
             JComponent colorDisplay = createColorDisplay(colorVariants.get(0), colorKey);
             colorPanel.add(colorDisplay);
 
+            // Size labels (clickable)
             for (ProductVariant variant : colorVariants) {
                 String size = variant.getSize() != null ? variant.getSize().getName() : "Free";
                 boolean hasStock = variant.getStockQuantity() > 0;
@@ -119,8 +147,10 @@ public class VariantCellRenderer extends DefaultTableCellRenderer {
                     sizeLabel.setBackground(new Color(245, 245, 245));
                 }
 
+                // Add tooltip with stock info
                 sizeLabel.setToolTipText(String.format("Size: %s, Kho: %d", size, variant.getStockQuantity()));
 
+                // Add click listener for size
                 sizeLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -155,6 +185,7 @@ public class VariantCellRenderer extends DefaultTableCellRenderer {
             colorCount++;
         }
 
+        // Add "more" indicator if there are more colors
         if (colorGroups.size() > 3) {
             JLabel moreLabel = new JLabel("+" + (colorGroups.size() - 3) + " màu khác");
             moreLabel.setFont(new Font("Segoe UI", Font.ITALIC, 10));
@@ -163,6 +194,7 @@ public class VariantCellRenderer extends DefaultTableCellRenderer {
             moreLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
             moreLabel.setBorder(BorderFactory.createEmptyBorder(2, 4, 2, 4));
 
+            // Add click listener to show all variants
             moreLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -203,6 +235,7 @@ public class VariantCellRenderer extends DefaultTableCellRenderer {
         String colorName = parts[0];
         String colorCode = parts.length > 1 ? parts[1] : "#CCCCCC";
 
+        // Create color circle
         JPanel colorCircle = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -210,11 +243,14 @@ public class VariantCellRenderer extends DefaultTableCellRenderer {
                 Graphics2D g2d = (Graphics2D) g.create();
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
+                // Parse color code
                 Color color = parseColor(colorCode);
 
+                // Draw color circle
                 g2d.setColor(color);
                 g2d.fillOval(2, 2, 16, 16);
 
+                // Draw border
                 g2d.setColor(new Color(189, 195, 199));
                 g2d.drawOval(2, 2, 16, 16);
 
@@ -225,6 +261,7 @@ public class VariantCellRenderer extends DefaultTableCellRenderer {
         colorCircle.setPreferredSize(new Dimension(20, 20));
         colorCircle.setOpaque(false);
 
+        // Create color name label
         JLabel colorLabel = new JLabel(colorName);
         colorLabel.setFont(new Font("Segoe UI", Font.BOLD, 10));
         colorLabel.setForeground(new Color(52, 73, 94));
@@ -233,8 +270,10 @@ public class VariantCellRenderer extends DefaultTableCellRenderer {
         colorPanel.add(colorCircle, BorderLayout.WEST);
         colorPanel.add(colorLabel, BorderLayout.CENTER);
 
+        // Add tooltip
         colorPanel.setToolTipText(String.format("Màu: %s (%s)", colorName, colorCode));
 
+        // Add click listener
         colorPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -261,10 +300,12 @@ public class VariantCellRenderer extends DefaultTableCellRenderer {
 
     private Color parseColor(String colorCode) {
         try {
+            // Remove # if present
             if (colorCode.startsWith("#")) {
                 colorCode = colorCode.substring(1);
             }
 
+            // Parse hex color
             if (colorCode.length() == 6) {
                 int r = Integer.parseInt(colorCode.substring(0, 2), 16);
                 int g = Integer.parseInt(colorCode.substring(2, 4), 16);
@@ -272,12 +313,14 @@ public class VariantCellRenderer extends DefaultTableCellRenderer {
                 return new Color(r, g, b);
             }
         } catch (Exception e) {
+            // Fall back to default color
         }
 
-        return new Color(204, 204, 204);
+        return new Color(204, 204, 204); // Default gray
     }
 
     private int getRowFromComponent(Component component) {
+        // Find the row by traversing up the component hierarchy
         Component parent = component;
         while (parent != null && !(parent instanceof JTable)) {
             parent = parent.getParent();
@@ -295,6 +338,7 @@ public class VariantCellRenderer extends DefaultTableCellRenderer {
     private void highlightVariantsByColor(String selectedColor, List<ProductVariant> variants, int row) {
         if (variants == null) return;
 
+        // Get all sizes available for the selected color
         List<String> availableSizes = new ArrayList<>();
         for (ProductVariant variant : variants) {
             String color = variant.getColor() != null ? variant.getColor().getName() : "Mặc định";
@@ -304,12 +348,14 @@ public class VariantCellRenderer extends DefaultTableCellRenderer {
             }
         }
 
+        // Show tooltip or highlight effect
         showColorSizeInfo(selectedColor, availableSizes, row);
     }
 
     private void highlightVariantsBySize(String selectedSize, List<ProductVariant> variants, int row) {
         if (variants == null) return;
 
+        // Get all colors available for the selected size
         List<String> availableColors = new ArrayList<>();
         for (ProductVariant variant : variants) {
             String size = variant.getSize() != null ? variant.getSize().getName() : "Free";
@@ -319,28 +365,31 @@ public class VariantCellRenderer extends DefaultTableCellRenderer {
             }
         }
 
+        // Show tooltip or highlight effect
         showSizeColorInfo(selectedSize, availableColors, row);
     }
 
     private void showColorSizeInfo(String color, List<String> sizes, int row) {
         SwingUtilities.invokeLater(() -> {
             String message = String.format("Màu %s có sizes: %s", color, String.join(", ", sizes));
-            JOptionPane.showMessageDialog(table, message, "Thông tin variant", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(parentTable, message, "Thông tin variant", JOptionPane.INFORMATION_MESSAGE);
         });
     }
 
     private void showSizeColorInfo(String size, List<String> colors, int row) {
         SwingUtilities.invokeLater(() -> {
             String message = String.format("Size %s có màu: %s", size, String.join(", ", colors));
-            JOptionPane.showMessageDialog(table, message, "Thông tin variant", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(parentTable, message, "Thông tin variant", JOptionPane.INFORMATION_MESSAGE);
         });
     }
 
     private void showAllVariants(List<ProductVariant> variants, int row) {
         SwingUtilities.invokeLater(() -> {
-            JDialog dialog = new JDialog((JFrame) SwingUtilities.getWindowAncestor(table), "Tất cả variants", true);
+            // Create a detailed variant display dialog
+            JDialog dialog = new JDialog((JFrame) SwingUtilities.getWindowAncestor(parentTable), "Tất cả variants", true);
             dialog.setLayout(new BorderLayout());
 
+            // Create variant table
             String[] columnNames = {"Màu", "Size", "Kho", "Giá", "Trạng thái"};
             Object[][] data = new Object[variants.size()][5];
 
@@ -363,6 +412,7 @@ public class VariantCellRenderer extends DefaultTableCellRenderer {
 
             dialog.add(scrollPane, BorderLayout.CENTER);
 
+            // Add close button
             JButton closeButton = new JButton("Đóng");
             closeButton.addActionListener(e -> dialog.dispose());
 
@@ -371,7 +421,7 @@ public class VariantCellRenderer extends DefaultTableCellRenderer {
             dialog.add(buttonPanel, BorderLayout.SOUTH);
 
             dialog.pack();
-            dialog.setLocationRelativeTo(table);
+            dialog.setLocationRelativeTo(parentTable);
             dialog.setVisible(true);
         });
     }
