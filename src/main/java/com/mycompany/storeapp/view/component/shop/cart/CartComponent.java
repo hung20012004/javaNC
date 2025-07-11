@@ -15,20 +15,16 @@ import java.util.List;
 public class CartComponent extends JPanel {
     private static final Color BACKGROUND_COLOR = Color.WHITE;
     private static final Color BORDER_COLOR = new Color(229, 231, 235);
-
-    // Sub-components
     private CartHeaderComponent headerComponent;
     private CartTableComponent tableComponent;
     private CartCustomerComponent customerComponent;
     private CartSummaryComponent summaryComponent;
     private CartActionsComponent actionsComponent;
-
-    // Controllers and data
     private CartController cartController;
     private ProductVariantController variantController;
     private List<CartItem> cartItems;
     private double discountPercent = 0.0;
-    private int cartId = 1; // Giả sử cart_id = 1
+    private int cartId = 1;
 
     public CartComponent() {
         cartItems = new ArrayList<>();
@@ -76,10 +72,7 @@ public class CartComponent extends JPanel {
     }
 
     private void setupEventListeners() {
-        // Header clear cart listener
         headerComponent.setClearCartListener(e -> clearCart());
-
-        // Table listeners
         tableComponent.setListener(new CartTableComponent.CartTableListener() {
             @Override
             public void onQuantityChanged(int index, int newQuantity) {
@@ -91,8 +84,6 @@ public class CartComponent extends JPanel {
                 removeItem(index);
             }
         });
-
-        // Actions listeners
         actionsComponent.setDiscountListener(e -> showDiscountDialog());
         actionsComponent.setCheckoutListener(e -> processCheckout());
     }
@@ -102,14 +93,25 @@ public class CartComponent extends JPanel {
         updateCartSummary();
     }
 
-    // Public methods for cart operations
     public void addItem(int variantId, int quantity) {
         ProductVariant variant = variantController.getVariantById(variantId);
         if (variant != null) {
             CartItem newItem = new CartItem(cartId, variantId, quantity);
-            cartController.addItem(newItem);
-            loadCartFromDB();
-            refreshData();
+            boolean added = cartController.addItem(newItem);
+            if (added) {
+                loadCartFromDB();
+                refreshData();
+            } else {
+                JOptionPane.showMessageDialog(this, 
+                    "Không thể thêm sản phẩm: Số lượng trong kho không đủ!", 
+                    "Lỗi", 
+                    JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, 
+                "Sản phẩm không tồn tại!", 
+                "Lỗi", 
+                JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -126,9 +128,16 @@ public class CartComponent extends JPanel {
             if (quantity <= 0) {
                 removeItem(index);
             } else {
-                cartController.updateQuantity(cartItems.get(index).getCartItemId(), quantity);
-                loadCartFromDB();
-                refreshData();
+                boolean updated = cartController.updateQuantity(cartItems.get(index).getCartItemId(), quantity);
+                if (updated) {
+                    loadCartFromDB();
+                    refreshData();
+                } else {
+                    JOptionPane.showMessageDialog(this, 
+                        "Không thể cập nhật số lượng: Số lượng trong kho không đủ!", 
+                        "Lỗi", 
+                        JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
     }
@@ -204,17 +213,15 @@ public class CartComponent extends JPanel {
             return;
         }
 
-        // Mở dialog tạo đơn hàng
         Frame parentFrame = (Frame) SwingUtilities.getWindowAncestor(this);
         CreateOrderDialog orderDialog = new CreateOrderDialog(parentFrame, cartItems, discountPercent);
         orderDialog.setVisible(true);
 
-        // Kiểm tra nếu đơn hàng được tạo thành công
         if (orderDialog.isOrderCreated()) {
-            // Xóa giỏ hàng sau khi tạo đơn hàng thành công
-            clearCart();
+            cartController.clearCart(cartId);
+            cartItems.clear();
             customerComponent.reset();
-            discountPercent = 0.0; // Reset giảm giá
+            discountPercent = 0.0;
             updateCartSummary();
         }
     }
@@ -224,7 +231,6 @@ public class CartComponent extends JPanel {
         cartItems.addAll(cartController.getAllItems(cartId));
     }
 
-    // Getter methods for accessing customer info
     public String getCustomerName() {
         return customerComponent.getCustomerName();
     }

@@ -444,7 +444,18 @@ public class ProductVariantController {
             return 0;
         }
     }
-    
+    public boolean updateStock(int variantId, int quantityChange) {
+        ProductVariant variant = getVariantById(variantId);
+        if (variant != null) {
+            int newStock = variant.getStockQuantity() + quantityChange; 
+            if (newStock >= 0) { // Ensure stock doesn't go negative
+                variant.setStockQuantity(newStock);
+                productVariantDAO.updateVariant(variant);
+                return true;
+            }
+        }
+        return false;
+    }
     // Các phương thức hiển thị thông báo
     private void showSuccessMessage(String message) {
         JOptionPane.showMessageDialog(null, message, "Thành công", JOptionPane.INFORMATION_MESSAGE);

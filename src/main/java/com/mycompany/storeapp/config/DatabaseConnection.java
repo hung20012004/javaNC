@@ -27,9 +27,9 @@ public class DatabaseConnection {
     }
 
      private void loadDatabaseProperties() {
-        url = "jdbc:mysql://localhost:3306/clothing_store";
+        url = "jdbc:mysql://localhost:3333/clothing_store";
         username = "root";
-        password = "";
+        password = "20012004";
     }
     public Connection getConnection() {
         try {

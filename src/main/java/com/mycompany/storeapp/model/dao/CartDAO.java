@@ -26,7 +26,6 @@ public class CartDAO {
             stmt.setInt(3, cartItem.getQuantity());
             stmt.executeUpdate();
 
-            // Get the generated cart_item_id
             try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     cartItem.setCartItemId(generatedKeys.getInt(1));
@@ -38,26 +37,47 @@ public class CartDAO {
     }
 
     public List<CartItem> getAllItems(int cartId) {
-    List<CartItem> items = new ArrayList<>();
-    String sql = "SELECT * FROM cart_items WHERE cart_id = ?";
-    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-        stmt.setInt(1, cartId); // Sử dụng cartId parameter thay vì hardcode
-        try (ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) {
-                CartItem item = new CartItem(
-                    rs.getInt("cart_id"), 
-                    rs.getInt("variant_id"), 
-                    rs.getInt("quantity")
-                );
-                item.setCartItemId(rs.getInt("cart_item_id"));
-                items.add(item);
+        List<CartItem> items = new ArrayList<>();
+        String sql = "SELECT * FROM cart_items WHERE cart_id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, cartId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    CartItem item = new CartItem(
+                        rs.getInt("cart_id"), 
+                        rs.getInt("variant_id"), 
+                        rs.getInt("quantity")
+                    );
+                    item.setCartItemId(rs.getInt("cart_item_id"));
+                    items.add(item);
+                }
             }
+        } catch (SQLException e) {
+            System.err.println("Error getting cart items: " + e.getMessage());
         }
-    } catch (SQLException e) {
-        System.err.println("Error getting cart items: " + e.getMessage());
+        return items;
     }
-    return items;
-}
+
+    public CartItem getItemById(int cartItemId) {
+        String sql = "SELECT * FROM cart_items WHERE cart_item_id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, cartItemId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    CartItem item = new CartItem(
+                        rs.getInt("cart_id"),
+                        rs.getInt("variant_id"),
+                        rs.getInt("quantity")
+                    );
+                    item.setCartItemId(rs.getInt("cart_item_id"));
+                    return item;
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getting cart item by ID: " + e.getMessage());
+        }
+        return null;
+    }
 
     public void removeItem(int cartItemId) {
         String sql = "DELETE FROM cart_items WHERE cart_item_id = ?";
@@ -76,7 +96,7 @@ public class CartDAO {
             stmt.setInt(2, cartItemId);
             stmt.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error updating cart quantity: " + e.getMessage());
+            System.err.println("Error updating cart item quantity: " + e.getMessage());
         }
     }
 
